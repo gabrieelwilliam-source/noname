@@ -8,13 +8,13 @@ window.IMOB_CONFIG = {
   TENANT_ID: "default",
 
   // Webhook de produção do n8n.
-  // Exemplo: https://seu-n8n.com/webhook/lais-imob-site-lead
+  // Exemplo: https://app.vps7376.panel.icontainer.cloud/webhook-test/lais-imob-site-lead
   // Deixe vazio enquanto ainda não quiser disparar o fluxo.
-  N8N_WEBHOOK_URL: "",
+  N8N_WEBHOOK_URL: "https://app.vps7376.panel.icontainer.cloud/webhook-test/lais-imob-site-lead",
 
   // Número comercial usado no botão direto de WhatsApp.
   // Apenas números, com DDI e DDD.
-  WHATSAPP_NUMBER: "5547990000000",
+  WHATSAPP_NUMBER: "5547999762742",
 
   BUSINESS_NAME: "Horizonte Prime Imóveis",
   BUSINESS_CITY: "Joinville",
