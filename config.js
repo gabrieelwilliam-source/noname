@@ -1,8 +1,8 @@
 window.IMOB_CONFIG = {
   // Cole aqui os dados do seu projeto Supabase.
   // Settings > API > Project URL e anon public key.
-  SUPABASE_URL: "COLE_AQUI_A_URL_DO_SUPABASE",
-  SUPABASE_ANON_KEY: "COLE_AQUI_A_CHAVE_ANON_DO_SUPABASE",
+  SUPABASE_URL: "https://abcdefghijk.supabase.com",
+  SUPABASE_ANON_KEY: "sb_publishable_wY25lLeNeXn0Y2nXIvkgOA_NzxUHdCu",
 
   // O fluxo e o SQL complementar usam "default".
   TENANT_ID: "default",
