@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d0e10">
+  <meta name="description" id="meta-description" content="Detalhes do imóvel">
+  <title>Imóvel | Horizonte Prime Imóveis</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="property-page">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header solid">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Voltar para a página inicial">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><path d="M8 24 24 9l16 15v15H28V29h-8v10H8V24Z"/><path d="M16 22h16"/></svg>
+        </span>
+        <span><strong data-business-name>Horizonte Prime</strong><small>Imóveis</small></span>
+      </a>
+      <nav class="main-nav property-nav">
+        <a href="index.html#catalogo">Voltar ao catálogo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <div class="container property-loading" id="property-loading">
+      <div class="skeleton property-skeleton-main"></div>
+      <div class="skeleton property-skeleton-line"></div>
+      <div class="skeleton property-skeleton-line short"></div>
+    </div>
+
+    <section class="property-detail hidden" id="property-detail">
+      <div class="container property-breadcrumbs">
+        <a href="index.html">Início</a><span>›</span>
+        <a href="index.html#catalogo">Imóveis</a><span>›</span>
+        <span id="breadcrumb-current">Detalhes</span>
+      </div>
+
+      <div class="container">
+        <div class="property-title-row">
+          <div>
+            <div class="property-status-line">
+              <span class="property-purpose" id="property-purpose">Compra</span>
+              <span class="property-code" id="property-code">Código</span>
+            </div>
+            <h1 id="property-title">Imóvel</h1>
+            <p class="property-location" id="property-location"></p>
+          </div>
+          <div class="property-share-actions">
+            <button class="icon-button" id="copy-link-button" type="button" title="Copiar link">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 15 15 9"/><path d="M7 12H5a3 3 0 0 0 0 6h4a3 3 0 0 0 3-3v-2"/><path d="M17 12h2a3 3 0 0 0 0-6h-4a3 3 0 0 0-3 3v2"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="property-gallery" id="property-gallery"></div>
+
+        <div class="property-main-grid">
+          <div class="property-content">
+            <div class="property-facts" id="property-facts"></div>
+
+            <section class="property-section">
+              <h2>Sobre este imóvel</h2>
+              <p id="property-description"></p>
+              <p class="property-highlight-text" id="property-highlight"></p>
+            </section>
+
+            <section class="property-section" id="amenities-section">
+              <h2>Características</h2>
+              <div class="amenities-grid" id="property-amenities"></div>
+            </section>
+
+            <section class="property-section property-costs">
+              <h2>Valores e condições</h2>
+              <div class="cost-table" id="property-costs"></div>
+              <p class="legal-note">Valores e disponibilidade podem ser alterados sem aviso prévio. Confirme as condições com o corretor responsável.</p>
+            </section>
+          </div>
+
+          <aside class="property-sidebar">
+            <div class="interest-card">
+              <span class="interest-label" id="price-label">Valor</span>
+              <strong class="interest-price" id="property-price">R$ 0</strong>
+              <span class="interest-fees" id="property-fees"></span>
+
+              <button class="button button-primary button-full" id="property-interest-button" type="button">Tenho interesse</button>
+              <a class="button button-whatsapp button-full" id="property-whatsapp-button" href="#" target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+
+              <div class="interest-benefits">
+                <span>✓ Atendimento rápido</span>
+                <span>✓ Agendamento de visita</span>
+                <span>✓ Encaminhamento ao corretor</span>
+              </div>
+            </div>
+
+            <div class="advisor-card">
+              <div class="advisor-avatar">HP</div>
+              <div>
+                <strong>Consultora virtual</strong>
+                <span>Disponível para tirar suas dúvidas</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="container property-error hidden" id="property-error">
+      <div class="empty-icon">⌂</div>
+      <h1>Imóvel não encontrado</h1>
+      <p>O código pode estar incorreto ou o imóvel não está mais disponível.</p>
+      <a class="button button-primary" href="index.html#catalogo">Ver imóveis disponíveis</a>
+    </section>
+  </main>
+
+  <footer class="site-footer compact-footer">
+    <div class="container footer-bottom">
+      <span>© <span id="current-year"></span> <span data-business-name>Horizonte Prime</span>. Projeto demonstrativo.</span>
+      <a href="index.html#catalogo">Voltar ao catálogo</a>
+    </div>
+  </footer>
+
+  <dialog class="lead-modal" id="lead-modal">
+    <button class="modal-close" type="button" aria-label="Fechar">×</button>
+    <div class="modal-heading">
+      <span class="eyebrow dark">Interesse no imóvel</span>
+      <h2 id="lead-modal-title">Solicitar atendimento</h2>
+      <p id="lead-modal-description">Preencha os dados para iniciar o atendimento pelo WhatsApp.</p>
+    </div>
+
+    <form id="lead-form" novalidate>
+      <input type="hidden" id="lead-listing-code" name="listing_code">
+      <input type="hidden" id="lead-listing-url" name="listing_url">
+
+      <div class="form-grid">
+        <label class="form-field full">
+          <span>Nome</span>
+          <input id="lead-name" name="name" type="text" autocomplete="name" required>
+          <small class="field-error"></small>
+        </label>
+        <label class="form-field">
+          <span>WhatsApp</span>
+          <input id="lead-phone" name="phone" type="tel" autocomplete="tel" required placeholder="(47) 99999-9999">
+          <small class="field-error"></small>
+        </label>
+        <label class="form-field">
+          <span>E-mail <em>opcional</em></span>
+          <input id="lead-email" name="email" type="email" autocomplete="email">
+          <small class="field-error"></small>
+        </label>
+        <label class="form-field full">
+          <span>Mensagem</span>
+          <textarea id="lead-message" name="message" rows="4" required></textarea>
+          <small class="field-error"></small>
+        </label>
+      </div>
+
+      <label class="consent-field">
+        <input id="lead-consent" type="checkbox" required>
+        <span>Concordo em receber o atendimento relacionado à minha solicitação pelo WhatsApp.</span>
+      </label>
+
+      <button class="button button-primary button-full" id="lead-submit" type="submit">
+        <span class="button-label">Iniciar atendimento</span>
+        <span class="button-loading hidden">Enviando...</span>
+      </button>
+      <div class="form-feedback hidden" id="lead-feedback" role="status"></div>
+    </form>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="demo-data.js"></script>
+  <script src="site.js"></script>
+  <script src="property.js"></script>
+</body>
+</html>
