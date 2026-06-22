@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Detalhes do imóvel em Joinville.">
+  <meta name="theme-color" content="#0f3d35">
+  <title>Imóvel | Horizonte Prime Imóveis</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .property-page{background:#faf7f0;min-height:100vh}.property-top{padding:32px 0 18px}.property-breadcrumb{font-size:13px;color:#7a828d;margin-bottom:22px}.property-title-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:start}.property-title-row h1{font-size:clamp(38px,6vw,68px);line-height:.98;margin:14px 0 8px}.property-location{font-size:18px;color:#6f7680}.property-badges{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.pill{display:inline-flex;align-items:center;border-radius:999px;padding:9px 13px;font-weight:800;font-size:12px;text-transform:uppercase}.pill-dark{background:#202326;color:#fff}.pill-soft{background:#efe2d4;color:#9b6737}.share-btn{width:42px;height:42px;border-radius:12px;border:1px solid #e0d8cf;background:#fff;display:grid;place-items:center;text-decoration:none;color:#222}.property-hero-image{margin-top:26px;border-radius:18px;overflow:hidden;background:#fff;min-height:420px;border:1px solid #eee1d4}.property-hero-image img{display:block;width:100%;height:520px;object-fit:cover}.property-body{padding:30px 0 60px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:40px}.property-stats{display:grid;grid-template-columns:repeat(5,minmax(110px,1fr));gap:10px;margin-bottom:32px}.property-stat{background:#fff;border:1px solid #eadfd4;border-radius:12px;text-align:center;padding:18px 10px}.property-stat strong{font-size:18px;display:block}.property-stat span{font-size:12px;color:#7b828a}.property-section h2{font-size:32px;margin-bottom:12px}.property-section p{color:#5d6670;font-size:17px;line-height:1.7}.amenities{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.amenity{background:#fff;border:1px solid #eadfd4;border-radius:999px;padding:10px 13px;color:#333}.price-card{background:#fff;border:1px solid #eadfd4;border-radius:16px;padding:22px;box-shadow:0 18px 45px rgba(30,24,16,.08);position:sticky;top:98px}.price-card small{color:#7a828d}.price-card strong{display:block;font-size:31px;margin:12px 0}.price-card .button{width:100%;justify-content:center;margin-top:16px}.thumbs{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.thumbs button{border:1px solid #eadfd4;background:#fff;border-radius:10px;padding:0;overflow:hidden;cursor:pointer}.thumbs img{width:94px;height:70px;object-fit:cover;display:block}.not-found{padding:80px 0;text-align:center}.not-found h1{font-size:44px}.loading{padding:90px 0;text-align:center;color:#707985}@media(max-width:900px){.property-title-row,.property-body{grid-template-columns:1fr}.property-stats{grid-template-columns:repeat(2,1fr)}.property-hero-image img{height:330px}.price-card{position:static}.site-header .main-nav{display:none}}
+  </style>
+</head>
+<body class="property-page">
+  <header class="site-header" id="topo">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Página inicial">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><path d="M8 24 24 9l16 15v15H28V29h-8v10H8V24Z"/><path d="M16 22h16"/></svg>
+        </span>
+        <span><strong data-business-name>Horizonte Prime Imóveis</strong><small>IMÓVEIS</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Navegação principal">
+        <a href="index.html#imoveis">Imóveis</a>
+        <a href="index.html#como-funciona">Como funciona</a>
+        <a href="index.html#sobre">Sobre</a>
+        <a href="index.html#contato">Contato</a>
+      </nav>
+      <a class="button button-small button-outline" href="index.html#catalogo">Voltar ao catálogo</a>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <div class="container" id="property-root"><div class="loading">Carregando imóvel...</div></div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="demo-data.js"></script>
+  <script>
+    (function(){
+      var FALLBACK = [{"listingCode": "L92502", "slug": "apartamento-2-quartos-saguacu-l92502", "title": "Apartamento 2 quartos no Saguaçu", "purpose": "locacao", "city": "Joinville", "stateCode": "SC", "neighborhood": "Saguaçu", "bedrooms": 2, "suites": 0, "bathrooms": 2, "parkingSpots": 1, "areaM2": 92, "priceFrom": 1600, "rentValue": 1600, "condoFee": 420, "iptu": 85, "description": "Apartamento amplo, bem iluminado e próximo a serviços essenciais.", "highlight": "92 m², dois banheiros e uma vaga em região valorizada.", "amenities": ["sacada", "elevador", "vaga coberta"], "imageUrl": "L92502-01.jpg", "images": [{"url": "L92502-01.jpg", "alt": "Sala do apartamento no Saguaçu"}, {"url": "L92502-02.jpg", "alt": "Quarto do apartamento no Saguaçu"}]}, {"listingCode": "L10003", "slug": "apartamento-2-quartos-america-l10003", "title": "Apartamento 2 quartos no América", "purpose": "locacao", "city": "Joinville", "stateCode": "SC", "neighborhood": "América", "bedrooms": 2, "suites": 1, "bathrooms": 2, "parkingSpots": 1, "areaM2": 76, "priceFrom": 2850, "rentValue": 2850, "condoFee": 510, "iptu": 120, "description": "Apartamento moderno com suíte e sacada.", "highlight": "Boa localização para quem busca mobilidade e conveniência.", "amenities": ["sacada", "elevador", "portaria"], "imageUrl": "L10003-01.jpg", "images": [{"url": "L10003-01.jpg", "alt": "Apartamento no América"}]}, {"listingCode": "V10001", "slug": "apartamento-3-quartos-atiradores-v10001", "title": "Apartamento 3 quartos em Atiradores", "purpose": "compra", "city": "Joinville", "stateCode": "SC", "neighborhood": "Atiradores", "bedrooms": 3, "suites": 1, "bathrooms": 3, "parkingSpots": 2, "areaM2": 118, "priceFrom": 890000, "salePrice": 890000, "condoFee": 780, "iptu": 210, "description": "Apartamento com planta familiar, varanda e duas vagas.", "highlight": "Localização central, suíte e condomínio completo.", "amenities": ["varanda", "academia", "salao de festas", "2 vagas"], "imageUrl": "V10001-01.jpg", "images": [{"url": "V10001-01.jpg", "alt": "Apartamento em Atiradores"}]}, {"listingCode": "V10009", "slug": "casa-condominio-pirabeiraba-v10009", "title": "Casa em condomínio em Pirabeiraba", "purpose": "compra", "city": "Joinville", "stateCode": "SC", "neighborhood": "Pirabeiraba", "bedrooms": 4, "suites": 2, "bathrooms": 4, "parkingSpots": 3, "areaM2": 260, "priceFrom": 1480000, "salePrice": 1480000, "condoFee": 680, "iptu": 310, "description": "Casa em condomínio com terreno amplo e contato com a natureza.", "highlight": "Privacidade, segurança e quatro dormitórios.", "amenities": ["condominio fechado", "jardim", "espaco gourmet", "3 vagas"], "imageUrl": "V10009-01.jpg", "images": [{"url": "V10009-01.jpg", "alt": "Casa em condomínio em Pirabeiraba"}]}, {"listingCode": "I10005", "slug": "studio-centro-investimento-i10005", "title": "Studio mobiliado no Centro", "purpose": "investimento", "city": "Joinville", "stateCode": "SC", "neighborhood": "Centro", "bedrooms": 1, "suites": 0, "bathrooms": 1, "parkingSpots": 0, "areaM2": 34, "priceFrom": 310000, "rentValue": 2200, "salePrice": 310000, "condoFee": 390, "iptu": 75, "description": "Studio compacto e mobiliado com potencial para locação.", "highlight": "Opção de entrada para investidor e alta procura por locação.", "amenities": ["mobiliado", "elevador", "lavanderia compartilhada"], "imageUrl": "I10005-01.jpg", "images": [{"url": "I10005-01.jpg", "alt": "Studio no Centro"}]}, {"listingCode": "L10006", "slug": "casa-3-quartos-santo-antonio-l10006", "title": "Casa 3 quartos no Santo Antônio", "purpose": "locacao", "city": "Joinville", "stateCode": "SC", "neighborhood": "Santo Antônio", "bedrooms": 3, "suites": 1, "bathrooms": 2, "parkingSpots": 2, "areaM2": 154, "priceFrom": 3600, "rentValue": 3600, "condoFee": 0, "iptu": 145, "description": "Casa térrea com quintal e ambientes amplos.", "highlight": "Boa opção para família com animais de estimação.", "amenities": ["quintal", "churrasqueira", "2 vagas"], "imageUrl": "L10006-01.jpg", "images": [{"url": "L10006-01.jpg", "alt": "Casa no Santo Antônio"}]}, {"listingCode": "V10004", "slug": "sobrado-3-quartos-costa-e-silva-v10004", "title": "Sobrado 3 quartos no Costa e Silva", "purpose": "compra", "city": "Joinville", "stateCode": "SC", "neighborhood": "Costa e Silva", "bedrooms": 3, "suites": 1, "bathrooms": 3, "parkingSpots": 2, "areaM2": 132, "priceFrom": 645000, "salePrice": 645000, "condoFee": 0, "iptu": 110, "description": "Sobrado novo com suíte, espaço gourmet e duas vagas.", "highlight": "Imóvel novo com acabamento contemporâneo.", "amenities": ["espaco gourmet", "suite", "2 vagas"], "imageUrl": "V10004-01.jpg", "images": [{"url": "V10004-01.jpg", "alt": "Sobrado no Costa e Silva"}]}, {"listingCode": "V10008", "slug": "apartamento-2-quartos-anita-garibaldi-v10008", "title": "Apartamento 2 quartos no Anita Garibaldi", "purpose": "compra", "city": "Joinville", "stateCode": "SC", "neighborhood": "Anita Garibaldi", "bedrooms": 2, "suites": 1, "bathrooms": 2, "parkingSpots": 1, "areaM2": 71, "priceFrom": 535000, "salePrice": 535000, "condoFee": 470, "iptu": 105, "description": "Apartamento novo com suíte, sacada e lazer.", "highlight": "Boa relação entre localização, padrão e liquidez.", "amenities": ["sacada", "elevador", "salao de festas"], "imageUrl": "V10008-01.jpg", "images": [{"url": "V10008-01.jpg", "alt": "Apartamento no Anita Garibaldi"}]}, {"listingCode": "C10007", "slug": "sala-comercial-centro-c10007", "title": "Sala comercial no Centro", "purpose": "locacao", "city": "Joinville", "stateCode": "SC", "neighborhood": "Centro", "bedrooms": 0, "suites": 0, "bathrooms": 1, "parkingSpots": 1, "areaM2": 48, "priceFrom": 2400, "rentValue": 2400, "condoFee": 620, "iptu": 135, "description": "Sala comercial pronta para escritório ou consultório.", "highlight": "Endereço central, recepção e uma vaga.", "amenities": ["recepcao", "elevador", "vaga"], "imageUrl": "C10007-01.jpg", "images": [{"url": "C10007-01.jpg", "alt": "Sala comercial no Centro"}]}, {"listingCode": "V10002", "slug": "casa-3-quartos-gloria-v10002", "title": "Casa 3 quartos no Glória", "purpose": "compra", "city": "Joinville", "stateCode": "SC", "neighborhood": "Glória", "bedrooms": 3, "suites": 1, "bathrooms": 2, "parkingSpots": 2, "areaM2": 146, "priceFrom": 720000, "salePrice": 720000, "condoFee": 0, "iptu": 165, "description": "Casa com quintal privativo, churrasqueira e duas vagas.", "highlight": "Quintal privativo e duas vagas em rua residencial.", "amenities": ["quintal", "churrasqueira", "lavanderia", "2 vagas"], "imageUrl": "V10002-01.jpg", "images": [{"url": "V10002-01.jpg", "alt": "Casa no Glória"}]}];
+
+      function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+      function money(v){v=Number(v||0);return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0})}
+      function imgPath(v){v=String(v||'').trim();var m=v.match(/(?:^|\/)(?:demo\/imoveis|assets)\/([^/?#]+\.(?:jpg|jpeg|png|webp|svg))/i);return m?m[1]:v}
+      function purposeLabel(p){p=String(p||'').toLowerCase();return p==='locacao'?'Aluguel':p==='investimento'?'Investimento':'Venda'}
+      function price(p){return p.purpose==='locacao'?money(p.rentValue||p.priceFrom)+'/mês':money(p.salePrice||p.priceFrom)}
+
+      function collectArrays(obj, depth, out, seen){
+        if(!obj || typeof obj!=='object' || depth>4) return;
+        seen=seen||new WeakSet(); if(seen.has(obj)) return; seen.add(obj);
+        if(Array.isArray(obj)){
+          if(obj.some(function(x){return x&&typeof x==='object'&&(x.listingCode||x.listing_code||x.slug)&&((x.title||x.label)||x.imageUrl)})) out.push(obj);
+          obj.forEach(function(x){collectArrays(x, depth+1, out, seen)}); return;
+        }
+        Object.keys(obj).forEach(function(k){try{collectArrays(obj[k], depth+1, out, seen)}catch(e){}});
+      }
+
+      function catalog(){
+        var arrays=[];
+        ['DEMO_PROPERTIES','DEMO_CATALOG','DEMO_DATA','IMOB_DEMO_DATA','__IMOB_DEMO__','PROPERTIES','PROPERTY_DATA'].forEach(function(n){try{collectArrays(window[n],0,arrays)}catch(e){}});
+        var best=[];
+        arrays.forEach(function(a){a.forEach(function(p){if(p&&typeof p==='object'){var code=p.listingCode||p.listing_code||p.code||p.listingId;if(code && !best.some(function(b){return String(b.listingCode||b.listing_code||b.code||b.listingId).toUpperCase()===String(code).toUpperCase()})) best.push(p)}})});
+        return best.length?best:FALLBACK;
+      }
+
+      function getRequested(){
+        var q=new URLSearchParams(location.search); 
+        var code=(q.get('codigo')||q.get('code')||q.get('listing')||q.get('ref')||'').toUpperCase();
+        var path=decodeURIComponent(location.pathname.split('/').pop()||'').toLowerCase(); 
+        return {code:code, slug:path};
+      }
+
+      function findProperty(){
+        var req=getRequested(); var items=catalog();
+        return items.find(function(p){return req.code && String(p.listingCode||p.listing_code||p.code||p.listingId||'').toUpperCase()===req.code}) ||
+               items.find(function(p){return req.slug && String(p.slug||p.listingUrl||'').toLowerCase().includes(req.slug)}) ||
+               items[0];
+      }
+
+      function render(){
+        var root=document.getElementById('property-root'); var p=findProperty();
+        if(!p){root.innerHTML='<section class="not-found"><h1>Imóvel não encontrado</h1><p>Volte ao catálogo e escolha outra opção.</p><p><a class="button button-primary" href="index.html#catalogo">Voltar ao catálogo</a></p></section>';return;}
+        var imgs=(Array.isArray(p.images)&&p.images.length?p.images:[{url:p.imageUrl,alt:p.title||p.label}]).map(function(i){return {url:imgPath(i.url||i.imageUrl||p.imageUrl),alt:i.alt||p.title||p.label}});
+        var main=imgs[0]||{url:'property-fallback.jpg',alt:p.title||p.label};
+        document.title=(p.title||p.label||'Imóvel')+' | Horizonte Prime Imóveis';
+        var code=p.listingCode||p.listing_code||p.code||p.listingId||'';
+        var whats=(window.SITE_CONFIG&&window.SITE_CONFIG.WHATSAPP_NUMBER)||'554799762742';
+        var msg=encodeURIComponent('Olá, tenho interesse no imóvel '+code+' - '+(p.title||p.label||''));
+        root.innerHTML = '<section class="property-top">'+
+          '<div class="property-breadcrumb">Início › Imóveis › '+esc(p.title||p.label||'Imóvel')+'</div>'+
+          '<div class="property-title-row"><div><div class="property-badges"><span class="pill pill-dark">'+esc(purposeLabel(p.purpose))+'</span><span class="pill pill-soft">Código '+esc(code)+'</span></div><h1>'+esc(p.title||p.label||'Imóvel')+'</h1><div class="property-location">'+esc([p.neighborhood,p.city,p.stateCode].filter(Boolean).join(', ').replace(', SC', ' - SC'))+'</div></div><a class="share-btn" href="'+esc(location.href)+'" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href);return false" title="Copiar link">🔗</a></div>'+
+          '<div class="property-hero-image"><img id="main-property-image" src="'+esc(main.url)+'" alt="'+esc(main.alt)+'" onerror="this.onerror=null;this.src=\'property-fallback.jpg\'"></div>'+
+          (imgs.length>1?'<div class="thumbs">'+imgs.map(function(im){return '<button type="button" data-img="'+esc(im.url)+'"><img src="'+esc(im.url)+'" alt="'+esc(im.alt)+'"></button>'}).join('')+'</div>':'')+
+          '</section>'+
+          '<section class="property-body"><div><div class="property-stats">'+
+          '<div class="property-stat"><strong>'+esc(p.bedrooms||0)+'</strong><span>Quartos</span></div>'+
+          '<div class="property-stat"><strong>'+esc(p.suites||0)+'</strong><span>Suíte</span></div>'+
+          '<div class="property-stat"><strong>'+esc(p.bathrooms||0)+'</strong><span>Banheiros</span></div>'+
+          '<div class="property-stat"><strong>'+esc(p.parkingSpots||p.parking_spots||0)+'</strong><span>Vagas</span></div>'+
+          '<div class="property-stat"><strong>'+esc(p.areaM2||p.area_m2||0)+' m²</strong><span>Área privativa</span></div>'+
+          '</div><div class="property-section"><h2>Sobre este imóvel</h2><p>'+esc(p.description||p.highlight||'Imóvel selecionado em Joinville.')+'</p><p>'+esc(p.highlight||'')+'</p>'+
+          (Array.isArray(p.amenities)&&p.amenities.length?'<div class="amenities">'+p.amenities.map(function(a){return '<span class="amenity">'+esc(a)+'</span>'}).join('')+'</div>':'')+
+          '</div></div><aside><div class="price-card"><small>Valor do imóvel</small><strong>'+esc(price(p))+'</strong>'+
+          (p.condoFee?'<small>Condomínio '+esc(money(p.condoFee))+'</small><br>':'')+(p.iptu?'<small>IPTU '+esc(money(p.iptu))+'</small>':'')+
+          '<a class="button button-primary" target="_blank" rel="noopener" href="https://wa.me/'+esc(String(whats).replace(/\D/g,''))+'?text='+msg+'">Tenho interesse</a></div></aside></section>';
+        document.querySelectorAll('.thumbs button').forEach(function(btn){btn.addEventListener('click',function(){document.getElementById('main-property-image').src=btn.getAttribute('data-img')})});
+      }
+
+      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', render); else render();
+    })();
+  </script>
+</body>
+</html>
