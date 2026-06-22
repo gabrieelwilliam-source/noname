@@ -402,111 +402,107 @@
   <script src="config.js"></script>
   <script src="demo-data.js"></script>
   <script>
-    // Correção completa para GitHub Pages com imagens na raiz do repositório.
+    // Correção de caminhos das imagens para GitHub Pages/repositório com imagens na raiz.
+    // O projeto original usa /demo/imoveis/NOME.jpg, mas suas imagens estão junto do index.html.
     (function () {
-      function arquivoDaImagem(valor) {
+      function corrigirCaminhoImagem(valor) {
         if (!valor || typeof valor !== 'string') return valor;
+
         var texto = valor.trim();
         var partes = texto.match(/(?:^|\/)(?:demo\/imoveis|assets)\/([^/?#]+\.(?:jpg|jpeg|png|webp|svg))(?:[?#].*)?$/i);
-        if (partes && partes[1]) return partes[1];
+
+        if (partes && partes[1]) {
+          return partes[1];
+        }
+
         return valor;
       }
 
       function corrigirObjeto(objeto, visitados) {
         if (!objeto || typeof objeto !== 'object') return;
+
         visitados = visitados || new WeakSet();
         if (visitados.has(objeto)) return;
         visitados.add(objeto);
 
         if (Array.isArray(objeto)) {
-          objeto.forEach(function (item) { corrigirObjeto(item, visitados); });
+          objeto.forEach(function (item) {
+            corrigirObjeto(item, visitados);
+          });
           return;
         }
-
-        var codigo = objeto.listingCode || objeto.listing_code || objeto.codigo || objeto.code || objeto.listingId;
 
         Object.keys(objeto).forEach(function (chave) {
           var valor = objeto[chave];
 
           if (typeof valor === 'string') {
-            var corrigido = arquivoDaImagem(valor);
-
-            if (/listingUrl|url_imovel|property_url/i.test(chave) && codigo && /(?:^|\/)imovel\//i.test(valor)) {
-              corrigido = 'imovel.html?codigo=' + encodeURIComponent(String(codigo).toUpperCase());
-            }
-
-            objeto[chave] = corrigido;
+            objeto[chave] = corrigirCaminhoImagem(valor);
           } else if (valor && typeof valor === 'object') {
             corrigirObjeto(valor, visitados);
           }
         });
-
-        if (codigo && objeto.listingUrl && /(?:^|\/)imovel\//i.test(String(objeto.listingUrl))) {
-          objeto.listingUrl = 'imovel.html?codigo=' + encodeURIComponent(String(codigo).toUpperCase());
-        }
       }
 
       function corrigirDadosGlobais() {
-        Object.keys(window).forEach(function (nome) {
+        [
+          'DEMO_PROPERTIES',
+          'DEMO_PROPERTIES_BY_CODE',
+          'DEMO_DATA',
+          'DEMO_CATALOG',
+          'PROPERTY_DATA',
+          'PROPERTIES',
+          'IMOB_DEMO_DATA',
+          '__IMOB_DEMO__'
+        ].forEach(function (nome) {
           try {
-            var valor = window[nome];
-            if (!valor || typeof valor !== 'object') return;
-            var textoNome = String(nome).toLowerCase();
-            if (textoNome.includes('demo') || textoNome.includes('property') || textoNome.includes('imob') || textoNome.includes('catalog')) {
-              corrigirObjeto(valor);
-            }
+            if (window[nome]) corrigirObjeto(window[nome]);
           } catch (erro) {}
         });
       }
 
-      function codigoNoCard(elemento) {
-        var atual = elemento;
-        for (var i = 0; atual && i < 6; i++, atual = atual.parentElement) {
-          var texto = (atual.textContent || '').toUpperCase();
-          var m = texto.match(/\b[CLVI]\d{5}\b/);
-          if (m) return m[0];
-          var href = atual.getAttribute && atual.getAttribute('href');
-          if (href) {
-            var h = href.toUpperCase();
-            var mh = h.match(/\b[CLVI]\d{5}\b/);
-            if (mh) return mh[0];
+      function corrigirImagemNoHtml(img) {
+        if (!img || !img.getAttribute) return;
+
+        var srcOriginal = img.getAttribute('src') || '';
+        var srcCorrigido = corrigirCaminhoImagem(srcOriginal || img.src || '');
+
+        if (srcCorrigido && srcCorrigido !== srcOriginal) {
+          img.setAttribute('src', srcCorrigido);
+        }
+
+        var srcsetOriginal = img.getAttribute('srcset') || '';
+        if (srcsetOriginal) {
+          var srcsetCorrigido = srcsetOriginal.replace(/(?:^|\s|,)(?:\/?demo\/imoveis\/|\/?assets\/)([^\s,]+\.(?:jpg|jpeg|png|webp|svg))/gi, function (match, nomeArquivo) {
+            var prefixo = match.charAt(0) === ',' ? ', ' : match.charAt(0) === ' ' ? ' ' : '';
+            return prefixo + nomeArquivo;
+          });
+
+          if (srcsetCorrigido !== srcsetOriginal) {
+            img.setAttribute('srcset', srcsetCorrigido);
           }
         }
-        return '';
       }
 
-      function corrigirDom() {
-        document.querySelectorAll('img').forEach(function (img) {
-          var src = img.getAttribute('src') || '';
-          var novo = arquivoDaImagem(src || img.src || '');
-          if (novo && novo !== src) img.setAttribute('src', novo);
-
-          var srcset = img.getAttribute('srcset') || '';
-          if (srcset) {
-            var novoSrcset = srcset.replace(/(?:^|\s|,)(?:\/?demo\/imoveis\/|\/?assets\/)([^\s,]+\.(?:jpg|jpeg|png|webp|svg))/gi, function (match, nomeArquivo) {
-              var prefixo = match.charAt(0) === ',' ? ', ' : match.charAt(0) === ' ' ? ' ' : '';
-              return prefixo + nomeArquivo;
-            });
-            if (novoSrcset !== srcset) img.setAttribute('srcset', novoSrcset);
-          }
-        });
-
-        document.querySelectorAll('a[href*="/imovel/"]').forEach(function (a) {
-          var codigo = codigoNoCard(a);
-          if (codigo) a.setAttribute('href', 'imovel.html?codigo=' + encodeURIComponent(codigo));
-        });
+      function corrigirTodasAsImagens() {
+        document.querySelectorAll('img').forEach(corrigirImagemNoHtml);
       }
 
       corrigirDadosGlobais();
-      document.addEventListener('DOMContentLoaded', function () { corrigirDadosGlobais(); corrigirDom(); });
-      window.addEventListener('load', function () { corrigirDadosGlobais(); corrigirDom(); });
+
       document.addEventListener('error', function (evento) {
-        if (evento.target && evento.target.tagName === 'IMG') corrigirDom();
+        if (evento.target && evento.target.tagName === 'IMG') {
+          corrigirImagemNoHtml(evento.target);
+        }
       }, true);
-      try {
-        new MutationObserver(function () { corrigirDadosGlobais(); corrigirDom(); })
-          .observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['href', 'src', 'srcset'] });
-      } catch (erro) {}
+
+      document.addEventListener('DOMContentLoaded', function () {
+        corrigirDadosGlobais();
+        corrigirTodasAsImagens();
+      });
+
+      window.addEventListener('load', function () {
+        corrigirTodasAsImagens();
+      });
     })();
   </script>
   <script src="site.js"></script>

@@ -1,0 +1,29 @@
+# SITE COM IMAGENS REALISTAS — PRONTO PARA SUBIR
+
+Este pacote substitui as imagens fictícias por imagens realistas geradas e separadas por imóvel/cômodo.
+
+## Como subir no GitHub
+
+1. Extraia este ZIP no computador.
+2. Entre no repositório do site no GitHub.
+3. Clique em **Add file > Upload files**.
+4. Arraste TODOS os arquivos extraídos para a raiz do repositório.
+5. Confirme em **Commit changes**.
+
+Não envie este ZIP fechado para o GitHub Pages. Primeiro precisa extrair.
+
+## Arquivos principais
+
+- `index.html`: catálogo/página inicial.
+- `imovel.html`: página individual do imóvel, já preparada para galeria.
+- `demo-data.js`: catálogo local com as fotos novas.
+- `CODIGO-01.jpg`, `CODIGO-02.jpg` etc.: fotos de cada imóvel/cômodo.
+- `atualizar-imagens-supabase.sql`: opcional, somente se você estiver usando Supabase.
+
+## Se estiver usando Supabase
+
+Depois de subir as imagens para o GitHub, abra o Supabase > SQL Editor e execute o arquivo:
+
+`atualizar-imagens-supabase.sql`
+
+Isso faz o banco usar as novas fotos também.
