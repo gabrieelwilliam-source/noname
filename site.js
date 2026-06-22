@@ -2,7 +2,7 @@
   'use strict';
   var cfg = window.SITE_CONFIG || {};
   var businessName = cfg.businessName || 'Horizonte Prime Imóveis';
-  var phone = String(cfg.whatsappNumber || '5547988927391').replace(/\D/g, '');
+  var phone = String(cfg.whatsappNumber || '5547999762742').replace(/\D/g, '');
 
   function $(selector, root) { return (root || document).querySelector(selector); }
   function $$(selector, root) { return Array.prototype.slice.call((root || document).querySelectorAll(selector)); }

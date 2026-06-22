@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var PHONE = '5547988927391';
+  var PHONE = '5547999762742';
   var cfg = window.SITE_CONFIG || {};
   if (cfg.whatsappNumber) PHONE = String(cfg.whatsappNumber).replace(/\D/g, '') || PHONE;
 
