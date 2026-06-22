@@ -126,23 +126,6 @@
       </div>
     </section>
 
-    <section class="smart-search-section" id="busca-inteligente">
-      <div class="container smart-search-card">
-        <div class="smart-copy">
-          <span class="eyebrow dark">Busca inteligente</span>
-          <h2>Escolha um perfil e deixe o site filtrar por você.</h2>
-          <p>Atalhos prontos para perfis comuns de compra, locação, investimento e imóveis pet friendly. O catálogo atualiza automaticamente.</p>
-        </div>
-        <div class="smart-profile-grid" aria-label="Perfis de busca rápida">
-          <button type="button" data-smart-profile="familia"><strong>Família</strong><span>3+ quartos e 2 vagas</span></button>
-          <button type="button" data-smart-profile="aluguel"><strong>Aluguel rápido</strong><span>Até R$ 4 mil/mês</span></button>
-          <button type="button" data-smart-profile="investimento"><strong>Investidor</strong><span>Liquidez e renda</span></button>
-          <button type="button" data-smart-profile="pet"><strong>Pet friendly</strong><span>Aceita animais</span></button>
-          <button type="button" data-smart-profile="premium"><strong>Premium</strong><span>Padrão superior</span></button>
-        </div>
-      </div>
-    </section>
-
     <section class="section section-featured" id="imoveis">
       <div class="container">
         <div class="section-heading">
@@ -189,15 +172,6 @@
           <button class="button button-secondary filter-toggle" type="button" aria-expanded="false" aria-controls="catalog-filters">Filtros</button>
         </div>
 
-        <div class="smart-catalog-panel">
-          <div>
-            <span class="eyebrow dark">Recomendação automática</span>
-            <h3>Melhores matches para os filtros atuais</h3>
-            <p>O site calcula compatibilidade considerando finalidade, bairro, preço, quartos, vagas, metragem e diferenciais.</p>
-          </div>
-          <div class="smart-recommendations" id="smart-recommendations"></div>
-        </div>
-
         <div class="catalog-layout">
           <aside class="filters-panel" id="catalog-filters">
             <div class="filter-header"><h3>Filtrar imóveis</h3><button type="button" class="clear-filters">Limpar</button></div>
@@ -221,23 +195,6 @@
             <div class="property-grid catalog-grid" id="catalog-grid" aria-live="polite"></div>
             <div class="empty-state hidden" id="catalog-empty"><div class="empty-icon">⌂</div><h3>Nenhum imóvel encontrado</h3><p>Altere os filtros ou conte para nossa assistente o que você está procurando.</p><button class="button button-primary open-generic-lead" type="button">Quero ajuda para encontrar</button></div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section finance-section" id="simulador">
-      <div class="container finance-card" id="finance-calculator">
-        <div class="finance-copy">
-          <span class="eyebrow dark">Simulador rápido</span>
-          <h2>Tenha uma noção de parcela antes de chamar o corretor.</h2>
-          <p>Ferramenta demonstrativa para ajudar o visitante a entender faixa de investimento e avançar com mais segurança.</p>
-        </div>
-        <div class="finance-form">
-          <label><span>Valor do imóvel</span><input id="calc-value" type="number" min="0" step="10000"></label>
-          <label><span>Entrada</span><input id="calc-down" type="number" min="0" step="5000"></label>
-          <label><span>Prazo em anos</span><input id="calc-years" type="number" min="1" max="35" value="30"></label>
-          <label><span>Taxa anual estimada (%)</span><input id="calc-rate" type="number" min="1" max="30" step="0.1" value="10.5"></label>
-          <div class="calc-result" id="calc-result"></div>
         </div>
       </div>
     </section>
@@ -359,6 +316,6 @@
   <script src="demo-data.js"></script>
   <script src="site.js"></script>
   <script src="home.js"></script>
-  <script src="smart-site.js"></script>
+  <script src="click-fix.js"></script>
 </body>
 </html>

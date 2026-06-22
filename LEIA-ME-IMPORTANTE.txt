@@ -1,36 +1,23 @@
-SITE INTELIGENTE PRO - HORIZONTE PRIME IMÓVEIS
+SITE CLICÁVEL - HORIZONTE PRIME
 
-Como subir no GitHub Pages:
+O pacote foi ajustado para manter o visual profissional e corrigir cliques em botões, cards, filtros, menu, WhatsApp e páginas individuais.
 
-1. Extraia o ZIP no computador.
-2. Entre no repositório do GitHub.
+COMO SUBIR NO GITHUB:
+1. Extraia este ZIP no computador.
+2. No GitHub, entre no repositório do site.
 3. Clique em Add file > Upload files.
-4. Arraste todos os arquivos extraídos para a raiz do repositório.
+4. Arraste TODOS os arquivos extraídos, não o ZIP fechado.
 5. Confirme a substituição dos arquivos antigos.
 6. Clique em Commit changes.
 7. Aguarde alguns minutos e atualize o site com Ctrl + F5.
 
-Importante:
-- Não suba o ZIP fechado para o GitHub.
-- Suba os arquivos de dentro da pasta extraída.
-- Os arquivos principais são: index.html, imovel.html, styles.css, smart-site.js, demo-data.js, home.js, site.js, property.js e as imagens .jpg.
+ARQUIVOS IMPORTANTES:
+- index.html: página inicial e catálogo.
+- imovel.html: página individual do imóvel.
+- demo-data.js: dados dos imóveis.
+- styles.css: visual e correção de cliques.
+- click-fix.js: camada extra de segurança para links, filtros, cards e WhatsApp funcionarem.
+- smart-site.js: recursos inteligentes como favoritos, comparação e recomendações.
 
-Novidades desta versão:
-- Busca inteligente por perfil: Família, Aluguel rápido, Investidor, Pet friendly e Premium.
-- Painel de recomendação automática no catálogo.
-- Match percentual nos cards dos imóveis.
-- Botão de favoritos salvo no navegador.
-- Comparador de até 3 imóveis.
-- Simulador rápido de financiamento.
-- Melhorias de CSS: glass effect, sombras, animações, hover premium, botões mais refinados, cards mais profissionais e responsividade.
-- Página do imóvel com análise automática e dicas visuais.
-
-Telefone atual do WhatsApp:
-- 55 47 98892-7391
-
-Para mudar telefone, nome ou cidade:
-- Edite o arquivo config.js.
-
-Para mudar imóveis, valores, descrições e fotos:
-- Edite o arquivo demo-data.js.
-- Mantenha os nomes das imagens exatamente iguais aos cadastrados.
+IMPORTANTE:
+Não envie o ZIP fechado para o GitHub Pages. Suba os arquivos extraídos.

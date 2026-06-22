@@ -182,3 +182,73 @@ body::before{
 .filter-chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900;color:var(--accent-dark);display:inline-flex;margin:0 6px 6px 0}.active-filters{min-height:38px}.catalog-toolbar{align-items:center}
 @media(max-width:1020px){.smart-search-card,.smart-catalog-panel,.finance-card{grid-template-columns:1fr}.smart-profile-grid{grid-template-columns:repeat(3,1fr)}.smart-recommendations{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.smart-profile-grid,.smart-recommendations,.finance-form{grid-template-columns:1fr}.smart-search-card,.finance-card{padding:22px}.smart-catalog-panel{display:block}.smart-recommendations{margin-top:14px}.compare-tray{grid-template-columns:1fr;bottom:12px}.compare-tray .button{width:100%}.gallery-tip{display:none}.smart-toast{left:14px;right:14px;bottom:82px}.card-actions{display:grid;grid-template-columns:1fr}.card-actions .button{width:100%;margin:0}}
+
+/* =========================================================
+   CORREÇÃO DE CLIQUES / CAMADAS INTERATIVAS
+   Mantém os efeitos visuais, mas impede que brilhos e overlays
+   bloqueiem links, botões, filtros e cards.
+   ========================================================= */
+body::before,
+.site-header::after,
+.brand-mark::after,
+.hero-bg-grid,
+.hero-overlay,
+.hero-pro::after,
+.smart-search-card::before,
+.property-card::after,
+.gallery-tip {
+  pointer-events: none !important;
+}
+
+a, button, input, select, textarea, summary,
+.menu-toggle, .main-nav, .main-nav a,
+.button, .search-tab, .filter-toggle, .clear-filters,
+.property-card, .property-image, .property-image img,
+.card-content, .card-content a, .card-actions, .card-actions a, .card-actions button,
+.favorite-card, .compare-card, .interest-btn,
+.open-generic-lead, .open-owner-lead,
+.neighborhood-card, [data-smart-profile], [data-whatsapp-link],
+.lead-modal, .lead-modal *, .floating-whatsapp {
+  pointer-events: auto !important;
+}
+
+.property-card a,
+.property-card button,
+.card-actions,
+.favorite-card,
+.compare-card,
+.interest-btn {
+  position: relative;
+  z-index: 5;
+}
+
+.property-image {
+  display: block;
+  cursor: pointer;
+}
+
+.card-content h3 a:hover,
+.text-link:hover,
+.main-nav a:hover,
+.smart-rec-card a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.button:active,
+.search-tab:active,
+.favorite-card:active,
+.compare-card:active,
+.neighborhood-card:active {
+  transform: translateY(1px) scale(.99);
+}
+
+.click-fix-ready .property-card {
+  cursor: default;
+}
+
+.click-fix-ready .property-image,
+.click-fix-ready .card-content h3 a,
+.click-fix-ready .card-actions a {
+  cursor: pointer;
+}
