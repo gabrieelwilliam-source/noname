@@ -1,0 +1,29 @@
+CORREÇÃO FINAL - SITE COM IMÓVEIS E WHATSAPP
+
+O que foi corrigido:
+1. O catálogo volta a aparecer usando o arquivo demo-data.js local.
+2. As imagens reais ficam separadas por imóvel/cômodo.
+3. O formulário não depende mais de fetch/n8n para funcionar: ao clicar em "Iniciar atendimento", ele abre o WhatsApp com a mensagem pronta.
+4. index.html, imovel.html e demo-data.js foram ajustados para trabalhar juntos.
+
+COMO SUBIR NO GITHUB:
+1. Extraia este ZIP no computador.
+2. Entre no repositório do GitHub.
+3. Clique em Add file > Upload files.
+4. Arraste TODOS os arquivos extraídos para a raiz do repositório.
+5. Quando o GitHub perguntar, confirme a substituição de:
+   - index.html
+   - imovel.html
+   - demo-data.js
+   - property-fallback.jpg
+6. Clique em Commit changes.
+
+IMPORTANTE:
+- Não suba este ZIP fechado para o GitHub.
+- Suba os arquivos de dentro do ZIP.
+- Mantenha as imagens .jpg na mesma pasta do index.html, como:
+  L92502-01.jpg, V10004-01.jpg, C10007-01.jpg etc.
+
+Se o site usar Supabase no futuro:
+- O site agora funciona mesmo sem Supabase.
+- O arquivo atualizar-imagens-supabase.sql está incluído apenas se você quiser atualizar as imagens no banco também.

@@ -507,5 +507,529 @@
   </script>
   <script src="site.js"></script>
   <script src="home.js"></script>
+
+  <script>
+    // FIX FINAL: renderiza imóveis locais e envia leads pelo WhatsApp, sem depender de Supabase/n8n.
+    (function () {
+      'use strict';
+
+      var WHATSAPP_PADRAO = '554799762742';
+      var leadProperty = null;
+      var selectedPurpose = '';
+
+      function getProperties() {
+        var fontes = [
+          window.DEMO_PROPERTIES,
+          window.PROPERTIES,
+          window.PROPERTY_DATA,
+          window.DEMO_CATALOG,
+          window.IMOB_DEMO_DATA && (window.IMOB_DEMO_DATA.properties || window.IMOB_DEMO_DATA.listings),
+          window.__IMOB_DEMO__ && (window.__IMOB_DEMO__.properties || window.__IMOB_DEMO__.listings)
+        ];
+
+        for (var i = 0; i < fontes.length; i += 1) {
+          if (Array.isArray(fontes[i]) && fontes[i].length) return fontes[i];
+        }
+
+        return [];
+      }
+
+      function $(selector) {
+        return document.querySelector(selector);
+      }
+
+      function $all(selector) {
+        return Array.prototype.slice.call(document.querySelectorAll(selector));
+      }
+
+      function esc(value) {
+        return String(value == null ? '' : value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function onlyDigits(value) {
+        return String(value || '').replace(/\D/g, '');
+      }
+
+      function normalize(value) {
+        return String(value || '')
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+      }
+
+      function imagePath(value) {
+        if (!value) return 'property-fallback.jpg';
+        var text = String(value).trim();
+        var match = text.match(/(?:^|\/)(?:demo\/imoveis|assets)\/([^/?#]+\.(?:jpg|jpeg|png|webp|svg))(?:[?#].*)?$/i);
+        return match && match[1] ? match[1] : text.replace(/^\/+/, '');
+      }
+
+      function money(value) {
+        var n = Number(value || 0);
+        if (!n) return 'Sob consulta';
+        return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+      }
+
+      function priceValue(p) {
+        return Number(p.priceFrom || p.salePrice || p.rentValue || p.price || 0);
+      }
+
+      function priceLabel(p) {
+        var value = priceValue(p);
+        if (!value) return 'Sob consulta';
+        var text = money(value);
+        return p.purpose === 'locacao' ? text + '/mês' : text;
+      }
+
+      function purposeLabel(value) {
+        var map = { compra: 'Venda', locacao: 'Aluguel', investimento: 'Investimento' };
+        return map[value] || 'Imóvel';
+      }
+
+      function propertyCode(p) {
+        return String(p.listingCode || p.listing_code || p.code || '').toUpperCase();
+      }
+
+      function propertyUrl(p) {
+        return p.listingUrl || p.listing_url || ('imovel.html?codigo=' + encodeURIComponent(propertyCode(p)));
+      }
+
+      function firstImage(p) {
+        if (Array.isArray(p.images) && p.images.length) {
+          return imagePath(p.images[0].url || p.images[0].imageUrl || p.imageUrl);
+        }
+        return imagePath(p.imageUrl || p.image_url);
+      }
+
+      function getWhatsAppNumber() {
+        var config = window.SITE_CONFIG || window.CONFIG || {};
+        return onlyDigits(config.WHATSAPP_NUMBER || config.whatsappNumber || config.whatsapp || WHATSAPP_PADRAO) || WHATSAPP_PADRAO;
+      }
+
+      function cardHtml(p) {
+        var code = propertyCode(p);
+        var url = propertyUrl(p);
+        var img = firstImage(p);
+        var features = [
+          p.bedrooms ? p.bedrooms + ' quartos' : '',
+          p.bathrooms ? p.bathrooms + ' banheiros' : '',
+          p.parkingSpots || p.parking_spots ? (p.parkingSpots || p.parking_spots) + ' vagas' : '',
+          p.areaM2 || p.area_m2 ? (p.areaM2 || p.area_m2) + ' m²' : ''
+        ].filter(Boolean);
+
+        return '' +
+          '<article class="property-card" data-code="' + esc(code) + '">' +
+            '<a class="property-card-link" href="' + esc(url) + '" aria-label="' + esc(p.title || 'Ver imóvel') + '">' +
+              '<div class="property-image">' +
+                '<img src="' + esc(img) + '" alt="' + esc((p.images && p.images[0] && p.images[0].alt) || p.title || 'Foto do imóvel') + '" loading="lazy" onerror="this.onerror=null;this.src=\'property-fallback.jpg\'">' +
+                '<span class="property-badge">' + esc(purposeLabel(p.purpose)) + '</span>' +
+              '</div>' +
+              '<div class="property-content">' +
+                '<div class="property-meta">' + esc([p.neighborhood, p.city].filter(Boolean).join(' • ')) + (code ? ' • ' + esc(code) : '') + '</div>' +
+                '<h3>' + esc(p.title || 'Imóvel disponível') + '</h3>' +
+                '<p>' + esc(p.highlight || p.description || 'Imóvel selecionado em Joinville.') + '</p>' +
+                '<div class="property-features">' + features.map(function (f) { return '<span>' + esc(f) + '</span>'; }).join('') + '</div>' +
+                '<div class="property-footer">' +
+                  '<strong>' + esc(priceLabel(p)) + '</strong>' +
+                  '<button class="button button-small button-secondary lead-for-property" type="button" data-code="' + esc(code) + '">Tenho interesse</button>' +
+                '</div>' +
+              '</div>' +
+            '</a>' +
+          '</article>';
+      }
+
+      function injectCardCss() {
+        if ($('#fix-final-card-css')) return;
+        var style = document.createElement('style');
+        style.id = 'fix-final-card-css';
+        style.textContent = [
+          '.property-card{background:#fff;border:1px solid #e7ddd1;border-radius:16px;overflow:hidden;box-shadow:0 16px 42px rgba(20,16,10,.07);transition:.2s transform,.2s box-shadow}',
+          '.property-card:hover{transform:translateY(-2px);box-shadow:0 20px 48px rgba(20,16,10,.11)}',
+          '.property-card-link{display:block;color:inherit;text-decoration:none}',
+          '.property-image{position:relative;height:245px;background:#f4efe8;overflow:hidden}',
+          '.property-image img{width:100%;height:100%;object-fit:cover;display:block}',
+          '.property-badge{position:absolute;left:14px;top:14px;background:#202326;color:#fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;text-transform:uppercase}',
+          '.property-content{padding:18px}',
+          '.property-meta{font-size:12px;color:#8a6a4b;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:8px}',
+          '.property-content h3{font-size:22px;line-height:1.15;margin:0 0 8px}',
+          '.property-content p{color:#68707b;line-height:1.45;margin:0 0 14px}',
+          '.property-features{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}',
+          '.property-features span{background:#faf7f0;border:1px solid #eee2d6;border-radius:999px;padding:7px 10px;font-size:13px;color:#4d5660}',
+          '.property-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #f0e7dd;padding-top:14px}',
+          '.property-footer strong{font-size:18px;color:#202326}',
+          '.lead-for-property{position:relative;z-index:2;white-space:nowrap}',
+          '@media(max-width:700px){.property-image{height:210px}.property-footer{align-items:flex-start;flex-direction:column}.lead-for-property{width:100%}}'
+        ].join('\n');
+        document.head.appendChild(style);
+      }
+
+      function populateNeighborhoods(properties) {
+        var select = $('#filter-neighborhood');
+        if (!select || select.dataset.fixPopulated === '1') return;
+
+        var current = select.value;
+        var names = Array.from(new Set(properties.map(function (p) { return p.neighborhood; }).filter(Boolean))).sort();
+
+        select.innerHTML = '<option value="">Todos os bairros</option>' + names.map(function (name) {
+          return '<option value="' + esc(name) + '">' + esc(name) + '</option>';
+        }).join('');
+
+        select.value = current;
+        select.dataset.fixPopulated = '1';
+      }
+
+      function readFilters() {
+        return {
+          query: ($('#filter-query') && $('#filter-query').value) || '',
+          purpose: ($('#filter-purpose') && $('#filter-purpose').value) || selectedPurpose || '',
+          category: ($('#filter-category') && $('#filter-category').value) || '',
+          neighborhood: ($('#filter-neighborhood') && $('#filter-neighborhood').value) || '',
+          bedrooms: Number(($('#filter-bedrooms') && $('#filter-bedrooms').value) || 0),
+          parking: Number(($('#filter-parking') && $('#filter-parking').value) || 0),
+          maxPrice: Number(($('#filter-price') && $('#filter-price').value) || 0),
+          pet: !!($('#filter-pet') && $('#filter-pet').checked),
+          sort: ($('#sort-properties') && $('#sort-properties').value) || 'featured'
+        };
+      }
+
+      function applyFilters(properties) {
+        var f = readFilters();
+        var q = normalize(f.query);
+
+        var list = properties.filter(function (p) {
+          if (f.purpose && p.purpose !== f.purpose) return false;
+          if (f.category && p.category !== f.category) return false;
+          if (f.neighborhood && p.neighborhood !== f.neighborhood) return false;
+          if (f.bedrooms && Number(p.bedrooms || 0) < f.bedrooms) return false;
+          if (f.parking && Number(p.parkingSpots || p.parking_spots || 0) < f.parking) return false;
+          if (f.maxPrice && priceValue(p) > f.maxPrice) return false;
+          if (f.pet && !p.acceptsPet) return false;
+
+          if (q) {
+            var hay = normalize([
+              p.title, p.neighborhood, p.city, p.stateCode, propertyCode(p), p.description, p.highlight, p.category, p.purpose
+            ].filter(Boolean).join(' '));
+            if (hay.indexOf(q) === -1) return false;
+          }
+
+          return true;
+        });
+
+        if (f.sort === 'price-asc') list.sort(function (a, b) { return priceValue(a) - priceValue(b); });
+        if (f.sort === 'price-desc') list.sort(function (a, b) { return priceValue(b) - priceValue(a); });
+        if (f.sort === 'area-desc') list.sort(function (a, b) { return Number(b.areaM2 || b.area_m2 || 0) - Number(a.areaM2 || a.area_m2 || 0); });
+        if (f.sort === 'featured') list.sort(function (a, b) { return Number(!!b.isFeatured) - Number(!!a.isFeatured); });
+
+        return list;
+      }
+
+      function updateActiveFilters() {
+        var box = $('#active-filters');
+        if (!box) return;
+
+        var f = readFilters();
+        var labels = [];
+        if (f.query) labels.push('Busca: ' + f.query);
+        if (f.purpose) labels.push(purposeLabel(f.purpose));
+        if (f.category) labels.push(f.category);
+        if (f.neighborhood) labels.push(f.neighborhood);
+        if (f.bedrooms) labels.push(f.bedrooms + '+ quartos');
+        if (f.parking) labels.push(f.parking + '+ vagas');
+        if (f.pet) labels.push('Aceita animais');
+
+        box.innerHTML = labels.map(function (label) {
+          return '<span class="active-filter-pill">' + esc(label) + '</span>';
+        }).join('');
+      }
+
+      function renderCatalog() {
+        injectCardCss();
+
+        var properties = getProperties();
+        if (!properties.length) return;
+
+        populateNeighborhoods(properties);
+
+        var featuredGrid = $('#featured-grid');
+        var catalogGrid = $('#catalog-grid');
+        var summary = $('#catalog-summary');
+        var empty = $('#catalog-empty');
+
+        var featured = properties.filter(function (p) { return p.isFeatured; });
+        if (!featured.length) featured = properties.slice(0, 3);
+        featured = featured.slice(0, 3);
+
+        if (featuredGrid) {
+          featuredGrid.innerHTML = featured.map(cardHtml).join('');
+        }
+
+        var filtered = applyFilters(properties);
+
+        if (catalogGrid) {
+          catalogGrid.innerHTML = filtered.map(cardHtml).join('');
+        }
+
+        if (summary) {
+          summary.textContent = filtered.length + ' ' + (filtered.length === 1 ? 'imóvel encontrado' : 'imóveis encontrados') + ' em Joinville.';
+        }
+
+        if (empty) {
+          empty.classList.toggle('hidden', filtered.length > 0);
+        }
+
+        updateActiveFilters();
+        bindLeadButtons();
+      }
+
+      function setFilter(id, value) {
+        var el = $('#' + id);
+        if (el) {
+          el.value = value || '';
+          el.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+
+      function bindFilters() {
+        [
+          '#filter-query',
+          '#filter-purpose',
+          '#filter-category',
+          '#filter-neighborhood',
+          '#filter-bedrooms',
+          '#filter-parking',
+          '#filter-price',
+          '#filter-pet',
+          '#sort-properties'
+        ].forEach(function (selector) {
+          var el = $(selector);
+          if (!el || el.dataset.fixBound === '1') return;
+          el.dataset.fixBound = '1';
+          el.addEventListener(el.type === 'search' ? 'input' : 'change', renderCatalog);
+        });
+
+        var clear = $('.clear-filters');
+        if (clear && clear.dataset.fixBound !== '1') {
+          clear.dataset.fixBound = '1';
+          clear.addEventListener('click', function () {
+            selectedPurpose = '';
+            ['filter-query', 'filter-purpose', 'filter-category', 'filter-neighborhood', 'filter-bedrooms', 'filter-parking', 'filter-price'].forEach(function (id) {
+              var el = $('#' + id);
+              if (el) el.value = '';
+            });
+            var pet = $('#filter-pet');
+            if (pet) pet.checked = false;
+            renderCatalog();
+          });
+        }
+
+        var hero = $('#hero-search-form');
+        if (hero && hero.dataset.fixBound !== '1') {
+          hero.dataset.fixBound = '1';
+          hero.addEventListener('submit', function (event) {
+            event.preventDefault();
+            var query = ($('#hero-query') && $('#hero-query').value) || '';
+            var category = ($('#hero-category') && $('#hero-category').value) || '';
+            setFilter('filter-query', query);
+            setFilter('filter-category', category);
+            setFilter('filter-purpose', selectedPurpose);
+            renderCatalog();
+            var catalog = $('#catalogo');
+            if (catalog) catalog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        }
+
+        $all('.search-tab').forEach(function (btn) {
+          if (btn.dataset.fixBound === '1') return;
+          btn.dataset.fixBound = '1';
+          btn.addEventListener('click', function () {
+            selectedPurpose = btn.getAttribute('data-purpose') || '';
+            $all('.search-tab').forEach(function (b) {
+              b.classList.toggle('active', b === btn);
+              b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+            });
+          });
+        });
+
+        $all('[data-footer-purpose]').forEach(function (link) {
+          if (link.dataset.fixBound === '1') return;
+          link.dataset.fixBound = '1';
+          link.addEventListener('click', function () {
+            setFilter('filter-purpose', link.getAttribute('data-footer-purpose') || '');
+            renderCatalog();
+          });
+        });
+      }
+
+      function openLeadModal(property) {
+        leadProperty = property || null;
+
+        var modal = $('#lead-modal');
+        var title = $('#lead-modal-title');
+        var desc = $('#lead-modal-description');
+        var code = $('#lead-listing-code');
+        var url = $('#lead-listing-url');
+        var message = $('#lead-message');
+        var feedback = $('#lead-feedback');
+
+        if (feedback) {
+          feedback.classList.add('hidden');
+          feedback.textContent = '';
+        }
+
+        if (leadProperty) {
+          if (title) title.textContent = 'Tenho interesse neste imóvel';
+          if (desc) desc.textContent = (leadProperty.title || 'Imóvel selecionado') + ' • Código ' + propertyCode(leadProperty);
+          if (code) code.value = propertyCode(leadProperty);
+          if (url) url.value = propertyUrl(leadProperty);
+          if (message && !message.value) message.value = 'Olá, tenho interesse no imóvel ' + propertyCode(leadProperty) + ' - ' + (leadProperty.title || '') + '.';
+        } else {
+          if (title) title.textContent = 'Conte o que você procura';
+          if (desc) desc.textContent = 'Preencha seus dados para iniciar o atendimento pelo WhatsApp.';
+          if (code) code.value = '';
+          if (url) url.value = '';
+        }
+
+        if (modal && typeof modal.showModal === 'function') {
+          modal.showModal();
+        } else if (modal) {
+          modal.setAttribute('open', '');
+        }
+      }
+
+      function bindLeadButtons() {
+        $all('.lead-for-property').forEach(function (btn) {
+          if (btn.dataset.fixLeadBound === '1') return;
+          btn.dataset.fixLeadBound = '1';
+          btn.addEventListener('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var code = btn.getAttribute('data-code');
+            var property = getProperties().find(function (p) { return propertyCode(p) === code; });
+            openLeadModal(property);
+          });
+        });
+
+        $all('.open-generic-lead').forEach(function (btn) {
+          if (btn.dataset.fixLeadBound === '1') return;
+          btn.dataset.fixLeadBound = '1';
+          btn.addEventListener('click', function (event) {
+            event.preventDefault();
+            openLeadModal(null);
+          });
+        });
+
+        var close = $('.modal-close');
+        var modal = $('#lead-modal');
+        if (close && close.dataset.fixBound !== '1') {
+          close.dataset.fixBound = '1';
+          close.addEventListener('click', function () {
+            if (modal && typeof modal.close === 'function') modal.close();
+            else if (modal) modal.removeAttribute('open');
+          });
+        }
+      }
+
+      function bindLeadForm() {
+        var form = $('#lead-form');
+        if (!form || form.dataset.fixFinalLead === '1') return;
+
+        form.dataset.fixFinalLead = '1';
+
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+
+          var name = ($('#lead-name') && $('#lead-name').value.trim()) || '';
+          var phone = ($('#lead-phone') && $('#lead-phone').value.trim()) || '';
+          var email = ($('#lead-email') && $('#lead-email').value.trim()) || '';
+          var message = ($('#lead-message') && $('#lead-message').value.trim()) || '';
+          var consent = $('#lead-consent');
+
+          var feedback = $('#lead-feedback');
+          if (feedback) {
+            feedback.className = 'form-feedback hidden';
+            feedback.textContent = '';
+          }
+
+          if (!name || !phone || !message || (consent && !consent.checked)) {
+            if (feedback) {
+              feedback.className = 'form-feedback';
+              feedback.style.background = '#fff1f1';
+              feedback.style.color = '#b42318';
+              feedback.textContent = 'Preencha nome, WhatsApp, mensagem e aceite o contato.';
+            }
+            return false;
+          }
+
+          var property = leadProperty;
+          var code = property ? propertyCode(property) : (($('#lead-listing-code') && $('#lead-listing-code').value) || '');
+          var propertyTitle = property ? property.title : '';
+          var propertyUrlText = property ? propertyUrl(property) : (($('#lead-listing-url') && $('#lead-listing-url').value) || '');
+
+          var text =
+            'Olá! Quero atendimento pelo site Horizonte Prime Imóveis.%0A%0A' +
+            '*Nome:* ' + encodeURIComponent(name) + '%0A' +
+            '*WhatsApp:* ' + encodeURIComponent(phone) + '%0A' +
+            (email ? '*E-mail:* ' + encodeURIComponent(email) + '%0A' : '') +
+            (code ? '*Código do imóvel:* ' + encodeURIComponent(code) + '%0A' : '') +
+            (propertyTitle ? '*Imóvel:* ' + encodeURIComponent(propertyTitle) + '%0A' : '') +
+            (propertyUrlText ? '*Link:* ' + encodeURIComponent(propertyUrlText) + '%0A' : '') +
+            '%0A*Mensagem:* ' + encodeURIComponent(message);
+
+          var wa = 'https://wa.me/' + getWhatsAppNumber() + '?text=' + text;
+          window.open(wa, '_blank', 'noopener');
+
+          if (feedback) {
+            feedback.className = 'form-feedback';
+            feedback.style.background = '#ecfdf3';
+            feedback.style.color = '#027a48';
+            feedback.textContent = 'Pronto! O WhatsApp foi aberto com sua mensagem.';
+          }
+
+          return false;
+        }, true);
+      }
+
+      function boot() {
+        var properties = getProperties();
+        if (!properties.length) return;
+
+        if ($('#current-year')) $('#current-year').textContent = new Date().getFullYear();
+
+        var floating = $('#floating-whatsapp');
+        if (floating) {
+          floating.href = 'https://wa.me/' + getWhatsAppNumber();
+        }
+
+        bindFilters();
+        bindLeadForm();
+        bindLeadButtons();
+        renderCatalog();
+
+        // Garante que o conteúdo local volte caso algum script remoto apague a lista depois.
+        [250, 800, 1600, 3000].forEach(function (ms) {
+          setTimeout(function () {
+            var summary = $('#catalog-summary');
+            var grid = $('#catalog-grid');
+            if (summary && /0 imóveis/.test(summary.textContent || '') && getProperties().length) renderCatalog();
+            if (grid && !grid.children.length && getProperties().length) renderCatalog();
+          }, ms);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+      } else {
+        boot();
+      }
+    })();
+  </script>
+
 </body>
 </html>
