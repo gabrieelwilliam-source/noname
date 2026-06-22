@@ -1,166 +1,67 @@
-(() => {
-  "use strict";
+(function () {
+  'use strict';
+  var U = window.ImobUtils;
+  if (!U) return;
+  var properties = U.catalog();
+  var root = document.getElementById('property-root');
 
-  const Site = window.ImobSite;
-  if (!Site) return;
-
-  let property = null;
-
-  document.addEventListener("DOMContentLoaded", init);
-
-  async function init() {
-    const code = Site.getQueryParam("codigo") || Site.getQueryParam("slug");
-    if (!code) {
-      showError();
-      return;
-    }
-
-    try {
-      property = await Site.getProperty(code);
-      if (!property) {
-        showError();
-        return;
-      }
-      renderProperty(property);
-    } catch (error) {
-      console.error(error);
-      showError();
-    }
+  function requestedCode() {
+    var q = new URLSearchParams(location.search);
+    return String(q.get('codigo') || q.get('code') || q.get('ref') || '').toUpperCase();
+  }
+  function findProperty() {
+    var code = requestedCode();
+    return properties.find(function (p) { return String(p.listingCode || '').toUpperCase() === code; }) || properties[0];
+  }
+  function costLine(label, value) {
+    if (value === undefined || value === null || value === '') return '';
+    return '<div class="cost-item"><span>' + U.esc(label) + '</span><strong>' + (typeof value === 'number' ? U.money(value) : U.esc(value)) + '</strong></div>';
+  }
+  function stat(value, label) { return '<div class="property-stat"><strong>' + U.esc(value) + '</strong><span>' + U.esc(label) + '</span></div>'; }
+  function relatedCard(p) {
+    var img = U.imgPath(p.imageUrl || (p.images && p.images[0] && p.images[0].url) || 'property-fallback.jpg');
+    var url = p.listingUrl || ('imovel.html?codigo=' + p.listingCode);
+    return '<article class="property-card"><a class="property-image" href="' + U.esc(url) + '"><img src="' + U.esc(img) + '" alt="' + U.esc(p.title) + '" loading="lazy" onerror="this.src=\'property-fallback.jpg\'"><div class="badge-stack"><span class="badge badge-dark">' + U.esc(U.purposeLabel(p.purpose)) + '</span></div></a><div class="card-content"><h3><a href="' + U.esc(url) + '">' + U.esc(p.title) + '</a></h3><div class="card-location">' + U.esc(p.neighborhood + ', ' + p.city) + '</div><div class="card-price">' + U.propertyPrice(p) + '</div><div class="card-actions"><a class="button button-secondary" href="' + U.esc(url) + '">Ver imóvel</a></div></div></article>';
   }
 
-  function renderProperty(item) {
-    document.getElementById("property-loading").classList.add("hidden");
-    document.getElementById("property-detail").classList.remove("hidden");
+  function render(p) {
+    if (!root || !p) return;
+    var imgs = (Array.isArray(p.images) && p.images.length ? p.images : [{ url: p.imageUrl, alt: p.title }]).map(function (i) { return { url: U.imgPath(i.url || i.imageUrl || p.imageUrl), alt: i.alt || p.title }; });
+    var main = imgs[0] || { url: 'property-fallback.jpg', alt: p.title };
+    var price = U.propertyPrice(p);
+    document.title = p.title + ' | Horizonte Prime Imóveis';
+    var related = properties.filter(function (x) { return x.listingCode !== p.listingCode && (x.neighborhood === p.neighborhood || x.category === p.category || x.purpose === p.purpose); }).slice(0, 3);
+    if (related.length < 3) related = related.concat(properties.filter(function (x) { return x.listingCode !== p.listingCode && !related.includes(x); }).slice(0, 3 - related.length));
 
-    document.title = `${item.title} | ${Site.config.BUSINESS_NAME || "Horizonte Prime Imóveis"}`;
-    const meta = document.getElementById("meta-description");
-    if (meta) meta.content = item.description || item.highlight || item.title;
+    root.innerHTML = '' +
+      '<section class="property-top"><div class="breadcrumb"><a href="index.html">Início</a> › <a href="index.html#catalogo">Imóveis</a> › ' + U.esc(p.title) + '</div><div class="property-title-wrap"><div><div class="property-badges"><span class="pill pill-dark">' + U.esc(U.purposeLabel(p.purpose)) + '</span><span class="pill pill-soft">Código ' + U.esc(p.listingCode) + '</span>' + (p.isFeatured ? '<span class="pill pill-soft">Destaque</span>' : '') + '</div><h1>' + U.esc(p.title) + '</h1><div class="property-location">' + U.esc([p.neighborhood, p.city, p.stateCode].filter(Boolean).join(', ').replace(', SC', ' - SC')) + '</div></div><a class="share-btn" href="#" id="share-property" title="Copiar link">🔗</a></div>' +
+      '<div class="gallery-pro"><div class="gallery-main"><img id="main-gallery-image" src="' + U.esc(main.url) + '" alt="' + U.esc(main.alt) + '" onerror="this.src=\'property-fallback.jpg\'"></div><div class="gallery-side">' + imgs.map(function (img, idx) { return '<button type="button" class="gallery-thumb" data-src="' + U.esc(img.url) + '" data-alt="' + U.esc(img.alt) + '"><img src="' + U.esc(img.url) + '" alt="' + U.esc(img.alt) + '" onerror="this.src=\'property-fallback.jpg\'">' + (idx === 3 && imgs.length > 4 ? '<span class="gallery-more">+' + (imgs.length - 4) + ' fotos</span>' : '') + '</button>'; }).join('') + '</div></div></section>' +
+      '<section class="property-body"><div><div class="property-stats">' + stat(p.bedrooms || 0, 'Quartos') + stat(p.suites || 0, 'Suítes') + stat(p.bathrooms || 0, 'Banheiros') + stat(p.parkingSpots || 0, 'Vagas') + stat((p.areaM2 || 0) + ' m²', 'Área') + '</div>' +
+      '<div class="property-section"><h2>Sobre este imóvel</h2><p>' + U.esc(p.description || '') + '</p><p><strong>' + U.esc(p.highlight || '') + '</strong></p></div>' +
+      '<div class="property-section"><h2>Diferenciais</h2><div class="amenities">' + (p.amenities || []).map(function (a) { return '<span class="amenity">' + U.esc(a) + '</span>'; }).join('') + (p.acceptsPet ? '<span class="amenity">Aceita animais</span>' : '') + '</div></div>' +
+      '<div class="property-section"><h2>Custos e informações</h2><div class="cost-grid">' + costLine(p.purpose === 'locacao' ? 'Aluguel' : 'Valor de venda', p.purpose === 'locacao' ? (p.rentValue || p.priceFrom) : (p.salePrice || p.priceFrom)) + costLine('Condomínio', p.condoFee || 0) + costLine('IPTU', p.iptu || 0) + '</div></div>' +
+      '<div class="property-section"><h2>Localização</h2><div class="location-box"><div><strong>' + U.esc(p.neighborhood + ', ' + p.city + ' - ' + p.stateCode) + '</strong><p>Endereço completo informado durante o atendimento para preservar segurança e privacidade.</p></div></div></div></div>' +
+      '<aside><div class="price-card"><small>' + U.esc(p.purpose === 'locacao' ? 'Valor mensal' : 'Valor do imóvel') + '</small><strong>' + U.esc(price) + '</strong><div class="price-meta"><div><span>Código</span><strong>' + U.esc(p.listingCode) + '</strong></div><div><span>Finalidade</span><strong>' + U.esc(U.purposeLabel(p.purpose)) + '</strong></div><div><span>Bairro</span><strong>' + U.esc(p.neighborhood) + '</strong></div></div><button class="button button-primary" type="button" id="property-interest">Tenho interesse</button><a class="button button-secondary" data-whatsapp-link href="#">Chamar no WhatsApp</a><p class="side-note">As informações são demonstrativas. Confirme disponibilidade, valores e condições com o atendimento.</p></div></aside></section>' +
+      '<section class="related-section"><div class="section-heading"><div><span class="eyebrow dark">Você também pode gostar</span><h2>Imóveis relacionados</h2></div><a class="text-link" href="index.html#catalogo">Ver catálogo completo →</a></div><div class="property-grid related-grid">' + related.map(relatedCard).join('') + '</div></section>';
 
-    setText("breadcrumb-current", item.title);
-    setText("property-purpose", Site.formatPurpose(item.purpose));
-    setText("property-code", `Código ${item.listingCode}`);
-    setText("property-title", item.title);
-    setText("property-location", `${item.neighborhood}, ${item.city} - ${item.stateCode || "SC"}`);
-    setText("property-description", item.description || "Consulte nossa equipe para mais informações.");
-    setText("property-highlight", item.highlight || "");
+    bind(p, imgs);
+  }
 
-    renderGallery(item);
-    renderFacts(item);
-    renderAmenities(item);
-    renderCosts(item);
-    renderSidebar(item);
-
-    document.getElementById("property-interest-button")?.addEventListener("click", () => {
-      Site.openLeadModal(item);
+  function bind(p, imgs) {
+    document.querySelectorAll('.gallery-thumb').forEach(function (btn) {
+      btn.addEventListener('click', function () { var main = document.getElementById('main-gallery-image'); if (main) { main.src = btn.dataset.src; main.alt = btn.dataset.alt || p.title; } });
     });
-
-    document.getElementById("copy-link-button")?.addEventListener("click", async (event) => {
-      try {
-        await navigator.clipboard.writeText(location.href);
-        event.currentTarget.title = "Link copiado";
-      } catch {
-        event.currentTarget.title = "Não foi possível copiar";
-      }
+    var share = document.getElementById('share-property');
+    if (share) share.addEventListener('click', function (e) { e.preventDefault(); if (navigator.clipboard) navigator.clipboard.writeText(location.href); alert('Link do imóvel copiado.'); });
+    var interest = document.getElementById('property-interest');
+    if (interest) interest.addEventListener('click', function () {
+      if (window.openLeadModal) window.openLeadModal({ type: 'property', code: p.listingCode, propertyTitle: p.title, url: location.href, title: 'Tenho interesse neste imóvel', description: p.title + ' • Código ' + p.listingCode, message: 'Olá, tenho interesse no imóvel ' + p.listingCode + ' - ' + p.title + '. Gostaria de mais informações e disponibilidade.' });
     });
+    document.querySelectorAll('[data-whatsapp-link]').forEach(function (a) { a.href = U.buildWhatsappUrl('Olá, tenho interesse no imóvel ' + p.listingCode + ' - ' + p.title + '.'); });
   }
 
-  function renderGallery(item) {
-    const gallery = document.getElementById("property-gallery");
-    const images = Array.isArray(item.images) && item.images.length
-      ? item.images
-      : [{ url: item.imageUrl, alt: item.title }];
-
-    gallery.innerHTML = "";
-
-    images.slice(0, 3).forEach((image, index) => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "gallery-item";
-      const img = document.createElement("img");
-      img.src = Site.normalizeAssetPath(image.url);
-      img.alt = image.alt || `${item.title} — foto ${index + 1}`;
-      if (index > 0) img.loading = "lazy";
-      img.addEventListener("error", () => { img.src = "assets/property-fallback.jpg"; }, { once: true });
-      wrapper.appendChild(img);
-      gallery.appendChild(wrapper);
-    });
-  }
-
-  function renderFacts(item) {
-    const facts = [
-      [item.bedrooms ?? 0, Number(item.bedrooms) === 1 ? "Quarto" : "Quartos"],
-      [item.suites ?? 0, Number(item.suites) === 1 ? "Suíte" : "Suítes"],
-      [item.bathrooms ?? 0, Number(item.bathrooms) === 1 ? "Banheiro" : "Banheiros"],
-      [item.parkingSpots ?? 0, Number(item.parkingSpots) === 1 ? "Vaga" : "Vagas"],
-      [item.areaM2 ? `${item.areaM2} m²` : "—", "Área privativa"]
-    ];
-
-    const container = document.getElementById("property-facts");
-    container.innerHTML = facts.map(([value, label]) => `
-      <div class="property-fact"><strong>${Site.escapeHtml(value)}</strong><span>${Site.escapeHtml(label)}</span></div>
-    `).join("");
-  }
-
-  function renderAmenities(item) {
-    const amenities = Array.isArray(item.amenities) ? item.amenities : [];
-    const section = document.getElementById("amenities-section");
-    const container = document.getElementById("property-amenities");
-
-    if (!amenities.length) {
-      section.classList.add("hidden");
-      return;
-    }
-
-    container.innerHTML = amenities.map((amenity) => `
-      <div class="amenity-item">✓ ${Site.escapeHtml(Site.capitalize(amenity))}</div>
-    `).join("");
-  }
-
-  function renderCosts(item) {
-    const rows = [];
-    const primaryPrice = Site.getEffectivePrice(item);
-
-    rows.push([
-      item.purpose === "locacao" ? "Aluguel" : "Valor do imóvel",
-      Site.formatCurrency(primaryPrice)
-    ]);
-
-    if (Number(item.condoFee) > 0) rows.push(["Condomínio", Site.formatCurrency(item.condoFee)]);
-    if (Number(item.iptu) > 0) rows.push(["IPTU", Site.formatCurrency(item.iptu)]);
-    if (item.minDownPaymentPct) rows.push(["Entrada estimada", `${item.minDownPaymentPct}%`]);
-    if (item.financingAllowed) rows.push(["Financiamento", "Permitido"]);
-    if (item.fgtsAllowed) rows.push(["Uso de FGTS", "Permitido"]);
-
-    document.getElementById("property-costs").innerHTML = rows.map(([label, value]) => `
-      <div class="cost-row"><span>${Site.escapeHtml(label)}</span><strong>${Site.escapeHtml(value)}</strong></div>
-    `).join("");
-  }
-
-  function renderSidebar(item) {
-    const price = Site.getEffectivePrice(item);
-    setText("price-label", item.purpose === "locacao" ? "Aluguel mensal" : "Valor do imóvel");
-    setText("property-price", Site.formatCurrency(price));
-
-    const fees = [];
-    if (Number(item.condoFee) > 0) fees.push(`Condomínio ${Site.formatCurrency(item.condoFee)}`);
-    if (Number(item.iptu) > 0) fees.push(`IPTU ${Site.formatCurrency(item.iptu)}`);
-    setText("property-fees", fees.join(" • "));
-
-    const whatsapp = document.getElementById("property-whatsapp-button");
-    whatsapp.href = Site.buildWhatsappUrl(item);
-
-    document.getElementById("lead-listing-code").value = item.listingCode || "";
-    document.getElementById("lead-listing-url").value = location.href;
-    document.getElementById("lead-message").value = `Tenho interesse no imóvel ${item.listingCode} — ${item.title}.`;
-  }
-
-  function showError() {
-    document.getElementById("property-loading")?.classList.add("hidden");
-    document.getElementById("property-detail")?.classList.add("hidden");
-    document.getElementById("property-error")?.classList.remove("hidden");
-  }
-
-  function setText(id, value) {
-    const element = document.getElementById(id);
-    if (element) element.textContent = value ?? "";
-  }
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!properties.length) { if (root) root.innerHTML = '<div class="not-found"><h1>Nenhum imóvel cadastrado</h1><p>Verifique o arquivo demo-data.js.</p></div>'; return; }
+    render(findProperty());
+  });
 })();

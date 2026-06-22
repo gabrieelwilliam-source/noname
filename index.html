@@ -3,14 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Imóveis para comprar, alugar e investir em Joinville.">
-  <meta name="theme-color" content="#0f3d35">
-  <title>Horizonte Prime Imóveis | Joinville</title>
+  <meta name="description" content="Horizonte Prime Imóveis: imóveis selecionados para comprar, alugar e investir em Joinville - SC.">
+  <meta name="theme-color" content="#191919">
+  <meta property="og:title" content="Horizonte Prime Imóveis | Joinville">
+  <meta property="og:description" content="Catálogo imobiliário profissional com imóveis para compra, locação e investimento.">
+  <meta property="og:image" content="V10004-02.jpg">
+  <title>Horizonte Prime Imóveis | Compra, aluguel e investimento em Joinville</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <span>Atendimento em Joinville e região norte de SC</span>
+      <span class="topbar-hide-mobile">Compra • Aluguel • Investimento • Avaliação</span>
+      <a data-whatsapp-link href="#">WhatsApp comercial</a>
+    </div>
+  </div>
 
   <header class="site-header" id="topo">
     <div class="container header-inner">
@@ -20,7 +34,7 @@
         </span>
         <span>
           <strong data-business-name>Horizonte Prime</strong>
-          <small>Imóveis</small>
+          <small>Imóveis premium</small>
         </span>
       </a>
 
@@ -31,25 +45,41 @@
 
       <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
         <a href="#imoveis">Imóveis</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#bairros">Bairros</a>
         <a href="#como-funciona">Como funciona</a>
         <a href="#sobre">Sobre</a>
-        <a href="#contato">Contato</a>
         <button class="button button-small button-outline open-generic-lead" type="button">Encontrar meu imóvel</button>
       </nav>
     </div>
   </header>
 
   <main id="conteudo">
-    <section class="hero">
+    <section class="hero hero-pro">
+      <div class="hero-bg-grid" aria-hidden="true">
+        <img src="V10004-02.jpg" alt="">
+        <img src="V10009-01.jpg" alt="">
+        <img src="V10001-01.jpg" alt="">
+      </div>
       <div class="hero-overlay"></div>
-      <div class="container hero-content">
+      <div class="container hero-content hero-pro-content">
         <div class="hero-copy">
-          <span class="eyebrow">Imóveis selecionados em Joinville</span>
-          <h1>Seu próximo imóvel começa com uma busca mais inteligente.</h1>
-          <p>Encontre opções para comprar, alugar ou investir e fale com nossa consultora virtual a qualquer hora.</p>
+          <span class="eyebrow">Curadoria imobiliária em Joinville</span>
+          <h1>Imóveis selecionados para morar, investir e fechar negócio com segurança.</h1>
+          <p>Uma experiência completa: busca inteligente, fotos realistas por ambiente, páginas individuais, contato rápido e atendimento consultivo.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#catalogo">Ver catálogo</a>
+            <button class="button button-light open-generic-lead" type="button">Receber indicação</button>
+          </div>
+          <div class="hero-badges" aria-label="Diferenciais">
+            <span>✓ Imóveis com galeria</span>
+            <span>✓ Atendimento via WhatsApp</span>
+            <span>✓ Compra, locação e investimento</span>
+          </div>
         </div>
 
         <form class="hero-search glass-card" id="hero-search-form">
+          <h2>Busque pelo perfil ideal</h2>
           <div class="search-tabs" role="tablist" aria-label="Finalidade do imóvel">
             <button type="button" class="search-tab active" data-purpose="" role="tab" aria-selected="true">Todos</button>
             <button type="button" class="search-tab" data-purpose="compra" role="tab">Comprar</button>
@@ -59,10 +89,10 @@
 
           <div class="hero-search-grid">
             <label>
-              <span>Onde você quer morar?</span>
+              <span>Localização ou código</span>
               <div class="input-with-icon">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-                <input id="hero-query" type="search" placeholder="Bairro, cidade ou código">
+                <input id="hero-query" type="search" placeholder="Ex.: Costa e Silva, L92502">
               </div>
             </label>
 
@@ -80,15 +110,35 @@
 
             <button class="button button-primary hero-search-button" type="submit">
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-              Buscar imóveis
+              Buscar agora
             </button>
           </div>
         </form>
+      </div>
+    </section>
 
-        <div class="hero-trust">
-          <div><strong>10+</strong><span>imóveis de demonstração</span></div>
-          <div><strong>24h</strong><span>atendimento automatizado</span></div>
-          <div><strong>1 fonte</strong><span>site e n8n sincronizados</span></div>
+    <section class="quick-stats">
+      <div class="container stat-strip">
+        <div><strong id="stat-total">10</strong><span>imóveis cadastrados</span></div>
+        <div><strong id="stat-sale">0</strong><span>opções à venda</span></div>
+        <div><strong id="stat-rent">0</strong><span>opções para alugar</span></div>
+        <div><strong>24h</strong><span>captação de interesse</span></div>
+      </div>
+    </section>
+
+    <section class="smart-search-section" id="busca-inteligente">
+      <div class="container smart-search-card">
+        <div class="smart-copy">
+          <span class="eyebrow dark">Busca inteligente</span>
+          <h2>Escolha um perfil e deixe o site filtrar por você.</h2>
+          <p>Atalhos prontos para perfis comuns de compra, locação, investimento e imóveis pet friendly. O catálogo atualiza automaticamente.</p>
+        </div>
+        <div class="smart-profile-grid" aria-label="Perfis de busca rápida">
+          <button type="button" data-smart-profile="familia"><strong>Família</strong><span>3+ quartos e 2 vagas</span></button>
+          <button type="button" data-smart-profile="aluguel"><strong>Aluguel rápido</strong><span>Até R$ 4 mil/mês</span></button>
+          <button type="button" data-smart-profile="investimento"><strong>Investidor</strong><span>Liquidez e renda</span></button>
+          <button type="button" data-smart-profile="pet"><strong>Pet friendly</strong><span>Aceita animais</span></button>
+          <button type="button" data-smart-profile="premium"><strong>Premium</strong><span>Padrão superior</span></button>
         </div>
       </div>
     </section>
@@ -99,15 +149,31 @@
           <div>
             <span class="eyebrow dark">Seleção especial</span>
             <h2>Imóveis em destaque</h2>
-            <p>Opções com boa localização, estrutura e potencial de valorização.</p>
+            <p>As melhores oportunidades do catálogo com fotos por cômodo e página individual.</p>
           </div>
           <a class="text-link" href="#catalogo">Ver catálogo completo <span aria-hidden="true">→</span></a>
         </div>
 
-        <div class="property-grid" id="featured-grid" aria-live="polite">
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
+        <div class="property-grid featured-grid" id="featured-grid" aria-live="polite">
+          <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section services-section" id="servicos">
+      <div class="container">
+        <div class="section-heading centered">
+          <div>
+            <span class="eyebrow dark">Atendimento completo</span>
+            <h2>Mais do que listar imóveis</h2>
+            <p>O site foi estruturado para funcionar como vitrine, funil de captação e central de atendimento.</p>
+          </div>
+        </div>
+        <div class="services-grid">
+          <article class="service-card"><span>01</span><h3>Compra orientada</h3><p>Filtros por bairro, faixa de valor, área, quartos, vagas e perfil familiar.</p></article>
+          <article class="service-card"><span>02</span><h3>Locação rápida</h3><p>Captação de interessados com mensagem pronta para o WhatsApp comercial.</p></article>
+          <article class="service-card"><span>03</span><h3>Investimento</h3><p>Imóveis com potencial de renda, liquidez e boa localização.</p></article>
+          <article class="service-card"><span>04</span><h3>Captação de proprietários</h3><p>Área para receber dados de quem quer vender ou alugar o próprio imóvel.</p></article>
         </div>
       </div>
     </section>
@@ -120,153 +186,94 @@
             <h2>Encontre o imóvel ideal</h2>
             <p id="catalog-summary">Carregando imóveis disponíveis...</p>
           </div>
-          <button class="button button-secondary filter-toggle" type="button" aria-expanded="false" aria-controls="catalog-filters">
-            Filtros
-          </button>
+          <button class="button button-secondary filter-toggle" type="button" aria-expanded="false" aria-controls="catalog-filters">Filtros</button>
+        </div>
+
+        <div class="smart-catalog-panel">
+          <div>
+            <span class="eyebrow dark">Recomendação automática</span>
+            <h3>Melhores matches para os filtros atuais</h3>
+            <p>O site calcula compatibilidade considerando finalidade, bairro, preço, quartos, vagas, metragem e diferenciais.</p>
+          </div>
+          <div class="smart-recommendations" id="smart-recommendations"></div>
         </div>
 
         <div class="catalog-layout">
           <aside class="filters-panel" id="catalog-filters">
-            <div class="filter-header">
-              <h3>Filtrar imóveis</h3>
-              <button type="button" class="clear-filters">Limpar</button>
-            </div>
-
-            <label class="filter-field">
-              <span>Buscar</span>
-              <input id="filter-query" type="search" placeholder="Bairro, título ou código">
-            </label>
-
-            <label class="filter-field">
-              <span>Finalidade</span>
-              <select id="filter-purpose">
-                <option value="">Todas</option>
-                <option value="compra">Compra</option>
-                <option value="locacao">Locação</option>
-                <option value="investimento">Investimento</option>
-              </select>
-            </label>
-
-            <label class="filter-field">
-              <span>Tipo</span>
-              <select id="filter-category">
-                <option value="">Todos</option>
-                <option value="apartamento">Apartamento</option>
-                <option value="casa">Casa</option>
-                <option value="sobrado">Sobrado</option>
-                <option value="studio">Studio</option>
-                <option value="comercial">Comercial</option>
-              </select>
-            </label>
-
-            <label class="filter-field">
-              <span>Bairro</span>
-              <select id="filter-neighborhood">
-                <option value="">Todos os bairros</option>
-              </select>
-            </label>
-
+            <div class="filter-header"><h3>Filtrar imóveis</h3><button type="button" class="clear-filters">Limpar</button></div>
+            <label class="filter-field"><span>Buscar</span><input id="filter-query" type="search" placeholder="Bairro, título ou código"></label>
+            <label class="filter-field"><span>Finalidade</span><select id="filter-purpose"><option value="">Todas</option><option value="compra">Compra</option><option value="locacao">Locação</option><option value="investimento">Investimento</option></select></label>
+            <label class="filter-field"><span>Tipo</span><select id="filter-category"><option value="">Todos</option><option value="apartamento">Apartamento</option><option value="casa">Casa</option><option value="sobrado">Sobrado</option><option value="studio">Studio</option><option value="comercial">Comercial</option></select></label>
+            <label class="filter-field"><span>Bairro</span><select id="filter-neighborhood"><option value="">Todos os bairros</option></select></label>
             <div class="filter-row">
-              <label class="filter-field">
-                <span>Quartos</span>
-                <select id="filter-bedrooms">
-                  <option value="">Qualquer</option>
-                  <option value="1">1+</option>
-                  <option value="2">2+</option>
-                  <option value="3">3+</option>
-                  <option value="4">4+</option>
-                </select>
-              </label>
-
-              <label class="filter-field">
-                <span>Vagas</span>
-                <select id="filter-parking">
-                  <option value="">Qualquer</option>
-                  <option value="1">1+</option>
-                  <option value="2">2+</option>
-                  <option value="3">3+</option>
-                </select>
-              </label>
+              <label class="filter-field"><span>Quartos</span><select id="filter-bedrooms"><option value="">Qualquer</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
+              <label class="filter-field"><span>Vagas</span><select id="filter-parking"><option value="">Qualquer</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></label>
             </div>
-
-            <label class="filter-field">
-              <span>Valor máximo</span>
-              <select id="filter-price">
-                <option value="">Sem limite</option>
-                <option value="2500">R$ 2.500</option>
-                <option value="4000">R$ 4.000</option>
-                <option value="400000">R$ 400 mil</option>
-                <option value="600000">R$ 600 mil</option>
-                <option value="800000">R$ 800 mil</option>
-                <option value="1000000">R$ 1 milhão</option>
-                <option value="1500000">R$ 1,5 milhão</option>
-              </select>
-            </label>
-
-            <label class="check-field">
-              <input id="filter-pet" type="checkbox">
-              <span>Aceita animais</span>
-            </label>
+            <label class="filter-field"><span>Valor máximo</span><select id="filter-price"><option value="">Sem limite</option><option value="2500">R$ 2.500</option><option value="4000">R$ 4.000</option><option value="400000">R$ 400 mil</option><option value="600000">R$ 600 mil</option><option value="800000">R$ 800 mil</option><option value="1000000">R$ 1 milhão</option><option value="1500000">R$ 1,5 milhão</option></select></label>
+            <label class="check-field"><input id="filter-pet" type="checkbox"><span>Aceita animais</span></label>
           </aside>
 
           <div class="catalog-content">
             <div class="catalog-toolbar">
               <div class="active-filters" id="active-filters"></div>
-              <label class="sort-control">
-                <span>Ordenar:</span>
-                <select id="sort-properties">
-                  <option value="featured">Destaques</option>
-                  <option value="price-asc">Menor preço</option>
-                  <option value="price-desc">Maior preço</option>
-                  <option value="area-desc">Maior área</option>
-                </select>
-              </label>
+              <label class="sort-control"><span>Ordenar:</span><select id="sort-properties"><option value="featured">Destaques</option><option value="price-asc">Menor preço</option><option value="price-desc">Maior preço</option><option value="area-desc">Maior área</option></select></label>
             </div>
-
             <div class="property-grid catalog-grid" id="catalog-grid" aria-live="polite"></div>
-
-            <div class="empty-state hidden" id="catalog-empty">
-              <div class="empty-icon">⌂</div>
-              <h3>Nenhum imóvel encontrado</h3>
-              <p>Altere os filtros ou conte para nossa assistente o que você está procurando.</p>
-              <button class="button button-primary open-generic-lead" type="button">Quero ajuda para encontrar</button>
-            </div>
+            <div class="empty-state hidden" id="catalog-empty"><div class="empty-icon">⌂</div><h3>Nenhum imóvel encontrado</h3><p>Altere os filtros ou conte para nossa assistente o que você está procurando.</p><button class="button button-primary open-generic-lead" type="button">Quero ajuda para encontrar</button></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section steps-section" id="como-funciona">
+    <section class="section finance-section" id="simulador">
+      <div class="container finance-card" id="finance-calculator">
+        <div class="finance-copy">
+          <span class="eyebrow dark">Simulador rápido</span>
+          <h2>Tenha uma noção de parcela antes de chamar o corretor.</h2>
+          <p>Ferramenta demonstrativa para ajudar o visitante a entender faixa de investimento e avançar com mais segurança.</p>
+        </div>
+        <div class="finance-form">
+          <label><span>Valor do imóvel</span><input id="calc-value" type="number" min="0" step="10000"></label>
+          <label><span>Entrada</span><input id="calc-down" type="number" min="0" step="5000"></label>
+          <label><span>Prazo em anos</span><input id="calc-years" type="number" min="1" max="35" value="30"></label>
+          <label><span>Taxa anual estimada (%)</span><input id="calc-rate" type="number" min="1" max="30" step="0.1" value="10.5"></label>
+          <div class="calc-result" id="calc-result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section neighborhoods-section" id="bairros">
       <div class="container">
-        <div class="section-heading centered">
+        <div class="section-heading">
           <div>
-            <span class="eyebrow dark">Atendimento simples</span>
-            <h2>Da busca à visita em poucos passos</h2>
-            <p>Uma experiência criada para responder rápido sem perder o atendimento humano.</p>
+            <span class="eyebrow dark">Mapa comercial</span>
+            <h2>Bairros com oportunidades</h2>
+            <p>Cards gerados automaticamente com base nos imóveis cadastrados.</p>
           </div>
         </div>
+        <div class="neighborhood-grid" id="neighborhood-grid"></div>
+      </div>
+    </section>
 
+    <section class="section owner-section">
+      <div class="container owner-card">
+        <div>
+          <span class="eyebrow light">Tem imóvel para vender ou alugar?</span>
+          <h2>Cadastre seu imóvel para avaliação comercial.</h2>
+          <p>Receba um primeiro contato para entender localização, perfil do imóvel, valor esperado e documentação.</p>
+        </div>
+        <button class="button button-light open-owner-lead" type="button">Cadastrar meu imóvel</button>
+      </div>
+    </section>
+
+    <section class="section steps-section" id="como-funciona">
+      <div class="container">
+        <div class="section-heading centered"><div><span class="eyebrow dark">Jornada simples</span><h2>Da busca à visita em poucos passos</h2><p>Uma experiência criada para responder rápido sem perder o atendimento humano.</p></div></div>
         <div class="steps-grid">
-          <article class="step-card">
-            <span class="step-number">01</span>
-            <h3>Encontre uma opção</h3>
-            <p>Use os filtros do catálogo ou diga para nossa assistente o perfil que procura.</p>
-          </article>
-          <article class="step-card">
-            <span class="step-number">02</span>
-            <h3>Receba atendimento</h3>
-            <p>A consultora virtual identifica o imóvel, tira dúvidas e entende suas prioridades.</p>
-          </article>
-          <article class="step-card">
-            <span class="step-number">03</span>
-            <h3>Agende uma visita</h3>
-            <p>Escolha um horário disponível e confirme a visita pelo WhatsApp.</p>
-          </article>
-          <article class="step-card">
-            <span class="step-number">04</span>
-            <h3>Fale com o corretor</h3>
-            <p>Quando necessário, o atendimento é direcionado ao especialista responsável.</p>
-          </article>
+          <article class="step-card"><span class="step-number">01</span><h3>Escolha o perfil</h3><p>Use filtros ou conte exatamente o que procura.</p></article>
+          <article class="step-card"><span class="step-number">02</span><h3>Compare opções</h3><p>Veja fotos, cômodos, valores, localização e diferenciais.</p></article>
+          <article class="step-card"><span class="step-number">03</span><h3>Envie seu interesse</h3><p>O contato comercial recebe uma mensagem pronta para continuar o atendimento.</p></article>
+          <article class="step-card"><span class="step-number">04</span><h3>Agende a visita</h3><p>Confirme horários, documentação e próximos passos.</p></article>
         </div>
       </div>
     </section>
@@ -274,33 +281,49 @@
     <section class="section about-section" id="sobre">
       <div class="container about-grid">
         <div class="about-image">
-          <img src="about.jpg" alt="Interior de imóvel moderno">
-          <div class="about-badge">
-            <strong>Atendimento conectado</strong>
-            <span>Site, Supabase, WhatsApp e n8n</span>
-          </div>
+          <img src="V10001-01.jpg" alt="Apartamento moderno em Joinville">
+          <div class="about-badge"><strong>Vitrine profissional</strong><span>Catálogo, páginas individuais e leads</span></div>
         </div>
         <div class="about-copy">
           <span class="eyebrow dark">Sobre a imobiliária</span>
           <h2>Tecnologia para aproximar pessoas e bons imóveis.</h2>
-          <p>Este projeto demonstra como uma imobiliária pode centralizar seu catálogo, captar leads pelo site e iniciar o atendimento automaticamente no WhatsApp.</p>
-          <p>Os dados públicos vêm do Supabase e o mesmo catálogo abastece o fluxo comercial no n8n, reduzindo informações divergentes.</p>
+          <p>Este site foi elaborado para transmitir confiança, organizar o catálogo e transformar visitantes em contatos comerciais.</p>
+          <p>Os imóveis usam imagens realistas por ambiente, descrição objetiva, filtros e atendimento pelo WhatsApp.</p>
           <div class="about-points">
-            <div><span>✓</span><p><strong>Catálogo centralizado</strong><br>Atualizações refletidas no site e no atendimento.</p></div>
-            <div><span>✓</span><p><strong>Qualificação automática</strong><br>O fluxo entende interesse, perfil e urgência.</p></div>
-            <div><span>✓</span><p><strong>Encaminhamento inteligente</strong><br>Cada imóvel pode possuir um corretor responsável.</p></div>
+            <div><span>✓</span><p><strong>Catálogo centralizado</strong><br>Substitua imagens e dados direto nos arquivos do projeto.</p></div>
+            <div><span>✓</span><p><strong>Experiência profissional</strong><br>Design responsivo para celular e computador.</p></div>
+            <div><span>✓</span><p><strong>Pronto para evoluir</strong><br>Pode integrar webhook, CRM, Supabase ou n8n futuramente.</p></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section testimonials-section">
+      <div class="container">
+        <div class="section-heading centered"><div><span class="eyebrow dark">Confiança</span><h2>Atendimento com clareza</h2><p>Depoimentos demonstrativos para reforçar autoridade e percepção profissional.</p></div></div>
+        <div class="testimonial-grid">
+          <article class="testimonial-card"><p>“Encontrei opções compatíveis com meu orçamento e recebi orientação rápida para visitar.”</p><strong>Cliente comprador</strong></article>
+          <article class="testimonial-card"><p>“O catálogo facilita a comparação entre bairros, metragem e valores de locação.”</p><strong>Cliente locatário</strong></article>
+          <article class="testimonial-card"><p>“A página individual passa muito mais confiança para apresentar o imóvel.”</p><strong>Proprietário parceiro</strong></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq-section">
+      <div class="container faq-grid">
+        <div><span class="eyebrow dark">Perguntas frequentes</span><h2>Dúvidas comuns antes do contato</h2><p>Respostas rápidas para reduzir insegurança e aumentar conversão.</p></div>
+        <div class="faq-list">
+          <details open><summary>Os imóveis são reais?</summary><p>Este pacote usa imóveis demonstrativos e imagens criadas para composição visual. Você pode substituir por imóveis reais quando desejar.</p></details>
+          <details><summary>O formulário envia direto?</summary><p>Nesta versão, o formulário abre o WhatsApp comercial com a mensagem pronta. Para envio invisível sem abrir WhatsApp, é necessário webhook/API.</p></details>
+          <details><summary>Posso editar valores e fotos?</summary><p>Sim. Os dados ficam em <code>demo-data.js</code> e as imagens ficam na raiz do site com nomes como <code>V10004-01.jpg</code>.</p></details>
+          <details><summary>Funciona no GitHub Pages?</summary><p>Sim. É um site estático, sem backend obrigatório.</p></details>
         </div>
       </div>
     </section>
 
     <section class="section cta-section" id="contato">
       <div class="container cta-card">
-        <div>
-          <span class="eyebrow light">Não encontrou o que procura?</span>
-          <h2>Conte seu objetivo e receba opções compatíveis.</h2>
-          <p>Nossa assistente registra suas preferências e inicia o atendimento pelo WhatsApp.</p>
-        </div>
+        <div><span class="eyebrow light">Não encontrou o que procura?</span><h2>Conte seu objetivo e receba opções compatíveis.</h2><p>O atendimento será iniciado pelo WhatsApp comercial configurado no site.</p></div>
         <button class="button button-light open-generic-lead" type="button">Descrever o imóvel ideal</button>
       </div>
     </section>
@@ -308,728 +331,34 @@
 
   <footer class="site-footer">
     <div class="container footer-grid">
-      <div>
-        <a class="brand footer-brand" href="index.html">
-          <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 48 48"><path d="M8 24 24 9l16 15v15H28V29h-8v10H8V24Z"/><path d="M16 22h16"/></svg>
-          </span>
-          <span><strong data-business-name>Horizonte Prime</strong><small>Imóveis</small></span>
-        </a>
-        <p>Site demonstrativo conectado ao Supabase e preparado para automação no n8n.</p>
-      </div>
-      <div>
-        <h3>Navegação</h3>
-        <a href="#imoveis">Imóveis</a>
-        <a href="#como-funciona">Como funciona</a>
-        <a href="#sobre">Sobre</a>
-      </div>
-      <div>
-        <h3>Finalidades</h3>
-        <a href="#catalogo" data-footer-purpose="compra">Comprar</a>
-        <a href="#catalogo" data-footer-purpose="locacao">Alugar</a>
-        <a href="#catalogo" data-footer-purpose="investimento">Investir</a>
-      </div>
-      <div>
-        <h3>Atendimento</h3>
-        <button class="footer-button open-generic-lead" type="button">Falar com a consultora</button>
-        <a href="https://wa.me/554799762742" target="_blank" rel="noopener">WhatsApp: (47) 9976-2742</a>
-        <span>Joinville - SC</span>
-        <span>Segunda a sábado</span>
-      </div>
+      <div><a class="brand footer-brand" href="index.html"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 24 24 9l16 15v15H28V29h-8v10H8V24Z"/><path d="M16 22h16"/></svg></span><span><strong data-business-name>Horizonte Prime</strong><small>Imóveis</small></span></a><p>Site imobiliário profissional pronto para GitHub Pages.</p></div>
+      <div><h3>Navegação</h3><a href="#imoveis">Imóveis</a><a href="#servicos">Serviços</a><a href="#bairros">Bairros</a><a href="#sobre">Sobre</a></div>
+      <div><h3>Finalidades</h3><a href="#catalogo" data-footer-purpose="compra">Comprar</a><a href="#catalogo" data-footer-purpose="locacao">Alugar</a><a href="#catalogo" data-footer-purpose="investimento">Investir</a></div>
+      <div><h3>Atendimento</h3><button class="footer-button open-generic-lead" type="button">Falar com consultor</button><a data-whatsapp-link href="#">WhatsApp comercial</a><span data-site-address>Joinville - SC</span><span data-site-hours>Segunda a sábado</span></div>
     </div>
-    <div class="container footer-bottom">
-      <span>© <span id="current-year"></span> <span data-business-name>Horizonte Prime</span>. Projeto demonstrativo.</span>
-      <span>Os imóveis e contatos apresentados são fictícios.</span>
-    </div>
+    <div class="container footer-bottom"><span>© <span id="current-year"></span> <span data-business-name>Horizonte Prime</span>. Projeto demonstrativo.</span><span>Imagens e imóveis de demonstração, substituíveis por dados reais.</span></div>
   </footer>
 
-  <a class="floating-whatsapp" id="floating-whatsapp" href="#" target="_blank" rel="noopener" aria-label="Abrir WhatsApp">
+  <a class="floating-whatsapp" data-whatsapp-link href="#" target="_blank" rel="noopener" aria-label="Abrir WhatsApp">
     <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M27.3 4.7A15.2 15.2 0 0 0 3.4 23l-2 7.3 7.5-2A15.1 15.1 0 0 0 16 30h.1A15.2 15.2 0 0 0 27.3 4.7Zm-11.2 22.8a12.6 12.6 0 0 1-6.4-1.8l-.5-.3-4.4 1.2L6 22.3l-.3-.5a12.7 12.7 0 1 1 10.4 5.7Z"/><path d="M23.1 18.9c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.7-.2-1 .2-.3.4-1.1 1.3-1.4 1.6-.3.3-.5.3-.9.1-2.4-1.2-4-2.2-5.6-4.9-.4-.7.4-.7 1.2-2.2.1-.3.1-.5 0-.7-.1-.2-1-2.4-1.4-3.3-.4-.9-.8-.8-1-.8h-.9c-.3 0-.8.1-1.2.6-.4.4-1.6 1.6-1.6 3.9s1.7 4.5 1.9 4.8c.2.3 3.3 5.1 8.1 7.2 3 1.3 4.2 1.4 5.7 1.2.9-.1 2.4-1 2.8-1.9.3-.9.3-1.7.2-1.9-.1-.2-.4-.3-.8-.5Z"/></svg>
   </a>
 
   <dialog class="lead-modal" id="lead-modal">
     <button class="modal-close" type="button" aria-label="Fechar">×</button>
-    <div class="modal-heading">
-      <span class="eyebrow dark">Atendimento personalizado</span>
-      <h2 id="lead-modal-title">Conte o que você procura</h2>
-      <p id="lead-modal-description">Preencha seus dados para iniciar o atendimento pelo WhatsApp.</p>
-    </div>
-
+    <div class="modal-heading"><span class="eyebrow dark">Atendimento personalizado</span><h2 id="lead-modal-title">Conte o que você procura</h2><p id="lead-modal-description">Preencha seus dados para iniciar o atendimento pelo WhatsApp comercial.</p></div>
     <form id="lead-form" novalidate>
-      <input type="hidden" id="lead-listing-code" name="listing_code">
-      <input type="hidden" id="lead-listing-url" name="listing_url">
-
-      <div class="form-grid">
-        <label class="form-field full">
-          <span>Nome</span>
-          <input id="lead-name" name="name" type="text" autocomplete="name" required placeholder="Como podemos chamar você?">
-          <small class="field-error"></small>
-        </label>
-
-        <label class="form-field">
-          <span>WhatsApp</span>
-          <input id="lead-phone" name="phone" type="tel" autocomplete="tel" required placeholder="(47) 99999-9999">
-          <small class="field-error"></small>
-        </label>
-
-        <label class="form-field">
-          <span>E-mail <em>opcional</em></span>
-          <input id="lead-email" name="email" type="email" autocomplete="email" placeholder="voce@email.com">
-          <small class="field-error"></small>
-        </label>
-
-        <label class="form-field full">
-          <span>O que você procura?</span>
-          <textarea id="lead-message" name="message" rows="4" required placeholder="Ex.: casa com 3 quartos até R$ 700 mil"></textarea>
-          <small class="field-error"></small>
-        </label>
-      </div>
-
-      <label class="consent-field">
-        <input id="lead-consent" type="checkbox" required>
-        <span>Concordo em receber o atendimento relacionado à minha solicitação pelo WhatsApp.</span>
-      </label>
-
-      <button class="button button-primary button-full" id="lead-submit" type="submit">
-        <span class="button-label">Iniciar atendimento</span>
-        <span class="button-loading hidden">Enviando...</span>
-      </button>
-
+      <input type="hidden" id="lead-listing-code" name="listing_code"><input type="hidden" id="lead-listing-title" name="listing_title"><input type="hidden" id="lead-listing-url" name="listing_url"><input type="hidden" id="lead-form-type" name="form_type" value="buyer">
+      <div class="form-grid"><label class="form-field full"><span>Nome</span><input id="lead-name" name="name" type="text" autocomplete="name" required placeholder="Como podemos chamar você?"><small class="field-error"></small></label><label class="form-field"><span>WhatsApp</span><input id="lead-phone" name="phone" type="tel" autocomplete="tel" required placeholder="(47) 99999-9999"><small class="field-error"></small></label><label class="form-field"><span>E-mail <em>opcional</em></span><input id="lead-email" name="email" type="email" autocomplete="email" placeholder="voce@email.com"><small class="field-error"></small></label><label class="form-field full"><span>Mensagem</span><textarea id="lead-message" name="message" rows="4" required placeholder="Ex.: casa com 3 quartos até R$ 700 mil"></textarea><small class="field-error"></small></label></div>
+      <label class="consent-field"><input id="lead-consent" type="checkbox" required><span>Concordo em receber atendimento relacionado à minha solicitação pelo WhatsApp.</span></label>
+      <button class="button button-primary button-full" id="lead-submit" type="submit"><span class="button-label">Iniciar atendimento</span><span class="button-loading hidden">Enviando...</span></button>
       <div class="form-feedback hidden" id="lead-feedback" role="status"></div>
     </form>
   </dialog>
 
   <script src="config.js"></script>
   <script src="demo-data.js"></script>
-  <script>
-    // Correção de caminhos das imagens para GitHub Pages/repositório com imagens na raiz.
-    // O projeto original usa /demo/imoveis/NOME.jpg, mas suas imagens estão junto do index.html.
-    (function () {
-      function corrigirCaminhoImagem(valor) {
-        if (!valor || typeof valor !== 'string') return valor;
-
-        var texto = valor.trim();
-        var partes = texto.match(/(?:^|\/)(?:demo\/imoveis|assets)\/([^/?#]+\.(?:jpg|jpeg|png|webp|svg))(?:[?#].*)?$/i);
-
-        if (partes && partes[1]) {
-          return partes[1];
-        }
-
-        return valor;
-      }
-
-      function corrigirObjeto(objeto, visitados) {
-        if (!objeto || typeof objeto !== 'object') return;
-
-        visitados = visitados || new WeakSet();
-        if (visitados.has(objeto)) return;
-        visitados.add(objeto);
-
-        if (Array.isArray(objeto)) {
-          objeto.forEach(function (item) {
-            corrigirObjeto(item, visitados);
-          });
-          return;
-        }
-
-        Object.keys(objeto).forEach(function (chave) {
-          var valor = objeto[chave];
-
-          if (typeof valor === 'string') {
-            objeto[chave] = corrigirCaminhoImagem(valor);
-          } else if (valor && typeof valor === 'object') {
-            corrigirObjeto(valor, visitados);
-          }
-        });
-      }
-
-      function corrigirDadosGlobais() {
-        [
-          'DEMO_PROPERTIES',
-          'DEMO_PROPERTIES_BY_CODE',
-          'DEMO_DATA',
-          'DEMO_CATALOG',
-          'PROPERTY_DATA',
-          'PROPERTIES',
-          'IMOB_DEMO_DATA',
-          '__IMOB_DEMO__'
-        ].forEach(function (nome) {
-          try {
-            if (window[nome]) corrigirObjeto(window[nome]);
-          } catch (erro) {}
-        });
-      }
-
-      function corrigirImagemNoHtml(img) {
-        if (!img || !img.getAttribute) return;
-
-        var srcOriginal = img.getAttribute('src') || '';
-        var srcCorrigido = corrigirCaminhoImagem(srcOriginal || img.src || '');
-
-        if (srcCorrigido && srcCorrigido !== srcOriginal) {
-          img.setAttribute('src', srcCorrigido);
-        }
-
-        var srcsetOriginal = img.getAttribute('srcset') || '';
-        if (srcsetOriginal) {
-          var srcsetCorrigido = srcsetOriginal.replace(/(?:^|\s|,)(?:\/?demo\/imoveis\/|\/?assets\/)([^\s,]+\.(?:jpg|jpeg|png|webp|svg))/gi, function (match, nomeArquivo) {
-            var prefixo = match.charAt(0) === ',' ? ', ' : match.charAt(0) === ' ' ? ' ' : '';
-            return prefixo + nomeArquivo;
-          });
-
-          if (srcsetCorrigido !== srcsetOriginal) {
-            img.setAttribute('srcset', srcsetCorrigido);
-          }
-        }
-      }
-
-      function corrigirTodasAsImagens() {
-        document.querySelectorAll('img').forEach(corrigirImagemNoHtml);
-      }
-
-      corrigirDadosGlobais();
-
-      document.addEventListener('error', function (evento) {
-        if (evento.target && evento.target.tagName === 'IMG') {
-          corrigirImagemNoHtml(evento.target);
-        }
-      }, true);
-
-      document.addEventListener('DOMContentLoaded', function () {
-        corrigirDadosGlobais();
-        corrigirTodasAsImagens();
-      });
-
-      window.addEventListener('load', function () {
-        corrigirTodasAsImagens();
-      });
-    })();
-  </script>
   <script src="site.js"></script>
   <script src="home.js"></script>
-
-  <script>
-    // FIX FINAL: renderiza imóveis locais e envia leads pelo WhatsApp, sem depender de Supabase/n8n.
-    (function () {
-      'use strict';
-
-      var WHATSAPP_PADRAO = '554799762742';
-      var leadProperty = null;
-      var selectedPurpose = '';
-
-      function getProperties() {
-        var fontes = [
-          window.DEMO_PROPERTIES,
-          window.PROPERTIES,
-          window.PROPERTY_DATA,
-          window.DEMO_CATALOG,
-          window.IMOB_DEMO_DATA && (window.IMOB_DEMO_DATA.properties || window.IMOB_DEMO_DATA.listings),
-          window.__IMOB_DEMO__ && (window.__IMOB_DEMO__.properties || window.__IMOB_DEMO__.listings)
-        ];
-
-        for (var i = 0; i < fontes.length; i += 1) {
-          if (Array.isArray(fontes[i]) && fontes[i].length) return fontes[i];
-        }
-
-        return [];
-      }
-
-      function $(selector) {
-        return document.querySelector(selector);
-      }
-
-      function $all(selector) {
-        return Array.prototype.slice.call(document.querySelectorAll(selector));
-      }
-
-      function esc(value) {
-        return String(value == null ? '' : value)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#039;');
-      }
-
-      function onlyDigits(value) {
-        return String(value || '').replace(/\D/g, '');
-      }
-
-      function normalize(value) {
-        return String(value || '')
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '');
-      }
-
-      function imagePath(value) {
-        if (!value) return 'property-fallback.jpg';
-        var text = String(value).trim();
-        var match = text.match(/(?:^|\/)(?:demo\/imoveis|assets)\/([^/?#]+\.(?:jpg|jpeg|png|webp|svg))(?:[?#].*)?$/i);
-        return match && match[1] ? match[1] : text.replace(/^\/+/, '');
-      }
-
-      function money(value) {
-        var n = Number(value || 0);
-        if (!n) return 'Sob consulta';
-        return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
-      }
-
-      function priceValue(p) {
-        return Number(p.priceFrom || p.salePrice || p.rentValue || p.price || 0);
-      }
-
-      function priceLabel(p) {
-        var value = priceValue(p);
-        if (!value) return 'Sob consulta';
-        var text = money(value);
-        return p.purpose === 'locacao' ? text + '/mês' : text;
-      }
-
-      function purposeLabel(value) {
-        var map = { compra: 'Venda', locacao: 'Aluguel', investimento: 'Investimento' };
-        return map[value] || 'Imóvel';
-      }
-
-      function propertyCode(p) {
-        return String(p.listingCode || p.listing_code || p.code || '').toUpperCase();
-      }
-
-      function propertyUrl(p) {
-        return p.listingUrl || p.listing_url || ('imovel.html?codigo=' + encodeURIComponent(propertyCode(p)));
-      }
-
-      function firstImage(p) {
-        if (Array.isArray(p.images) && p.images.length) {
-          return imagePath(p.images[0].url || p.images[0].imageUrl || p.imageUrl);
-        }
-        return imagePath(p.imageUrl || p.image_url);
-      }
-
-      function getWhatsAppNumber() {
-        var config = window.SITE_CONFIG || window.CONFIG || {};
-        return onlyDigits(config.WHATSAPP_NUMBER || config.whatsappNumber || config.whatsapp || WHATSAPP_PADRAO) || WHATSAPP_PADRAO;
-      }
-
-      function cardHtml(p) {
-        var code = propertyCode(p);
-        var url = propertyUrl(p);
-        var img = firstImage(p);
-        var features = [
-          p.bedrooms ? p.bedrooms + ' quartos' : '',
-          p.bathrooms ? p.bathrooms + ' banheiros' : '',
-          p.parkingSpots || p.parking_spots ? (p.parkingSpots || p.parking_spots) + ' vagas' : '',
-          p.areaM2 || p.area_m2 ? (p.areaM2 || p.area_m2) + ' m²' : ''
-        ].filter(Boolean);
-
-        return '' +
-          '<article class="property-card" data-code="' + esc(code) + '">' +
-            '<a class="property-card-link" href="' + esc(url) + '" aria-label="' + esc(p.title || 'Ver imóvel') + '">' +
-              '<div class="property-image">' +
-                '<img src="' + esc(img) + '" alt="' + esc((p.images && p.images[0] && p.images[0].alt) || p.title || 'Foto do imóvel') + '" loading="lazy" onerror="this.onerror=null;this.src=\'property-fallback.jpg\'">' +
-                '<span class="property-badge">' + esc(purposeLabel(p.purpose)) + '</span>' +
-              '</div>' +
-              '<div class="property-content">' +
-                '<div class="property-meta">' + esc([p.neighborhood, p.city].filter(Boolean).join(' • ')) + (code ? ' • ' + esc(code) : '') + '</div>' +
-                '<h3>' + esc(p.title || 'Imóvel disponível') + '</h3>' +
-                '<p>' + esc(p.highlight || p.description || 'Imóvel selecionado em Joinville.') + '</p>' +
-                '<div class="property-features">' + features.map(function (f) { return '<span>' + esc(f) + '</span>'; }).join('') + '</div>' +
-                '<div class="property-footer">' +
-                  '<strong>' + esc(priceLabel(p)) + '</strong>' +
-                  '<button class="button button-small button-secondary lead-for-property" type="button" data-code="' + esc(code) + '">Tenho interesse</button>' +
-                '</div>' +
-              '</div>' +
-            '</a>' +
-          '</article>';
-      }
-
-      function injectCardCss() {
-        if ($('#fix-final-card-css')) return;
-        var style = document.createElement('style');
-        style.id = 'fix-final-card-css';
-        style.textContent = [
-          '.property-card{background:#fff;border:1px solid #e7ddd1;border-radius:16px;overflow:hidden;box-shadow:0 16px 42px rgba(20,16,10,.07);transition:.2s transform,.2s box-shadow}',
-          '.property-card:hover{transform:translateY(-2px);box-shadow:0 20px 48px rgba(20,16,10,.11)}',
-          '.property-card-link{display:block;color:inherit;text-decoration:none}',
-          '.property-image{position:relative;height:245px;background:#f4efe8;overflow:hidden}',
-          '.property-image img{width:100%;height:100%;object-fit:cover;display:block}',
-          '.property-badge{position:absolute;left:14px;top:14px;background:#202326;color:#fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;text-transform:uppercase}',
-          '.property-content{padding:18px}',
-          '.property-meta{font-size:12px;color:#8a6a4b;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:8px}',
-          '.property-content h3{font-size:22px;line-height:1.15;margin:0 0 8px}',
-          '.property-content p{color:#68707b;line-height:1.45;margin:0 0 14px}',
-          '.property-features{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}',
-          '.property-features span{background:#faf7f0;border:1px solid #eee2d6;border-radius:999px;padding:7px 10px;font-size:13px;color:#4d5660}',
-          '.property-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #f0e7dd;padding-top:14px}',
-          '.property-footer strong{font-size:18px;color:#202326}',
-          '.lead-for-property{position:relative;z-index:2;white-space:nowrap}',
-          '@media(max-width:700px){.property-image{height:210px}.property-footer{align-items:flex-start;flex-direction:column}.lead-for-property{width:100%}}'
-        ].join('\n');
-        document.head.appendChild(style);
-      }
-
-      function populateNeighborhoods(properties) {
-        var select = $('#filter-neighborhood');
-        if (!select || select.dataset.fixPopulated === '1') return;
-
-        var current = select.value;
-        var names = Array.from(new Set(properties.map(function (p) { return p.neighborhood; }).filter(Boolean))).sort();
-
-        select.innerHTML = '<option value="">Todos os bairros</option>' + names.map(function (name) {
-          return '<option value="' + esc(name) + '">' + esc(name) + '</option>';
-        }).join('');
-
-        select.value = current;
-        select.dataset.fixPopulated = '1';
-      }
-
-      function readFilters() {
-        return {
-          query: ($('#filter-query') && $('#filter-query').value) || '',
-          purpose: ($('#filter-purpose') && $('#filter-purpose').value) || selectedPurpose || '',
-          category: ($('#filter-category') && $('#filter-category').value) || '',
-          neighborhood: ($('#filter-neighborhood') && $('#filter-neighborhood').value) || '',
-          bedrooms: Number(($('#filter-bedrooms') && $('#filter-bedrooms').value) || 0),
-          parking: Number(($('#filter-parking') && $('#filter-parking').value) || 0),
-          maxPrice: Number(($('#filter-price') && $('#filter-price').value) || 0),
-          pet: !!($('#filter-pet') && $('#filter-pet').checked),
-          sort: ($('#sort-properties') && $('#sort-properties').value) || 'featured'
-        };
-      }
-
-      function applyFilters(properties) {
-        var f = readFilters();
-        var q = normalize(f.query);
-
-        var list = properties.filter(function (p) {
-          if (f.purpose && p.purpose !== f.purpose) return false;
-          if (f.category && p.category !== f.category) return false;
-          if (f.neighborhood && p.neighborhood !== f.neighborhood) return false;
-          if (f.bedrooms && Number(p.bedrooms || 0) < f.bedrooms) return false;
-          if (f.parking && Number(p.parkingSpots || p.parking_spots || 0) < f.parking) return false;
-          if (f.maxPrice && priceValue(p) > f.maxPrice) return false;
-          if (f.pet && !p.acceptsPet) return false;
-
-          if (q) {
-            var hay = normalize([
-              p.title, p.neighborhood, p.city, p.stateCode, propertyCode(p), p.description, p.highlight, p.category, p.purpose
-            ].filter(Boolean).join(' '));
-            if (hay.indexOf(q) === -1) return false;
-          }
-
-          return true;
-        });
-
-        if (f.sort === 'price-asc') list.sort(function (a, b) { return priceValue(a) - priceValue(b); });
-        if (f.sort === 'price-desc') list.sort(function (a, b) { return priceValue(b) - priceValue(a); });
-        if (f.sort === 'area-desc') list.sort(function (a, b) { return Number(b.areaM2 || b.area_m2 || 0) - Number(a.areaM2 || a.area_m2 || 0); });
-        if (f.sort === 'featured') list.sort(function (a, b) { return Number(!!b.isFeatured) - Number(!!a.isFeatured); });
-
-        return list;
-      }
-
-      function updateActiveFilters() {
-        var box = $('#active-filters');
-        if (!box) return;
-
-        var f = readFilters();
-        var labels = [];
-        if (f.query) labels.push('Busca: ' + f.query);
-        if (f.purpose) labels.push(purposeLabel(f.purpose));
-        if (f.category) labels.push(f.category);
-        if (f.neighborhood) labels.push(f.neighborhood);
-        if (f.bedrooms) labels.push(f.bedrooms + '+ quartos');
-        if (f.parking) labels.push(f.parking + '+ vagas');
-        if (f.pet) labels.push('Aceita animais');
-
-        box.innerHTML = labels.map(function (label) {
-          return '<span class="active-filter-pill">' + esc(label) + '</span>';
-        }).join('');
-      }
-
-      function renderCatalog() {
-        injectCardCss();
-
-        var properties = getProperties();
-        if (!properties.length) return;
-
-        populateNeighborhoods(properties);
-
-        var featuredGrid = $('#featured-grid');
-        var catalogGrid = $('#catalog-grid');
-        var summary = $('#catalog-summary');
-        var empty = $('#catalog-empty');
-
-        var featured = properties.filter(function (p) { return p.isFeatured; });
-        if (!featured.length) featured = properties.slice(0, 3);
-        featured = featured.slice(0, 3);
-
-        if (featuredGrid) {
-          featuredGrid.innerHTML = featured.map(cardHtml).join('');
-        }
-
-        var filtered = applyFilters(properties);
-
-        if (catalogGrid) {
-          catalogGrid.innerHTML = filtered.map(cardHtml).join('');
-        }
-
-        if (summary) {
-          summary.textContent = filtered.length + ' ' + (filtered.length === 1 ? 'imóvel encontrado' : 'imóveis encontrados') + ' em Joinville.';
-        }
-
-        if (empty) {
-          empty.classList.toggle('hidden', filtered.length > 0);
-        }
-
-        updateActiveFilters();
-        bindLeadButtons();
-      }
-
-      function setFilter(id, value) {
-        var el = $('#' + id);
-        if (el) {
-          el.value = value || '';
-          el.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-      }
-
-      function bindFilters() {
-        [
-          '#filter-query',
-          '#filter-purpose',
-          '#filter-category',
-          '#filter-neighborhood',
-          '#filter-bedrooms',
-          '#filter-parking',
-          '#filter-price',
-          '#filter-pet',
-          '#sort-properties'
-        ].forEach(function (selector) {
-          var el = $(selector);
-          if (!el || el.dataset.fixBound === '1') return;
-          el.dataset.fixBound = '1';
-          el.addEventListener(el.type === 'search' ? 'input' : 'change', renderCatalog);
-        });
-
-        var clear = $('.clear-filters');
-        if (clear && clear.dataset.fixBound !== '1') {
-          clear.dataset.fixBound = '1';
-          clear.addEventListener('click', function () {
-            selectedPurpose = '';
-            ['filter-query', 'filter-purpose', 'filter-category', 'filter-neighborhood', 'filter-bedrooms', 'filter-parking', 'filter-price'].forEach(function (id) {
-              var el = $('#' + id);
-              if (el) el.value = '';
-            });
-            var pet = $('#filter-pet');
-            if (pet) pet.checked = false;
-            renderCatalog();
-          });
-        }
-
-        var hero = $('#hero-search-form');
-        if (hero && hero.dataset.fixBound !== '1') {
-          hero.dataset.fixBound = '1';
-          hero.addEventListener('submit', function (event) {
-            event.preventDefault();
-            var query = ($('#hero-query') && $('#hero-query').value) || '';
-            var category = ($('#hero-category') && $('#hero-category').value) || '';
-            setFilter('filter-query', query);
-            setFilter('filter-category', category);
-            setFilter('filter-purpose', selectedPurpose);
-            renderCatalog();
-            var catalog = $('#catalogo');
-            if (catalog) catalog.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-        }
-
-        $all('.search-tab').forEach(function (btn) {
-          if (btn.dataset.fixBound === '1') return;
-          btn.dataset.fixBound = '1';
-          btn.addEventListener('click', function () {
-            selectedPurpose = btn.getAttribute('data-purpose') || '';
-            $all('.search-tab').forEach(function (b) {
-              b.classList.toggle('active', b === btn);
-              b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
-            });
-          });
-        });
-
-        $all('[data-footer-purpose]').forEach(function (link) {
-          if (link.dataset.fixBound === '1') return;
-          link.dataset.fixBound = '1';
-          link.addEventListener('click', function () {
-            setFilter('filter-purpose', link.getAttribute('data-footer-purpose') || '');
-            renderCatalog();
-          });
-        });
-      }
-
-      function openLeadModal(property) {
-        leadProperty = property || null;
-
-        var modal = $('#lead-modal');
-        var title = $('#lead-modal-title');
-        var desc = $('#lead-modal-description');
-        var code = $('#lead-listing-code');
-        var url = $('#lead-listing-url');
-        var message = $('#lead-message');
-        var feedback = $('#lead-feedback');
-
-        if (feedback) {
-          feedback.classList.add('hidden');
-          feedback.textContent = '';
-        }
-
-        if (leadProperty) {
-          if (title) title.textContent = 'Tenho interesse neste imóvel';
-          if (desc) desc.textContent = (leadProperty.title || 'Imóvel selecionado') + ' • Código ' + propertyCode(leadProperty);
-          if (code) code.value = propertyCode(leadProperty);
-          if (url) url.value = propertyUrl(leadProperty);
-          if (message && !message.value) message.value = 'Olá, tenho interesse no imóvel ' + propertyCode(leadProperty) + ' - ' + (leadProperty.title || '') + '.';
-        } else {
-          if (title) title.textContent = 'Conte o que você procura';
-          if (desc) desc.textContent = 'Preencha seus dados para iniciar o atendimento pelo WhatsApp.';
-          if (code) code.value = '';
-          if (url) url.value = '';
-        }
-
-        if (modal && typeof modal.showModal === 'function') {
-          modal.showModal();
-        } else if (modal) {
-          modal.setAttribute('open', '');
-        }
-      }
-
-      function bindLeadButtons() {
-        $all('.lead-for-property').forEach(function (btn) {
-          if (btn.dataset.fixLeadBound === '1') return;
-          btn.dataset.fixLeadBound = '1';
-          btn.addEventListener('click', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var code = btn.getAttribute('data-code');
-            var property = getProperties().find(function (p) { return propertyCode(p) === code; });
-            openLeadModal(property);
-          });
-        });
-
-        $all('.open-generic-lead').forEach(function (btn) {
-          if (btn.dataset.fixLeadBound === '1') return;
-          btn.dataset.fixLeadBound = '1';
-          btn.addEventListener('click', function (event) {
-            event.preventDefault();
-            openLeadModal(null);
-          });
-        });
-
-        var close = $('.modal-close');
-        var modal = $('#lead-modal');
-        if (close && close.dataset.fixBound !== '1') {
-          close.dataset.fixBound = '1';
-          close.addEventListener('click', function () {
-            if (modal && typeof modal.close === 'function') modal.close();
-            else if (modal) modal.removeAttribute('open');
-          });
-        }
-      }
-
-      function bindLeadForm() {
-        var form = $('#lead-form');
-        if (!form || form.dataset.fixFinalLead === '1') return;
-
-        form.dataset.fixFinalLead = '1';
-
-        form.addEventListener('submit', function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          if (event.stopImmediatePropagation) event.stopImmediatePropagation();
-
-          var name = ($('#lead-name') && $('#lead-name').value.trim()) || '';
-          var phone = ($('#lead-phone') && $('#lead-phone').value.trim()) || '';
-          var email = ($('#lead-email') && $('#lead-email').value.trim()) || '';
-          var message = ($('#lead-message') && $('#lead-message').value.trim()) || '';
-          var consent = $('#lead-consent');
-
-          var feedback = $('#lead-feedback');
-          if (feedback) {
-            feedback.className = 'form-feedback hidden';
-            feedback.textContent = '';
-          }
-
-          if (!name || !phone || !message || (consent && !consent.checked)) {
-            if (feedback) {
-              feedback.className = 'form-feedback';
-              feedback.style.background = '#fff1f1';
-              feedback.style.color = '#b42318';
-              feedback.textContent = 'Preencha nome, WhatsApp, mensagem e aceite o contato.';
-            }
-            return false;
-          }
-
-          var property = leadProperty;
-          var code = property ? propertyCode(property) : (($('#lead-listing-code') && $('#lead-listing-code').value) || '');
-          var propertyTitle = property ? property.title : '';
-          var propertyUrlText = property ? propertyUrl(property) : (($('#lead-listing-url') && $('#lead-listing-url').value) || '');
-
-          var text =
-            'Olá! Quero atendimento pelo site Horizonte Prime Imóveis.%0A%0A' +
-            '*Nome:* ' + encodeURIComponent(name) + '%0A' +
-            '*WhatsApp:* ' + encodeURIComponent(phone) + '%0A' +
-            (email ? '*E-mail:* ' + encodeURIComponent(email) + '%0A' : '') +
-            (code ? '*Código do imóvel:* ' + encodeURIComponent(code) + '%0A' : '') +
-            (propertyTitle ? '*Imóvel:* ' + encodeURIComponent(propertyTitle) + '%0A' : '') +
-            (propertyUrlText ? '*Link:* ' + encodeURIComponent(propertyUrlText) + '%0A' : '') +
-            '%0A*Mensagem:* ' + encodeURIComponent(message);
-
-          var wa = 'https://wa.me/' + getWhatsAppNumber() + '?text=' + text;
-          window.open(wa, '_blank', 'noopener');
-
-          if (feedback) {
-            feedback.className = 'form-feedback';
-            feedback.style.background = '#ecfdf3';
-            feedback.style.color = '#027a48';
-            feedback.textContent = 'Pronto! O WhatsApp foi aberto com sua mensagem.';
-          }
-
-          return false;
-        }, true);
-      }
-
-      function boot() {
-        var properties = getProperties();
-        if (!properties.length) return;
-
-        if ($('#current-year')) $('#current-year').textContent = new Date().getFullYear();
-
-        var floating = $('#floating-whatsapp');
-        if (floating) {
-          floating.href = 'https://wa.me/' + getWhatsAppNumber();
-        }
-
-        bindFilters();
-        bindLeadForm();
-        bindLeadButtons();
-        renderCatalog();
-
-        // Garante que o conteúdo local volte caso algum script remoto apague a lista depois.
-        [250, 800, 1600, 3000].forEach(function (ms) {
-          setTimeout(function () {
-            var summary = $('#catalog-summary');
-            var grid = $('#catalog-grid');
-            if (summary && /0 imóveis/.test(summary.textContent || '') && getProperties().length) renderCatalog();
-            if (grid && !grid.children.length && getProperties().length) renderCatalog();
-          }, ms);
-        });
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot);
-      } else {
-        boot();
-      }
-    })();
-  </script>
-
+  <script src="smart-site.js"></script>
 </body>
 </html>

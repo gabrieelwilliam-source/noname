@@ -1,29 +1,36 @@
-# SITE COM IMAGENS REALISTAS — PRONTO PARA SUBIR
+SITE INTELIGENTE PRO - HORIZONTE PRIME IMÓVEIS
 
-Este pacote substitui as imagens fictícias por imagens realistas geradas e separadas por imóvel/cômodo.
+Como subir no GitHub Pages:
 
-## Como subir no GitHub
+1. Extraia o ZIP no computador.
+2. Entre no repositório do GitHub.
+3. Clique em Add file > Upload files.
+4. Arraste todos os arquivos extraídos para a raiz do repositório.
+5. Confirme a substituição dos arquivos antigos.
+6. Clique em Commit changes.
+7. Aguarde alguns minutos e atualize o site com Ctrl + F5.
 
-1. Extraia este ZIP no computador.
-2. Entre no repositório do site no GitHub.
-3. Clique em **Add file > Upload files**.
-4. Arraste TODOS os arquivos extraídos para a raiz do repositório.
-5. Confirme em **Commit changes**.
+Importante:
+- Não suba o ZIP fechado para o GitHub.
+- Suba os arquivos de dentro da pasta extraída.
+- Os arquivos principais são: index.html, imovel.html, styles.css, smart-site.js, demo-data.js, home.js, site.js, property.js e as imagens .jpg.
 
-Não envie este ZIP fechado para o GitHub Pages. Primeiro precisa extrair.
+Novidades desta versão:
+- Busca inteligente por perfil: Família, Aluguel rápido, Investidor, Pet friendly e Premium.
+- Painel de recomendação automática no catálogo.
+- Match percentual nos cards dos imóveis.
+- Botão de favoritos salvo no navegador.
+- Comparador de até 3 imóveis.
+- Simulador rápido de financiamento.
+- Melhorias de CSS: glass effect, sombras, animações, hover premium, botões mais refinados, cards mais profissionais e responsividade.
+- Página do imóvel com análise automática e dicas visuais.
 
-## Arquivos principais
+Telefone atual do WhatsApp:
+- 55 47 98892-7391
 
-- `index.html`: catálogo/página inicial.
-- `imovel.html`: página individual do imóvel, já preparada para galeria.
-- `demo-data.js`: catálogo local com as fotos novas.
-- `CODIGO-01.jpg`, `CODIGO-02.jpg` etc.: fotos de cada imóvel/cômodo.
-- `atualizar-imagens-supabase.sql`: opcional, somente se você estiver usando Supabase.
+Para mudar telefone, nome ou cidade:
+- Edite o arquivo config.js.
 
-## Se estiver usando Supabase
-
-Depois de subir as imagens para o GitHub, abra o Supabase > SQL Editor e execute o arquivo:
-
-`atualizar-imagens-supabase.sql`
-
-Isso faz o banco usar as novas fotos também.
+Para mudar imóveis, valores, descrições e fotos:
+- Edite o arquivo demo-data.js.
+- Mantenha os nomes das imagens exatamente iguais aos cadastrados.

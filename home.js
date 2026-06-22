@@ -1,212 +1,154 @@
-(() => {
-  "use strict";
+(function () {
+  'use strict';
+  var U = window.ImobUtils;
+  if (!U) return;
+  var state = { query: '', purpose: '', category: '', neighborhood: '', bedrooms: '', parking: '', price: '', pet: false, sort: 'featured' };
+  var properties = U.catalog();
 
-  const Site = window.ImobSite;
-  if (!Site) return;
-
-  const ui = {};
-  let allProperties = [];
-  let heroPurpose = "";
-
-  document.addEventListener("DOMContentLoaded", init);
-
-  async function init() {
-    cacheUi();
-    bindEvents();
-    await loadProperties();
+  function card(p) {
+    var url = p.listingUrl || ('imovel.html?codigo=' + encodeURIComponent(p.listingCode));
+    var img = U.imgPath(p.imageUrl || (p.images && p.images[0] && p.images[0].url) || 'property-fallback.jpg');
+    var price = U.propertyPrice(p);
+    var monthly = p.purpose === 'locacao' ? '<small> locação</small>' : '<small> venda</small>';
+    return '' +
+      '<article class="property-card" data-code="' + U.esc(p.listingCode) + '">' +
+        '<a class="property-image" href="' + U.esc(url) + '"><img src="' + U.esc(img) + '" alt="' + U.esc(p.title) + '" loading="lazy" onerror="this.src=\'property-fallback.jpg\'"><div class="badge-stack"><span class="badge badge-dark">' + U.esc(U.purposeLabel(p.purpose)) + '</span>' + (p.isFeatured ? '<span class="badge badge-soft">Destaque</span>' : '') + '</div></a>' +
+        '<div class="card-content"><h3><a href="' + U.esc(url) + '">' + U.esc(p.title) + '</a></h3><div class="card-location">' + U.esc(p.neighborhood + ', ' + p.city + ' - ' + p.stateCode) + '</div><div class="card-price">' + price + monthly + '</div>' +
+        '<div class="card-stats"><span><strong>' + (p.bedrooms || 0) + '</strong> quartos</span><span><strong>' + (p.bathrooms || 0) + '</strong> banh.</span><span><strong>' + (p.parkingSpots || 0) + '</strong> vagas</span><span><strong>' + (p.areaM2 || 0) + 'm²</strong> área</span></div>' +
+        '<div class="card-actions"><a class="button button-secondary" href="' + U.esc(url) + '">Ver detalhes</a><button class="button button-primary interest-btn" type="button" data-code="' + U.esc(p.listingCode) + '">Tenho interesse</button></div></div>' +
+      '</article>';
   }
 
-  function cacheUi() {
-    ui.featuredGrid = document.getElementById("featured-grid");
-    ui.catalogGrid = document.getElementById("catalog-grid");
-    ui.catalogSummary = document.getElementById("catalog-summary");
-    ui.catalogEmpty = document.getElementById("catalog-empty");
-    ui.activeFilters = document.getElementById("active-filters");
-    ui.query = document.getElementById("filter-query");
-    ui.purpose = document.getElementById("filter-purpose");
-    ui.category = document.getElementById("filter-category");
-    ui.neighborhood = document.getElementById("filter-neighborhood");
-    ui.bedrooms = document.getElementById("filter-bedrooms");
-    ui.parking = document.getElementById("filter-parking");
-    ui.price = document.getElementById("filter-price");
-    ui.pet = document.getElementById("filter-pet");
-    ui.sort = document.getElementById("sort-properties");
-    ui.filtersPanel = document.getElementById("catalog-filters");
+  function matches(p) {
+    var hay = U.normalize([p.title, p.neighborhood, p.city, p.listingCode, p.category, (p.amenities || []).join(' ')].join(' '));
+    if (state.query && hay.indexOf(U.normalize(state.query)) < 0) return false;
+    if (state.purpose && p.purpose !== state.purpose) return false;
+    if (state.category && p.category !== state.category) return false;
+    if (state.neighborhood && p.neighborhood !== state.neighborhood) return false;
+    if (state.bedrooms && Number(p.bedrooms || 0) < Number(state.bedrooms)) return false;
+    if (state.parking && Number(p.parkingSpots || 0) < Number(state.parking)) return false;
+    if (state.price && Number(p.priceFrom || p.salePrice || p.rentValue || 0) > Number(state.price)) return false;
+    if (state.pet && !p.acceptsPet) return false;
+    return true;
   }
 
-  function bindEvents() {
-    document.querySelectorAll(".search-tab").forEach((tab) => {
-      tab.addEventListener("click", () => {
-        document.querySelectorAll(".search-tab").forEach((item) => {
-          item.classList.toggle("active", item === tab);
-          item.setAttribute("aria-selected", String(item === tab));
-        });
-        heroPurpose = tab.dataset.purpose || "";
+  function sorted(list) {
+    return list.slice().sort(function (a, b) {
+      if (state.sort === 'price-asc') return Number(a.priceFrom || 0) - Number(b.priceFrom || 0);
+      if (state.sort === 'price-desc') return Number(b.priceFrom || 0) - Number(a.priceFrom || 0);
+      if (state.sort === 'area-desc') return Number(b.areaM2 || 0) - Number(a.areaM2 || 0);
+      return Number(!!b.isFeatured) - Number(!!a.isFeatured) || Number(b.priceFrom || 0) - Number(a.priceFrom || 0);
+    });
+  }
+
+  function renderStats() {
+    var total = document.getElementById('stat-total'); if (total) total.textContent = properties.length;
+    var sale = document.getElementById('stat-sale'); if (sale) sale.textContent = properties.filter(function (p) { return p.purpose === 'compra' || p.purpose === 'investimento'; }).length;
+    var rent = document.getElementById('stat-rent'); if (rent) rent.textContent = properties.filter(function (p) { return p.purpose === 'locacao'; }).length;
+  }
+
+  function renderFeatured() {
+    var root = document.getElementById('featured-grid'); if (!root) return;
+    var featured = properties.filter(function (p) { return p.isFeatured; }).slice(0, 3);
+    if (!featured.length) featured = properties.slice(0, 3);
+    root.innerHTML = featured.map(card).join('');
+  }
+
+  function renderCatalog() {
+    var grid = document.getElementById('catalog-grid'); var empty = document.getElementById('catalog-empty'); var summary = document.getElementById('catalog-summary');
+    if (!grid) return;
+    var list = sorted(properties.filter(matches));
+    grid.innerHTML = list.map(card).join('');
+    if (summary) summary.textContent = list.length + ' imóveis encontrados em Joinville.';
+    if (empty) empty.classList.toggle('hidden', list.length > 0);
+    renderActiveFilters();
+    bindInterestButtons();
+  }
+
+  function renderActiveFilters() {
+    var root = document.getElementById('active-filters'); if (!root) return;
+    var chips = [];
+    if (state.query) chips.push('Busca: ' + state.query);
+    if (state.purpose) chips.push(U.purposeLabel(state.purpose));
+    if (state.category) chips.push(state.category);
+    if (state.neighborhood) chips.push(state.neighborhood);
+    if (state.bedrooms) chips.push(state.bedrooms + '+ quartos');
+    if (state.parking) chips.push(state.parking + '+ vagas');
+    if (state.price) chips.push('Até ' + U.money(state.price));
+    if (state.pet) chips.push('Aceita animais');
+    root.innerHTML = chips.map(function (c) { return '<span class="filter-chip">' + U.esc(c) + '</span>'; }).join('');
+  }
+
+  function renderNeighborhoods() {
+    var root = document.getElementById('neighborhood-grid'); if (!root) return;
+    var counts = {};
+    properties.forEach(function (p) { counts[p.neighborhood] = (counts[p.neighborhood] || 0) + 1; });
+    root.innerHTML = Object.keys(counts).sort().map(function (n) {
+      return '<button class="neighborhood-card" type="button" data-neighborhood="' + U.esc(n) + '"><strong>' + U.esc(n) + '</strong><span>' + counts[n] + ' imóvel' + (counts[n] > 1 ? 'is' : '') + ' disponível' + (counts[n] > 1 ? 'is' : '') + '</span></button>';
+    }).join('');
+    U.$$('.neighborhood-card', root).forEach(function (btn) {
+      btn.addEventListener('click', function () { setControl('filter-neighborhood', btn.dataset.neighborhood || ''); location.hash = '#catalogo'; renderCatalog(); });
+    });
+  }
+
+  function fillNeighborhoods() {
+    var select = document.getElementById('filter-neighborhood'); if (!select) return;
+    var names = Array.from(new Set(properties.map(function (p) { return p.neighborhood; }).filter(Boolean))).sort();
+    names.forEach(function (n) { var opt = document.createElement('option'); opt.value = n; opt.textContent = n; select.appendChild(opt); });
+  }
+
+  function setControl(id, value) {
+    var el = document.getElementById(id); if (!el) return;
+    if (el.type === 'checkbox') el.checked = !!value; else el.value = value || '';
+    readControls();
+  }
+  function readControls() {
+    state.query = (document.getElementById('filter-query') || {}).value || '';
+    state.purpose = (document.getElementById('filter-purpose') || {}).value || '';
+    state.category = (document.getElementById('filter-category') || {}).value || '';
+    state.neighborhood = (document.getElementById('filter-neighborhood') || {}).value || '';
+    state.bedrooms = (document.getElementById('filter-bedrooms') || {}).value || '';
+    state.parking = (document.getElementById('filter-parking') || {}).value || '';
+    state.price = (document.getElementById('filter-price') || {}).value || '';
+    state.pet = !!((document.getElementById('filter-pet') || {}).checked);
+    state.sort = (document.getElementById('sort-properties') || {}).value || 'featured';
+  }
+
+  function setupFilters() {
+    var ids = ['filter-query', 'filter-purpose', 'filter-category', 'filter-neighborhood', 'filter-bedrooms', 'filter-parking', 'filter-price', 'filter-pet', 'sort-properties'];
+    ids.forEach(function (id) { var el = document.getElementById(id); if (el) el.addEventListener(id === 'filter-query' ? 'input' : 'change', function () { readControls(); renderCatalog(); }); });
+    var clear = document.querySelector('.clear-filters'); if (clear) clear.addEventListener('click', function () { ids.forEach(function (id) { var el = document.getElementById(id); if (!el) return; if (el.type === 'checkbox') el.checked = false; else el.value = id === 'sort-properties' ? 'featured' : ''; }); readControls(); renderCatalog(); });
+    var toggle = document.querySelector('.filter-toggle'); var panel = document.getElementById('catalog-filters');
+    if (toggle && panel) toggle.addEventListener('click', function () { var open = panel.classList.toggle('open'); toggle.setAttribute('aria-expanded', open ? 'true' : 'false'); });
+    document.querySelectorAll('[data-footer-purpose]').forEach(function (a) { a.addEventListener('click', function () { setTimeout(function () { setControl('filter-purpose', a.getAttribute('data-footer-purpose')); renderCatalog(); }, 60); }); });
+  }
+
+  function setupHeroSearch() {
+    var form = document.getElementById('hero-search-form'); if (!form) return;
+    var purpose = '';
+    document.querySelectorAll('.search-tab').forEach(function (tab) { tab.addEventListener('click', function () { document.querySelectorAll('.search-tab').forEach(function (t) { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); }); tab.classList.add('active'); tab.setAttribute('aria-selected', 'true'); purpose = tab.getAttribute('data-purpose') || ''; }); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      setControl('filter-query', (document.getElementById('hero-query') || {}).value || '');
+      setControl('filter-category', (document.getElementById('hero-category') || {}).value || '');
+      setControl('filter-purpose', purpose);
+      location.hash = '#catalogo';
+      renderCatalog();
+    });
+  }
+
+  function bindInterestButtons() {
+    document.querySelectorAll('.interest-btn').forEach(function (btn) {
+      if (btn.dataset.bound) return; btn.dataset.bound = '1';
+      btn.addEventListener('click', function () {
+        var p = properties.find(function (x) { return String(x.listingCode) === String(btn.dataset.code); });
+        if (!p || !window.openLeadModal) return;
+        window.openLeadModal({ type: 'property', code: p.listingCode, propertyTitle: p.title, url: new URL(p.listingUrl || ('imovel.html?codigo=' + p.listingCode), location.href).href, title: 'Tenho interesse neste imóvel', description: p.title + ' • Código ' + p.listingCode, message: 'Olá, tenho interesse no imóvel ' + p.listingCode + ' - ' + p.title + '. Gostaria de mais informações.' });
       });
     });
-
-    document.getElementById("hero-search-form")?.addEventListener("submit", (event) => {
-      event.preventDefault();
-      ui.query.value = document.getElementById("hero-query").value;
-      ui.category.value = document.getElementById("hero-category").value;
-      ui.purpose.value = heroPurpose;
-      applyFilters();
-      document.getElementById("catalogo")?.scrollIntoView({ behavior: "smooth" });
-    });
-
-    [ui.query, ui.purpose, ui.category, ui.neighborhood, ui.bedrooms, ui.parking, ui.price, ui.pet]
-      .forEach((element) => {
-        const eventName = element?.type === "search" ? "input" : "change";
-        element?.addEventListener(eventName, debounce(applyFilters, 120));
-      });
-
-    ui.sort?.addEventListener("change", applyFilters);
-
-    document.querySelector(".clear-filters")?.addEventListener("click", clearFilters);
-
-    document.querySelector(".filter-toggle")?.addEventListener("click", (event) => {
-      const open = ui.filtersPanel.classList.toggle("open");
-      event.currentTarget.setAttribute("aria-expanded", String(open));
-    });
-
-    document.querySelectorAll("[data-footer-purpose]").forEach((link) => {
-      link.addEventListener("click", () => {
-        ui.purpose.value = link.dataset.footerPurpose;
-        applyFilters();
-      });
-    });
   }
 
-  async function loadProperties() {
-    try {
-      const result = await Site.searchProperties({
-        city: Site.config.BUSINESS_CITY || "Joinville",
-        limit: 100
-      });
-      allProperties = result.items || [];
-      populateNeighborhoods(allProperties);
-      renderFeatured(allProperties.filter((property) => property.isFeatured).slice(0, 3));
-      applyFilters();
-    } catch (error) {
-      console.error(error);
-      ui.featuredGrid.innerHTML = `<p>Não foi possível carregar os imóveis.</p>`;
-      ui.catalogSummary.textContent = "Não foi possível carregar o catálogo.";
-    }
-  }
-
-  function populateNeighborhoods(properties) {
-    const neighborhoods = [...new Set(properties.map((p) => p.neighborhood).filter(Boolean))]
-      .sort((a, b) => a.localeCompare(b, "pt-BR"));
-    neighborhoods.forEach((neighborhood) => {
-      const option = document.createElement("option");
-      option.value = neighborhood;
-      option.textContent = neighborhood;
-      ui.neighborhood.appendChild(option);
-    });
-  }
-
-  function renderFeatured(properties) {
-    ui.featuredGrid.innerHTML = "";
-    const items = properties.length ? properties : allProperties.slice(0, 3);
-    items.forEach((property) => ui.featuredGrid.appendChild(Site.createPropertyCard(property)));
-  }
-
-  function getFilterValues() {
-    return {
-      query: ui.query.value.trim(),
-      purpose: ui.purpose.value,
-      category: ui.category.value,
-      neighborhood: ui.neighborhood.value,
-      bedrooms: ui.bedrooms.value,
-      parking: ui.parking.value,
-      priceMax: ui.price.value,
-      acceptsPet: ui.pet.checked
-    };
-  }
-
-  function applyFilters() {
-    const filters = getFilterValues();
-    let properties = [...allProperties];
-
-    if (filters.query) {
-      const query = normalize(filters.query);
-      properties = properties.filter((property) =>
-        normalize([
-          property.title,
-          property.neighborhood,
-          property.city,
-          property.listingCode,
-          ...(property.tags || []),
-          ...(property.aliases || [])
-        ].join(" ")).includes(query)
-      );
-    }
-    if (filters.purpose) properties = properties.filter((p) => p.purpose === filters.purpose);
-    if (filters.category) properties = properties.filter((p) => p.category === filters.category);
-    if (filters.neighborhood) properties = properties.filter((p) => p.neighborhood === filters.neighborhood);
-    if (filters.bedrooms) properties = properties.filter((p) => Number(p.bedrooms || 0) >= Number(filters.bedrooms));
-    if (filters.parking) properties = properties.filter((p) => Number(p.parkingSpots || 0) >= Number(filters.parking));
-    if (filters.priceMax) properties = properties.filter((p) => Site.getEffectivePrice(p) <= Number(filters.priceMax));
-    if (filters.acceptsPet) properties = properties.filter((p) => p.acceptsPet === true);
-
-    properties.sort(sorter(ui.sort.value));
-    renderCatalog(properties, filters);
-  }
-
-  function sorter(value) {
-    if (value === "price-asc") return (a, b) => Site.getEffectivePrice(a) - Site.getEffectivePrice(b);
-    if (value === "price-desc") return (a, b) => Site.getEffectivePrice(b) - Site.getEffectivePrice(a);
-    if (value === "area-desc") return (a, b) => Number(b.areaM2 || 0) - Number(a.areaM2 || 0);
-    return (a, b) => Number(b.isFeatured) - Number(a.isFeatured);
-  }
-
-  function renderCatalog(properties, filters) {
-    ui.catalogGrid.innerHTML = "";
-    ui.catalogSummary.textContent = `${properties.length} ${properties.length === 1 ? "imóvel encontrado" : "imóveis encontrados"} em Joinville.`;
-    ui.catalogEmpty.classList.toggle("hidden", properties.length > 0);
-    ui.catalogGrid.classList.toggle("hidden", properties.length === 0);
-
-    properties.forEach((property) => ui.catalogGrid.appendChild(Site.createPropertyCard(property)));
-    renderActiveFilters(filters);
-  }
-
-  function renderActiveFilters(filters) {
-    ui.activeFilters.innerHTML = "";
-    const labels = [];
-    if (filters.query) labels.push(`Busca: ${filters.query}`);
-    if (filters.purpose) labels.push(Site.formatPurpose(filters.purpose));
-    if (filters.category) labels.push(Site.capitalize(filters.category));
-    if (filters.neighborhood) labels.push(filters.neighborhood);
-    if (filters.bedrooms) labels.push(`${filters.bedrooms}+ quartos`);
-    if (filters.parking) labels.push(`${filters.parking}+ vagas`);
-    if (filters.priceMax) labels.push(`Até ${Site.formatCurrency(filters.priceMax)}`);
-    if (filters.acceptsPet) labels.push("Aceita pet");
-
-    labels.forEach((label) => {
-      const chip = document.createElement("span");
-      chip.className = "filter-chip";
-      chip.textContent = label;
-      ui.activeFilters.appendChild(chip);
-    });
-  }
-
-  function clearFilters() {
-    [ui.query, ui.purpose, ui.category, ui.neighborhood, ui.bedrooms, ui.parking, ui.price]
-      .forEach((element) => { element.value = ""; });
-    ui.pet.checked = false;
-    ui.sort.value = "featured";
-    applyFilters();
-  }
-
-  function normalize(value = "") {
-    return String(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-  }
-
-  function debounce(fn, delay) {
-    let timeout;
-    return (...args) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => fn(...args), delay);
-    };
-  }
+  document.addEventListener('DOMContentLoaded', function () {
+    renderStats(); fillNeighborhoods(); renderFeatured(); renderNeighborhoods(); setupFilters(); setupHeroSearch(); readControls(); renderCatalog(); bindInterestButtons();
+  });
 })();
