@@ -3,6 +3,7 @@
   var cfg = window.SITE_CONFIG || {};
   var businessName = cfg.businessName || 'Horizonte Prime Imóveis';
   var phone = String(cfg.whatsappNumber || '5547999762742').replace(/\D/g, '');
+  var leadSchemaVersion = cfg.leadSchemaVersion || 'site_lead_v53';
 
   function $(selector, root) { return (root || document).querySelector(selector); }
   function $$(selector, root) { return Array.prototype.slice.call((root || document).querySelectorAll(selector)); }
@@ -41,6 +42,30 @@
   function leadId() {
     return 'site_' + Date.now() + '_' + Math.random().toString(16).slice(2, 8);
   }
+  function utmParams() {
+    var out = {};
+    try {
+      var q = new URLSearchParams(location.search);
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid'].forEach(function (k) { if (q.get(k)) out[k] = q.get(k); });
+    } catch (e) {}
+    return out;
+  }
+  function formatPhoneInput(v) {
+    var d = String(v || '').replace(/\D/g, '').slice(0, 11);
+    if (d.length <= 2) return d;
+    if (d.length <= 6) return '(' + d.slice(0,2) + ') ' + d.slice(2);
+    if (d.length <= 10) return '(' + d.slice(0,2) + ') ' + d.slice(2,6) + '-' + d.slice(6);
+    return '(' + d.slice(0,2) + ') ' + d.slice(2,7) + '-' + d.slice(7);
+  }
+  function showToast(text) {
+    var toast = document.getElementById('site-toast');
+    if (!toast) { toast = document.createElement('div'); toast.id = 'site-toast'; toast.className = 'smart-toast'; document.body.appendChild(toast); }
+    toast.textContent = text || '';
+    toast.classList.add('show');
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(function () { toast.classList.remove('show'); }, 3200);
+  }
+  window.HorizonteToast = showToast;
 
   function applyConfig() {
     $$('[data-business-name]').forEach(function (el) { el.textContent = cfg.businessShortName || businessName; });
@@ -112,6 +137,14 @@
       lgpd_consent: true,
       __entry_source: 'site_form',
       __source_webhook: 'lais-imob-site-lead',
+      tenant_id: cfg.tenantId || 'horizonte-prime',
+      lead_schema_version: leadSchemaVersion,
+      conversion_event: code ? 'property_interest' : (purpose === 'captacao_proprietario' ? 'owner_lead' : 'buyer_search'),
+      page_title: document.title,
+      page_path: location.pathname + location.search + location.hash,
+      referrer: document.referrer || '',
+      utm: utmParams(),
+      user_agent: navigator.userAgent || '',
       created_at: new Date().toISOString()
     };
     if (property) {
@@ -131,17 +164,17 @@
   }
 
   function atendimentoFeedback(payload, sentMode) {
-    var title = sentMode === 'webhook' ? 'Solicitação recebida' : 'Próximo passo: enviar no WhatsApp';
+    var title = sentMode === 'webhook' ? 'Solicitação recebida' : 'Atendimento preparado no WhatsApp';
     var intro = sentMode === 'webhook'
-      ? 'Recebemos suas informações. A equipe continuará o atendimento pelo WhatsApp.'
-      : 'Abrimos o WhatsApp com uma mensagem pronta. Basta conferir e tocar em enviar para iniciar o atendimento.';
+      ? 'Recebemos suas informações. A equipe continuará o atendimento com o contexto informado.'
+      : 'O WhatsApp foi aberto com seus dados e interesse organizados. Confira a mensagem e envie para iniciar o atendimento.';
     var rows = [
       ['Nome', payload.nome || 'Cliente'],
       ['WhatsApp', payload.telefone || payload.whatsapp || 'informado'],
       ['Interesse', payload.codigo_imovel ? 'Imóvel específico' : (payload.tipo_interesse === 'captacao_proprietario' ? 'Avaliação de imóvel' : 'Busca de imóvel')],
       ['Imóvel', payload.codigo_imovel ? (payload.codigo_imovel + ' — ' + (payload.titulo_imovel || 'imóvel selecionado')) : 'perfil informado na mensagem']
     ];
-    return '<div class="automation-result-card"><strong>' + esc(title) + '</strong><p>' + esc(intro) + '</p><div class="crm-mini-table">' + rows.map(function (r) { return '<span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b>'; }).join('') + '</div><small>A equipe usa essas informações para evitar perguntas repetidas e seguir direto para as próximas opções ou confirmação.</small></div>';
+    return '<div class="automation-result-card"><strong>' + esc(title) + '</strong><p>' + esc(intro) + '</p><div class="crm-mini-table">' + rows.map(function (r) { return '<span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b>'; }).join('') + '</div><small>Essas informações ajudam a equipe a confirmar disponibilidade, sugerir opções compatíveis e avançar para visita ou proposta.</small></div>';
   }
 
   function whatsappTextFromPayload(p) {
@@ -224,6 +257,12 @@
       btn.addEventListener('click', function () { openLead({ title: 'Cadastrar imóvel para avaliação', description: 'Informe os dados iniciais para a equipe avaliar venda ou locação.', type: 'owner', scenario: 'captacao_proprietario', message: 'Olá, tenho um imóvel e gostaria de avaliar para venda ou locação.' }); });
     });
 
+    var phoneField = $('#lead-phone');
+    if (phoneField && phoneField.dataset.maskReady !== '1') {
+      phoneField.dataset.maskReady = '1';
+      phoneField.addEventListener('input', function () { phoneField.value = formatPhoneInput(phoneField.value); });
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var fields = {
@@ -232,9 +271,12 @@
       var ok = true;
       function setError(input, msg) { var holder = input && input.closest('.form-field'); var small = holder && $('.field-error', holder); if (small) small.textContent = msg || ''; }
       ['name', 'phone', 'message'].forEach(function (key) { setError(fields[key], ''); if (!fields[key].value.trim()) { setError(fields[key], 'Campo obrigatório.'); ok = false; } });
+      var phoneDigits = String(fields.phone.value || '').replace(/\D/g, '');
+      if (phoneDigits && (phoneDigits.length < 10 || phoneDigits.length > 13)) { setError(fields.phone, 'Informe um WhatsApp válido com DDD.'); ok = false; }
+      if (fields.email.value.trim() && !/^\S+@\S+\.\S+$/.test(fields.email.value.trim())) { setError(fields.email, 'Informe um e-mail válido ou deixe em branco.'); ok = false; }
       if (!fields.consent.checked) ok = false;
       var feedback = $('#lead-feedback');
-      if (!ok) { if (feedback) { feedback.className = 'form-feedback error'; feedback.textContent = 'Confira os campos obrigatórios e aceite o contato pelo WhatsApp.'; } return; }
+      if (!ok) { if (feedback) { feedback.className = 'form-feedback error'; feedback.textContent = 'Confira os campos obrigatórios, WhatsApp com DDD e aceite o contato pelo WhatsApp.'; } return; }
 
       var submit = $('#lead-submit');
       var label = $('.button-label', submit || document); var loading = $('.button-loading', submit || document);
@@ -244,6 +286,15 @@
 
       var payload = buildLeadPayload(form);
       var fallbackText = whatsappTextFromPayload(payload);
+      var directWhatsapp = !cfg.useWebhook || !endpointUrl();
+      if (directWhatsapp) {
+        if (feedback) { feedback.className = 'form-feedback success'; feedback.innerHTML = atendimentoFeedback(payload, 'whatsapp'); }
+        window.open(buildWhatsappUrl(fallbackText), '_blank', 'noopener');
+        if (submit) submit.disabled = false;
+        if (label) label.classList.remove('hidden');
+        if (loading) loading.classList.add('hidden');
+        return;
+      }
       sendToWebhook(payload).then(function (result) {
         if (feedback) {
           feedback.className = 'form-feedback success';
@@ -263,6 +314,6 @@
     });
   }
 
-  window.ImobUtils = { $, $$, esc, normalize, money, purposeLabel, propertyPrice, imgPath, catalog, buildWhatsappUrl, buildLeadPayload: buildLeadPayload };
+  window.ImobUtils = { $, $$, esc, normalize, money, purposeLabel, propertyPrice, imgPath, catalog, buildWhatsappUrl, buildLeadPayload: buildLeadPayload, showToast: showToast };
   document.addEventListener('DOMContentLoaded', function () { applyConfig(); setupMenu(); setupModal(); });
 })();

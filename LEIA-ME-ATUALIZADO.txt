@@ -1,11 +1,28 @@
-PACOTE ATUALIZADO — EXPERIÊNCIA REAL
+PACOTE ATUALIZADO — EXPERIÊNCIA COMERCIAL REAL
 
-Este pacote foi limpo para o site público parecer uma imobiliária real em operação.
-
-LINK QUE DEVE SER ENVIADO PARA TESTE:
+Arquivo principal para abrir/enviar ao dono da imobiliária:
 - index.html
 
-O visitante não vê mensagens de teste, demonstração, n8n, CRM ou fluxo. Ele navega como cliente, escolhe imóvel, envia interesse e continua o atendimento pelo WhatsApp/formulário.
+O que foi ajustado nesta versão:
+1. Remoção de textos públicos que pareciam teste, modelo ou bastidor técnico.
+2. Páginas de Política de Privacidade e Termos de Uso reescritas com aparência real.
+3. Formulário com validação melhor de WhatsApp, e-mail opcional e consentimento.
+4. Payload do lead enriquecido para o fluxo: origem, evento de conversão, UTM, página, imóvel, finalidade, cidade, consentimento e versão do schema.
+5. Textos comerciais revisados para transmitir atendimento profissional, não demonstração.
+6. Página do imóvel revisada para não exibir “informações demonstrativas”.
+7. Scripts duplicados de correção de clique foram retirados do carregamento para evitar comportamento duplicado.
+8. Workflow n8n mantido com credenciais e URLs existentes.
+
+INTEGRAÇÃO SITE → N8N
+- O workflow possui o webhook de site com o path: lais-imob-site-lead
+- O site já envia payload compatível quando config.js estiver com useWebhook: true e webhookUrl preenchida com a URL pública completa do n8n.
+- Como o pacote recebido não tinha a URL pública completa do webhook no config.js, mantive useWebhook: false para não quebrar a experiência. Nesse modo, o formulário abre o WhatsApp com a mensagem completa e natural para o atendimento.
+
+Para ativar envio direto ao n8n:
+1. Copie a URL pública do webhook no n8n.
+2. Abra config.js.
+3. Preencha webhookUrl.
+4. Altere useWebhook para true.
 
 ARQUIVO DO FLUXO N8N:
 - workflow-n8n-lais-imob-v52-experiencia-real.json
@@ -19,8 +36,8 @@ ARQUIVOS PRINCIPAIS DO SITE:
 - home.js
 - property.js
 - atendimento.js
+- privacidade.html
+- termos.html
 
-IMPORTANTE:
-1. Se não houver webhook público configurado em config.js, o formulário abre o WhatsApp com mensagem pronta e natural para o cliente enviar.
-2. Se quiser envio direto por POST para o n8n, preencha webhookUrl e mude useWebhook para true em config.js.
-3. Para cliente real, troque nome, WhatsApp, CRECI, CNPJ, política de privacidade, imóveis, fotos e regras comerciais.
+OBSERVAÇÃO COMERCIAL
+Para vender melhor, apresente como uma experiência pronta de pré-atendimento imobiliário: o dono da imobiliária testa como cliente, escolhe um imóvel, envia interesse e vê que o atendimento chega com contexto, código do imóvel e perfil do lead.

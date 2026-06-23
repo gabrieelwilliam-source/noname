@@ -1,4 +1,4 @@
-// Catálogo local com imagens realistas geradas para demonstração.
+// Catálogo local de imóveis usado pelo site público.
 // Arquivo pronto para GitHub Pages.
 (function () {
   var properties = [

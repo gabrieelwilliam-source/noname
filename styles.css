@@ -410,7 +410,7 @@ a, button, input, select, textarea, summary,
 }
 
 
-/* === Camada comercial da automação n8n === */
+/* === Camada comercial do atendimento integrado === */
 .automation-sales-page .commercial-hero,
 .automation-hero {
   background: radial-gradient(circle at 15% 10%, rgba(245,196,107,.18), transparent 32%), linear-gradient(135deg, #0f0f12 0%, #191919 48%, #2a1c0d 100%);
@@ -521,3 +521,15 @@ a, button, input, select, textarea, summary,
 .checklist-columns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:24px; }
 .check-list li { margin:.5rem 0; }
 @media (max-width: 900px){ .v50-process,.dashboard-demo-grid,.checklist-columns{grid-template-columns:1fr;} }
+
+/* Ajustes finais de experiência comercial */
+.footer-legal a { color: inherit; font-weight: 800; text-decoration: none; }
+.footer-legal a:hover { text-decoration: underline; }
+.legal-page { max-width: 860px; background:#fff; border:1px solid var(--line); border-radius:28px; padding:36px; box-shadow:0 18px 60px rgba(31,24,17,.08); }
+.legal-page h1 { font-family:var(--serif); font-size:clamp(34px,4vw,54px); letter-spacing:-.04em; margin:20px 0 14px; }
+.legal-page h2 { margin-top:28px; }
+.legal-page p { color:var(--muted); line-height:1.75; }
+.form-feedback.success .automation-result-card { border-left:4px solid #2f8f4e; }
+.form-feedback.error { border-left:4px solid #b42318; }
+.lead-modal input:focus, .lead-modal textarea:focus, .lead-modal select:focus, .filter-field input:focus, .filter-field select:focus { outline:3px solid rgba(197,139,49,.22); border-color:rgba(197,139,49,.65); }
+@media(max-width:760px){ .legal-page{padding:24px;border-radius:22px}.footer-legal{display:block;width:100%;margin-top:8px} }

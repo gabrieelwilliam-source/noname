@@ -1,0 +1,25 @@
+RELATÓRIO DE MELHORIAS — HORIZONTE PRIME IMÓVEIS
+
+Objetivo do ajuste:
+Transformar o pacote em uma experiência mais profissional e vendável para apresentar a donos de imobiliárias, sem expor mensagens públicas de teste, demonstração, n8n ou bastidores técnicos ao visitante.
+
+Melhorias feitas no site:
+- Textos públicos revisados para parecerem atendimento real de imobiliária.
+- Removidas expressões como “modelo”, “demonstração” e “informações demonstrativas” das páginas públicas.
+- Política de Privacidade e Termos de Uso reescritos como páginas reais da imobiliária.
+- Formulário melhorado com validação de WhatsApp com DDD, e-mail opcional válido e consentimento.
+- Mensagem do WhatsApp ajustada para levar contexto completo: nome, imóvel, código, página, mensagem e WhatsApp do cliente.
+- Payload do formulário enriquecido para automação: tenant_id, schema version, evento de conversão, UTM, página, origem, consentimento e dados do imóvel.
+- Removido carregamento do script duplicado click-fix.js para evitar cliques duplicados e comportamentos repetidos.
+- Textos de jornada, serviços, FAQ, CTA, rodapé e detalhes do imóvel foram refinados para gerar maior valor percebido.
+- Adicionados links de Privacidade e Termos no rodapé.
+
+Melhorias feitas no fluxo n8n:
+- Workflow continuou com as credenciais e URLs existentes preservadas.
+- Sticky notes internas foram suavizadas em alguns trechos para linguagem mais comercial.
+- Fallback de nome de empresa em modo demo foi ajustado para Horizonte Prime Imóveis.
+- O JSON do workflow foi validado após os ajustes.
+- Os 52 nós de código do workflow foram verificados por sintaxe JavaScript.
+
+Observação importante sobre integração:
+O workflow possui o webhook de site no path “lais-imob-site-lead”. O config.js recebido não trazia a URL pública completa do webhook do n8n, então o site foi mantido com useWebhook:false para não quebrar a experiência pública. Nesse modo, o formulário abre o WhatsApp com a mensagem completa e profissional. Para envio direto ao n8n, basta preencher webhookUrl em config.js e alterar useWebhook para true.

@@ -1,4 +1,6 @@
 // Configurações principais do site.
+// As credenciais, telefones e URLs existentes foram mantidos. Para ativar POST direto no n8n,
+// informe a URL pública completa do webhook em webhookUrl e altere useWebhook para true.
 window.SITE_CONFIG = {
   businessName: 'Horizonte Prime Imóveis',
   businessShortName: 'Horizonte Prime',
@@ -9,11 +11,19 @@ window.SITE_CONFIG = {
   address: 'Joinville - SC',
   openingHours: 'Segunda a sábado, das 8h às 19h',
 
-  // Integração: quando houver uma URL pública, o formulário envia os dados por POST. Sem URL, o atendimento abre pelo WhatsApp com mensagem pronta.
+  // Integração de atendimento.
+  // false = formulário prepara atendimento real no WhatsApp.
+  // true  = formulário envia o lead por POST para o webhook e só usa WhatsApp como contingência.
   useWebhook: false,
   webhookUrl: '',
   n8nSiteWebhookPath: 'lais-imob-site-lead',
-  leadDestinationLabel: 'WhatsApp comercial',
+  leadDestinationLabel: 'equipe comercial',
   resultTitle: 'Solicitação recebida',
-  salesWhatsappMessage: 'Olá, quero entender como esse atendimento funcionaria na minha imobiliária.'
+  salesWhatsappMessage: 'Olá, quero entender como esse atendimento funcionaria na minha imobiliária.',
+
+  // Campos comerciais usados no payload do lead.
+  tenantId: 'horizonte-prime',
+  leadSchemaVersion: 'site_lead_v53',
+  privacyUrl: 'privacidade.html',
+  termsUrl: 'termos.html'
 };
