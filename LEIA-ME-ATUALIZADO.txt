@@ -1,0 +1,22 @@
+PACOTE ATUALIZADO LIMPO — V51
+
+Este pacote contém somente a versão atualizada, sem versões antigas do workflow e sem READMEs anteriores.
+
+ARQUIVOS PRINCIPAIS:
+- index.html: vitrine funcional para o dono da imobiliária testar como cliente.
+- para-imobiliarias.html: página de apresentação comercial da solução.
+- imovel.html: página individual do imóvel.
+- painel-demo.html: exemplo visual do que a equipe/corretor recebe.
+- roteiro-demo.html: roteiro para apresentar a solução.
+- checklist-implantacao.html: checklist de implantação em uma imobiliária real.
+- workflow-n8n-lais-imob-v51-apresentacao-real.json: workflow atualizado para importar no n8n.
+- config.js: ajuste aqui dados da empresa, WhatsApp e webhook quando for implantar.
+
+COMO USAR:
+1. Suba os arquivos do site no GitHub Pages ou hospedagem.
+2. Importe o workflow-n8n-lais-imob-v51-apresentacao-real.json no n8n.
+3. Confira o webhook e credenciais no n8n.
+4. Teste entrando pelo site, escolhendo um imóvel e iniciando o atendimento.
+
+OBSERVAÇÃO:
+Este pacote é a versão limpa atualizada. Não inclui v46, v47, v48, v49 ou v50.
