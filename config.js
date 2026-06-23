@@ -15,10 +15,14 @@ window.SITE_CONFIG = {
   useWebhook: false,
   webhookUrl: '',
   n8nSiteWebhookPath: 'lais-imob-site-lead',
-  leadDestinationLabel: 'Automação n8n + WhatsApp comercial',
+  leadDestinationLabel: 'Automação n8n + CRM + WhatsApp comercial',
+  automationVersion: 'v50',
+  demoScriptUrl: 'roteiro-demo.html',
+  implantationChecklistUrl: 'checklist-implantacao.html',
+  crmPreviewUrl: 'painel-demo.html',
 
   // Mantém a demonstração segura quando ainda não houver URL pública do webhook no front.
   demoMode: true,
-  demoResultTitle: 'Lead recebido pela automação',
+  demoResultTitle: 'Lead recebido e qualificado pela automação',
   salesWhatsappMessage: 'Olá, vi a demonstração da automação para imobiliárias e quero entender como isso funcionaria na minha imobiliária.'
 };
