@@ -1,6 +1,8 @@
 (function () {
   'use strict';
   var U = window.ImobUtils;
+  var cfg = window.SITE_CONFIG || {};
+  var businessName = cfg.businessName || 'Horizonte Prime Imóveis';
   if (!U) return;
   var properties = U.catalog();
   var root = document.getElementById('property-root');
@@ -29,7 +31,7 @@
     var imgs = (Array.isArray(p.images) && p.images.length ? p.images : [{ url: p.imageUrl, alt: p.title }]).map(function (i) { return { url: U.imgPath(i.url || i.imageUrl || p.imageUrl), alt: i.alt || p.title }; });
     var main = imgs[0] || { url: 'property-fallback.jpg', alt: p.title };
     var price = U.propertyPrice(p);
-    document.title = p.title + ' | Horizonte Prime Imóveis';
+    document.title = p.title + ' | ' + businessName;
     var related = properties.filter(function (x) { return x.listingCode !== p.listingCode && (x.neighborhood === p.neighborhood || x.category === p.category || x.purpose === p.purpose); }).slice(0, 3);
     if (related.length < 3) related = related.concat(properties.filter(function (x) { return x.listingCode !== p.listingCode && !related.includes(x); }).slice(0, 3 - related.length));
 

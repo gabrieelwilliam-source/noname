@@ -3,6 +3,7 @@
 
   var PHONE = '5547999762742';
   var cfg = window.SITE_CONFIG || {};
+  var BUSINESS_NAME = cfg.businessName || 'Horizonte Prime Imóveis';
   if (cfg.whatsappNumber) PHONE = String(cfg.whatsappNumber).replace(/\D/g, '') || PHONE;
 
   function $(selector, root) { return (root || document).querySelector(selector); }
@@ -291,7 +292,7 @@
 
   function fixWhatsappLinks() {
     $$('[data-whatsapp-link],.floating-whatsapp').forEach(function (a) {
-      a.setAttribute('href', whatsappUrl('Olá, vim pelo site Horizonte Prime Imóveis e gostaria de atendimento.'));
+      a.setAttribute('href', whatsappUrl('Olá, vim pelo site da ' + BUSINESS_NAME + ' e gostaria de atendimento.'));
       a.setAttribute('target', '_blank');
       a.setAttribute('rel', 'noopener');
     });
