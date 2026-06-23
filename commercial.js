@@ -2,7 +2,7 @@
   'use strict';
   var cfg = window.SITE_CONFIG || {};
   var phone = String(cfg.whatsappNumber || '5547999762742').replace(/\D/g, '');
-  var message = 'Olá, vi a demonstração de site para imobiliárias e quero saber como ficaria uma versão personalizada para minha imobiliária.';
+  var message = cfg.salesWhatsappMessage || 'Olá, vi a demonstração da automação para imobiliárias e quero entender como isso funcionaria na minha imobiliária.';
   var url = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
   document.querySelectorAll('.sales-whatsapp').forEach(function (el) {
     el.setAttribute('href', url);

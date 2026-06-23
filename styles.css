@@ -408,3 +408,95 @@ a, button, input, select, textarea, summary,
   .commercial-box { position: static; }
   .plan-featured { transform: none; }
 }
+
+
+/* === Camada comercial da automação n8n === */
+.automation-sales-page .commercial-hero,
+.automation-hero {
+  background: radial-gradient(circle at 15% 10%, rgba(245,196,107,.18), transparent 32%), linear-gradient(135deg, #0f0f12 0%, #191919 48%, #2a1c0d 100%);
+}
+.automation-dashboard {
+  color: #fff;
+  padding: 22px;
+  border-radius: 30px;
+  background: rgba(255,255,255,.09);
+  box-shadow: 0 30px 90px rgba(0,0,0,.28);
+}
+.dash-top { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+.dash-top small { margin-left:auto; color:rgba(255,255,255,.62); }
+.pulse-dot { width:12px; height:12px; border-radius:50%; background:#34d399; box-shadow:0 0 0 8px rgba(52,211,153,.12); }
+.lead-ticket { background:#fff; color:#191919; border-radius:24px; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,.22); }
+.ticket-status { display:inline-flex; border-radius:999px; padding:7px 12px; font-size:12px; font-weight:900; color:#064e3b; background:#d1fae5; text-transform:uppercase; letter-spacing:.08em; }
+.lead-ticket h3 { margin:14px 0 8px; font-size:24px; }
+.lead-ticket p { color:#5e5e5e; line-height:1.55; }
+.ticket-grid { display:grid; grid-template-columns: 110px 1fr; gap:8px 14px; margin-top:18px; font-size:14px; }
+.ticket-grid span { color:#777; }
+.ticket-grid b { color:#191919; }
+.mini-flow { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:18px; }
+.mini-flow span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); color:#fff; border-radius:999px; padding:9px 12px; font-weight:800; font-size:13px; }
+.mini-flow i { color:#f5c46b; font-style:normal; }
+.automation-explain-card {
+  margin-top:24px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:20px;
+  align-items:center;
+  border:1px solid rgba(25,25,25,.08);
+  background:#191919;
+  color:#fff;
+  border-radius:26px;
+  padding:24px;
+  box-shadow:0 18px 50px rgba(25,25,25,.12);
+}
+.automation-explain-card p { color:rgba(255,255,255,.72); margin-bottom:0; line-height:1.6; }
+.automation-explain-card .mini-flow { margin:0; justify-content:flex-end; }
+.demo-simulator-section { background:#fffaf2; }
+.scenario-grid { display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:18px; }
+.scenario-card {
+  text-align:left;
+  background:#fff;
+  border:1px solid rgba(25,25,25,.08);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 18px 50px rgba(25,25,25,.06);
+  cursor:pointer;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  color:#191919;
+  font:inherit;
+}
+.scenario-card:hover { transform: translateY(-4px); box-shadow:0 26px 70px rgba(25,25,25,.12); border-color:rgba(197,139,49,.45); }
+.scenario-card span { display:inline-flex; width:38px; height:38px; border-radius:14px; align-items:center; justify-content:center; font-weight:900; background:#191919; color:#f5c46b; margin-bottom:16px; }
+.scenario-card h3 { margin:0 0 8px; font-size:21px; }
+.scenario-card p { color:#666; line-height:1.5; margin:0; }
+.before-after-grid { display:grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap:22px; }
+.before-card, .after-card { border-radius:28px; padding:30px; box-shadow:0 18px 55px rgba(25,25,25,.07); }
+.before-card { background:#fff; border:1px solid rgba(220,38,38,.18); }
+.after-card { background:#191919; color:#fff; }
+.before-card h3, .after-card h3 { margin-top:0; font-size:26px; }
+.before-card p { color:#666; line-height:1.65; }
+.after-card p { color:rgba(255,255,255,.76); line-height:1.65; }
+.seller-preview-grid { display:grid; grid-template-columns:minmax(280px,.85fr) minmax(0,1.15fr); gap:28px; align-items:center; }
+.seller-phone-card { border-radius:34px; background:#0b141a; padding:20px; box-shadow:0 30px 90px rgba(0,0,0,.2); color:#fff; }
+.phone-top { text-align:center; color:rgba(255,255,255,.65); margin-bottom:18px; font-weight:800; }
+.wa-bubble { background:#dcf8c6; color:#17210f; border-radius:18px 18px 18px 4px; padding:16px; line-height:1.55; max-width:90%; margin-bottom:12px; box-shadow:0 8px 20px rgba(0,0,0,.12); }
+.wa-bubble.small { background:#fff; margin-left:auto; border-radius:18px 18px 4px 18px; color:#333; }
+.seller-benefits { background:#fff; border:1px solid rgba(25,25,25,.08); border-radius:30px; padding:34px; box-shadow:0 18px 50px rgba(25,25,25,.06); }
+.seller-benefits h3 { margin-top:0; font-size:30px; }
+.seller-benefits ul { display:grid; gap:12px; padding-left:22px; color:#444; line-height:1.55; }
+.automation-result-card { margin-top:12px; border-radius:20px; border:1px solid rgba(25,25,25,.08); background:#fff; color:#191919; padding:18px; box-shadow:0 16px 45px rgba(25,25,25,.08); }
+.automation-result-card strong { display:block; font-size:18px; margin-bottom:6px; }
+.automation-result-card p { margin:0 0 14px; color:#555; line-height:1.5; }
+.automation-result-card small { display:block; color:#666; line-height:1.45; margin-top:12px; }
+.crm-mini-table { display:grid; grid-template-columns: 110px 1fr; gap:8px 12px; font-size:13px; background:#f8f4ed; border-radius:14px; padding:14px; }
+.crm-mini-table span { color:#777; }
+.crm-mini-table b { color:#191919; }
+.button[disabled] { opacity:.65; cursor:not-allowed; }
+@media (max-width: 1000px) {
+  .scenario-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .automation-explain-card, .seller-preview-grid { grid-template-columns:1fr; }
+  .automation-explain-card .mini-flow { justify-content:flex-start; }
+}
+@media (max-width: 640px) {
+  .scenario-grid, .before-after-grid { grid-template-columns:1fr; }
+  .crm-mini-table, .ticket-grid { grid-template-columns:1fr; }
+}
