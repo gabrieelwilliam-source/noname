@@ -102,7 +102,7 @@
       tipo_interesse: purpose,
       finalidade: purpose,
       form_type: type,
-      demo_scenario: scenario,
+      lead_scenario: scenario,
       city: cfg.city || 'Joinville',
       cidade: cfg.city || 'Joinville',
       state: cfg.state || 'SC',
@@ -130,30 +130,35 @@
     return lead;
   }
 
-  function crmPreview(payload, sentMode) {
-    var intent = payload.tipo_interesse === 'captacao_proprietario' ? 'Captação de proprietário' : (payload.codigo_imovel ? 'Interesse em imóvel específico' : 'Busca ativa de imóvel');
+  function atendimentoFeedback(payload, sentMode) {
+    var title = sentMode === 'webhook' ? 'Solicitação recebida' : 'Próximo passo: enviar no WhatsApp';
+    var intro = sentMode === 'webhook'
+      ? 'Recebemos suas informações. A equipe continuará o atendimento pelo WhatsApp.'
+      : 'Abrimos o WhatsApp com uma mensagem pronta. Basta conferir e tocar em enviar para iniciar o atendimento.';
     var rows = [
-      ['Origem', 'Site / formulário'],
-      ['Lead', payload.nome || 'Cliente'],
+      ['Nome', payload.nome || 'Cliente'],
       ['WhatsApp', payload.telefone || payload.whatsapp || 'informado'],
-      ['Intenção', intent],
-      ['Imóvel', payload.codigo_imovel ? (payload.codigo_imovel + ' — ' + (payload.titulo_imovel || 'imóvel selecionado')) : 'a definir pela qualificação'],
-      ['Destino', sentMode === 'webhook' ? 'Webhook n8n' : 'Modo demonstração + WhatsApp']
+      ['Interesse', payload.codigo_imovel ? 'Imóvel específico' : (payload.tipo_interesse === 'captacao_proprietario' ? 'Avaliação de imóvel' : 'Busca de imóvel')],
+      ['Imóvel', payload.codigo_imovel ? (payload.codigo_imovel + ' — ' + (payload.titulo_imovel || 'imóvel selecionado')) : 'perfil informado na mensagem']
     ];
-    return '<div class="automation-result-card"><strong>' + esc(cfg.demoResultTitle || 'Lead recebido pela automação') + '</strong><p>O fluxo agora tem contexto suficiente para qualificar, registrar e encaminhar o contato.</p><div class="crm-mini-table">' + rows.map(function (r) { return '<span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b>'; }).join('') + '</div><small>Na operação real, o corretor recebe o lead já organizado, com imóvel, origem, intenção e próxima ação sugerida.</small></div>';
+    return '<div class="automation-result-card"><strong>' + esc(title) + '</strong><p>' + esc(intro) + '</p><div class="crm-mini-table">' + rows.map(function (r) { return '<span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b>'; }).join('') + '</div><small>A equipe usa essas informações para evitar perguntas repetidas e seguir direto para as próximas opções ou confirmação.</small></div>';
   }
 
   function whatsappTextFromPayload(p) {
-    return 'Novo lead vindo do site ' + businessName + '\n\n' +
-      'Origem: Site integrado à automação\n' +
-      'Nome: ' + (p.nome || '') + '\n' +
-      'WhatsApp do cliente: ' + (p.telefone || '') + '\n' +
-      (p.email ? 'E-mail: ' + p.email + '\n' : '') +
-      'Interesse: ' + (p.tipo_interesse || p.form_type || 'atendimento') + '\n' +
-      (p.codigo_imovel ? 'Código do imóvel: ' + p.codigo_imovel + '\n' : '') +
-      (p.titulo_imovel ? 'Imóvel: ' + p.titulo_imovel + '\n' : '') +
-      (p.url_imovel ? 'Página: ' + p.url_imovel + '\n' : '') +
-      '\nMensagem do cliente:\n' + (p.mensagem || '');
+    var lines = [];
+    lines.push('Olá, meu nome é ' + (p.nome || '') + '.');
+    if (p.codigo_imovel) {
+      lines.push('Tenho interesse no imóvel ' + p.codigo_imovel + (p.titulo_imovel ? ' - ' + p.titulo_imovel : '') + '.');
+    } else if (p.tipo_interesse === 'captacao_proprietario') {
+      lines.push('Tenho um imóvel e gostaria de conversar sobre venda ou locação.');
+    } else {
+      lines.push('Estou procurando um imóvel e gostaria de receber opções compatíveis.');
+    }
+    if (p.mensagem) lines.push('Mensagem: ' + p.mensagem);
+    if (p.url_imovel) lines.push('Página: ' + p.url_imovel);
+    if (p.email) lines.push('E-mail: ' + p.email);
+    lines.push('Meu WhatsApp: ' + (p.telefone || p.whatsapp || ''));
+    return lines.filter(Boolean).join('\n');
   }
 
   function endpointUrl() {
@@ -197,7 +202,7 @@
     function openLead(options) {
       options = options || {};
       $('#lead-modal-title').textContent = options.title || 'Conte o que você procura';
-      $('#lead-modal-description').textContent = options.description || 'Preencha seus dados para iniciar a automação de atendimento.';
+      $('#lead-modal-description').textContent = options.description || 'Preencha seus dados para continuar pelo WhatsApp com um consultor.';
       $('#lead-listing-code').value = options.code || '';
       $('#lead-listing-title').value = options.propertyTitle || '';
       $('#lead-listing-url').value = options.url || location.href;
@@ -213,10 +218,10 @@
     window.openLeadModal = openLead;
 
     $$('.open-generic-lead').forEach(function (btn) {
-      btn.addEventListener('click', function () { openLead({ type: 'buyer', scenario: 'busca_imovel', title: 'Buscar imóvel com atendimento automático', description: 'A automação coleta o perfil e entrega o lead qualificado para a imobiliária.', message: 'Olá, estou procurando um imóvel e gostaria de receber opções compatíveis.' }); });
+      btn.addEventListener('click', function () { openLead({ type: 'buyer', scenario: 'busca_imovel', title: 'Buscar imóvel com ajuda da equipe', description: 'Informe o que procura para a equipe indicar opções compatíveis.', message: 'Olá, estou procurando um imóvel e gostaria de receber opções compatíveis.' }); });
     });
     $$('.open-owner-lead').forEach(function (btn) {
-      btn.addEventListener('click', function () { openLead({ title: 'Cadastrar imóvel para avaliação', description: 'A automação coleta os dados iniciais e encaminha o proprietário para captação.', type: 'owner', scenario: 'captacao_proprietario', message: 'Olá, tenho um imóvel e gostaria de avaliar para venda ou locação.' }); });
+      btn.addEventListener('click', function () { openLead({ title: 'Cadastrar imóvel para avaliação', description: 'Informe os dados iniciais para a equipe avaliar venda ou locação.', type: 'owner', scenario: 'captacao_proprietario', message: 'Olá, tenho um imóvel e gostaria de avaliar para venda ou locação.' }); });
     });
 
     form.addEventListener('submit', function (e) {
@@ -242,14 +247,14 @@
       sendToWebhook(payload).then(function (result) {
         if (feedback) {
           feedback.className = 'form-feedback success';
-          feedback.innerHTML = crmPreview(payload, result && result.ok ? 'webhook' : 'demo');
+          feedback.innerHTML = atendimentoFeedback(payload, result && result.ok ? 'webhook' : 'whatsapp');
         }
         if (!result || !result.ok) {
           window.open(buildWhatsappUrl(fallbackText), '_blank', 'noopener');
         }
       }).catch(function () {
         window.open(buildWhatsappUrl(fallbackText), '_blank', 'noopener');
-        if (feedback) { feedback.className = 'form-feedback success'; feedback.innerHTML = crmPreview(payload, 'demo'); }
+        if (feedback) { feedback.className = 'form-feedback success'; feedback.innerHTML = atendimentoFeedback(payload, 'whatsapp'); }
       }).finally(function () {
         if (submit) submit.disabled = false;
         if (label) label.classList.remove('hidden');

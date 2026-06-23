@@ -1,22 +1,26 @@
-PACOTE ATUALIZADO LIMPO — V51
+PACOTE ATUALIZADO — EXPERIÊNCIA REAL
 
-Este pacote contém somente a versão atualizada, sem versões antigas do workflow e sem READMEs anteriores.
+Este pacote foi limpo para o site público parecer uma imobiliária real em operação.
 
-ARQUIVOS PRINCIPAIS:
-- index.html: vitrine funcional para o dono da imobiliária testar como cliente.
-- para-imobiliarias.html: página de apresentação comercial da solução.
-- imovel.html: página individual do imóvel.
-- painel-demo.html: exemplo visual do que a equipe/corretor recebe.
-- roteiro-demo.html: roteiro para apresentar a solução.
-- checklist-implantacao.html: checklist de implantação em uma imobiliária real.
-- workflow-n8n-lais-imob-v51-apresentacao-real.json: workflow atualizado para importar no n8n.
-- config.js: ajuste aqui dados da empresa, WhatsApp e webhook quando for implantar.
+LINK QUE DEVE SER ENVIADO PARA TESTE:
+- index.html
 
-COMO USAR:
-1. Suba os arquivos do site no GitHub Pages ou hospedagem.
-2. Importe o workflow-n8n-lais-imob-v51-apresentacao-real.json no n8n.
-3. Confira o webhook e credenciais no n8n.
-4. Teste entrando pelo site, escolhendo um imóvel e iniciando o atendimento.
+O visitante não vê mensagens de teste, demonstração, n8n, CRM ou fluxo. Ele navega como cliente, escolhe imóvel, envia interesse e continua o atendimento pelo WhatsApp/formulário.
 
-OBSERVAÇÃO:
-Este pacote é a versão limpa atualizada. Não inclui v46, v47, v48, v49 ou v50.
+ARQUIVO DO FLUXO N8N:
+- workflow-n8n-lais-imob-v52-experiencia-real.json
+
+ARQUIVOS PRINCIPAIS DO SITE:
+- index.html
+- imovel.html
+- config.js
+- imoveis-data.js
+- site.js
+- home.js
+- property.js
+- atendimento.js
+
+IMPORTANTE:
+1. Se não houver webhook público configurado em config.js, o formulário abre o WhatsApp com mensagem pronta e natural para o cliente enviar.
+2. Se quiser envio direto por POST para o n8n, preencha webhookUrl e mude useWebhook para true em config.js.
+3. Para cliente real, troque nome, WhatsApp, CRECI, CNPJ, política de privacidade, imóveis, fotos e regras comerciais.

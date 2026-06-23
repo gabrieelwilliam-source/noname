@@ -63,7 +63,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    if (!properties.length) { if (root) root.innerHTML = '<div class="not-found"><h1>Nenhum imóvel cadastrado</h1><p>Verifique o arquivo demo-data.js.</p></div>'; return; }
+    if (!properties.length) { if (root) root.innerHTML = '<div class="not-found"><h1>Nenhum imóvel cadastrado</h1><p>Tente novamente ou volte para o catálogo.</p></div>'; return; }
     render(findProperty());
   });
 })();

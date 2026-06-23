@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Detalhes do imóvel com formulário integrado à automação de atendimento imobiliário.">
+  <meta name="description" content="Detalhes do imóvel com fotos, valores, características e atendimento pelo WhatsApp.">
   <meta name="theme-color" content="#191919">
   <title>Imóvel | Horizonte Prime Imóveis</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -40,7 +40,7 @@
 
   <dialog class="lead-modal" id="lead-modal">
     <button class="modal-close" type="button" aria-label="Fechar">×</button>
-    <div class="modal-heading"><span class="eyebrow dark">Atendimento personalizado</span><h2 id="lead-modal-title">Tenho interesse neste imóvel</h2><p id="lead-modal-description">Preencha seus dados para acionar a automação com código, imóvel e contexto do atendimento.</p></div>
+    <div class="modal-heading"><span class="eyebrow dark">Atendimento personalizado</span><h2 id="lead-modal-title">Tenho interesse neste imóvel</h2><p id="lead-modal-description">Preencha seus dados para a equipe continuar o atendimento pelo WhatsApp com as informações deste imóvel.</p></div>
     <form id="lead-form" novalidate>
       <input type="hidden" id="lead-listing-code" name="listing_code"><input type="hidden" id="lead-listing-title" name="listing_title"><input type="hidden" id="lead-listing-url" name="listing_url"><input type="hidden" id="lead-form-type" name="form_type" value="property"><input type="hidden" id="lead-scenario" name="lead_scenario" value="property_interest">
       <div class="form-grid"><label class="form-field full"><span>Nome</span><input id="lead-name" name="name" type="text" autocomplete="name" required placeholder="Como podemos chamar você?"><small class="field-error"></small></label><label class="form-field"><span>WhatsApp</span><input id="lead-phone" name="phone" type="tel" autocomplete="tel" required placeholder="(47) 99999-9999"><small class="field-error"></small></label><label class="form-field"><span>E-mail <em>opcional</em></span><input id="lead-email" name="email" type="email" autocomplete="email" placeholder="voce@email.com"><small class="field-error"></small></label><label class="form-field full"><span>Mensagem</span><textarea id="lead-message" name="message" rows="4" required placeholder="Tenho interesse neste imóvel e gostaria de mais informações."></textarea><small class="field-error"></small></label></div>
@@ -50,9 +50,9 @@
   </dialog>
 
   <script src="config.js"></script>
-  <script src="demo-data.js"></script>
+  <script src="imoveis-data.js"></script>
   <script src="site.js"></script>
-  <script src="automation-demo.js"></script>
+  <script src="atendimento.js"></script>
   <script src="property.js"></script>
   <script src="click-fix.js"></script>
 </body>
