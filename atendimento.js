@@ -35,7 +35,7 @@
       return;
     }
     try { localStorage.setItem('lais_imob_journey', key); } catch (e) {}
-    location.href = 'index.html#atendimento';
+    location.href = 'index.html#teste-fluxo';
   }
 
   function bootFromStorage() {

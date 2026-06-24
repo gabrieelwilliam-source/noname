@@ -1,72 +1,102 @@
-# Site demonstrativo — Imobiliária + Supabase + n8n
+# Automação Imobiliária — pacote comercial e demo funcional
 
-Site estático criado com HTML, CSS e JavaScript puro.
+Site estático + material comercial + workflow n8n para demonstrar e vender automação de atendimento para imobiliárias.
 
-## Estrutura
+## Objetivo do pacote
 
-- `index.html`: página inicial e catálogo.
-- `imovel.html`: página individual do imóvel.
-- `styles.css`: todo o visual responsivo.
-- `site.js`: integração com Supabase, formulário e utilitários.
-- `home.js`: filtros e catálogo da página inicial.
-- `property.js`: carregamento da página individual.
-- `config.js`: URL/chave pública do Supabase, webhook do n8n e dados da empresa.
-- `demo-data.js`: fallback local para abrir o site sem Supabase.
-- `demo/imoveis`: imagens locais de demonstração.
+A solução foi posicionada para vender **automação de atendimento imobiliário**, não apenas site.
 
-## 1. Configurar o Supabase
+Promessa principal:
 
-Abra `config.js` e preencha:
+> A imobiliária recebe leads com contexto, intenção, imóvel de interesse, resumo e próxima ação para o corretor.
 
-```js
-SUPABASE_URL: "https://SEU-PROJETO.supabase.co",
-SUPABASE_ANON_KEY: "SUA_CHAVE_ANON_PUBLICA"
+## Comece por aqui
+
+Abra:
+
+```text
+COMECE-AQUI.html
 ```
 
-Use somente a chave `anon public`. Nunca coloque a chave `service_role` no site.
+Essa página mostra a ordem correta para navegar e apresentar o pacote.
 
-O site chama estas RPCs:
+## Páginas principais
 
-- `imobagent_20260504_ready_public_search_properties`
-- `imobagent_20260504_ready_public_get_property`
-- `imobagent_20260504_ready_submit_site_lead`
+- `para-imobiliarias.html`: landing comercial para donos de imobiliárias.
+- `index.html`: vitrine demonstrativa da imobiliária.
+- `imovel.html?codigo=V10001`: exemplo de imóvel específico.
+- `painel-demo.html`: prova visual do que chega para corretor/gestor.
+- `roteiro-demo.html`: roteiro de apresentação.
+- `checklist-implantacao.html`: checklist visual para implantação.
 
-## 2. Configurar o n8n
+## Documentos internos
 
-Ainda em `config.js`, informe o webhook de produção:
+- `README-ENTREGA-COMERCIAL.md`
+- `PROPOSTA-COMERCIAL.md`
+- `PLAYBOOK-VENDAS-IMOBILIARIAS.md`
+- `MODELO-BRIEFING-CLIENTE.md`
+- `CHECKLIST-IMPLANTACAO-CLIENTE.md`
+- `ESCOPO-SERVICO-E-CONTRATO.md`
+- `MENSAGENS-PRONTAS.md`
+- `MAPA-TECNICO-IMPLANTACAO.md`
+- `ENV-CLIENTE-TEMPLATE.txt`
 
-```js
-N8N_WEBHOOK_URL: "https://SEU-N8N/webhook/lais-imob-site-lead"
+## Configuração do site
+
+Arquivo principal:
+
+```text
+config.js
 ```
 
-Ao cadastrar o lead, o site:
+Campos importantes:
 
-1. Grava o lead no Supabase.
-2. Recebe o contrato normalizado da RPC.
-3. Envia esse contrato ao webhook do n8n.
-4. Acrescenta os marcadores:
-   - `__entry_source: "lais-imob-site-lead"`
-   - `provider_hint: "site_form"`
+- `businessName`
+- `businessShortName`
+- `city`
+- `state`
+- `whatsappNumber`
+- `email`
+- `address`
+- `openingHours`
+- `useWebhook`
+- `webhookUrl`
+- `tenantId`
 
-### CORS no n8n
+## Modo de demonstração
 
-O domínio do site precisa ter permissão para chamar o webhook. Em produção, uma rota backend/proxy é mais segura do que expor o webhook diretamente no navegador.
-
-## 3. Número do WhatsApp
-
-Em `config.js`:
+Por padrão, o site usa:
 
 ```js
-WHATSAPP_NUMBER: "5547999999999"
+useWebhook: false
 ```
 
-Use somente números, incluindo DDI 55 e DDD.
+Nesse modo, o formulário prepara a mensagem estruturada e abre o WhatsApp.
 
-## 4. Rodar localmente
+## Modo conectado ao n8n
 
-Não abra apenas clicando no arquivo, porque alguns navegadores limitam recursos no protocolo `file://`.
+Para enviar lead por POST ao n8n:
 
-No terminal, dentro da pasta:
+```js
+useWebhook: true,
+webhookUrl: 'URL_PUBLICA_DO_WEBHOOK'
+```
+
+O payload enviado pelo site inclui origem, dados do lead, código do imóvel, URL, consentimento, cenário e tenant.
+
+## Workflow n8n
+
+Arquivo incluído:
+
+```text
+workflow-n8n-produto-comercial-v58.json
+```
+
+As credenciais e URLs existentes foram preservadas conforme solicitado. Ao vender para um cliente, duplique o workflow e ajuste a cópia.
+
+## Rodar localmente
+
+Não abra apenas pelo `file://`. Use servidor local:
 
 ```bash
 python -m http.server 8080
@@ -75,36 +105,23 @@ python -m http.server 8080
 Depois acesse:
 
 ```text
-http://localhost:8080
+http://localhost:8080/COMECE-AQUI.html
 ```
 
-Outra opção é usar a extensão **Live Server** do VS Code.
+## Publicar
 
-## 5. Publicar gratuitamente
+Como o projeto é estático, pode ser publicado em:
 
-A pasta pode ser publicada na:
+- Vercel;
+- Netlify;
+- Cloudflare Pages;
+- GitHub Pages.
 
-- Vercel
-- Netlify
-- Cloudflare Pages
-- GitHub Pages
+## Cuidados antes de cliente real
 
-Como o projeto é estático, não precisa de build.
-
-## 6. Modos de dados
-
-No `config.js`:
-
-```js
-DATA_MODE: "auto"
-```
-
-- `auto`: usa Supabase quando configurado; caso contrário, usa os dados locais.
-- `supabase`: exige o Supabase funcionando.
-- `demo`: usa somente `demo-data.js`.
-
-## Segurança
-
-- Não coloque `service_role`, senha ou token do n8n em arquivos públicos.
-- O webhook direto é adequado para demonstração. Para produção, use uma API intermediária com CAPTCHA e rate limit.
-- Os imóveis e contatos incluídos são fictícios.
+- Revisar política de privacidade e termos.
+- Ajustar CRECI, CNPJ e dados legais.
+- Validar dados dos imóveis.
+- Confirmar regras de disponibilidade, preço e agendamento.
+- Trocar dados, telefones, credenciais e integrações na cópia do cliente.
+- Testar todos os cenários de ponta a ponta.

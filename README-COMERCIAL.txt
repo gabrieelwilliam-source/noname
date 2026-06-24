@@ -1,30 +1,76 @@
-GUIA COMERCIAL — SITE PARA IMOBILIÁRIAS
+GUIA COMERCIAL — AUTOMAÇÃO PARA IMOBILIÁRIAS
 
-Fluxo recomendado para vender:
-1. Envie o link para-imobiliarias.html para a imobiliária.
-2. A imobiliária entende a oferta e clica em "Ver demonstração funcionando".
-3. A demonstração abre o index.html com a vitrine imobiliária.
-4. A imobiliária clica em "Quero um site assim" e chama no WhatsApp.
-5. Você coleta: logo, nome, CRECI, CNPJ, cidade, WhatsApp, endereço, cores, domínio e lista de imóveis.
-6. Você duplica o projeto e personaliza para o cliente.
+Este pacote foi ajustado para você vender como automação de atendimento, qualificação e organização de leads para imobiliárias.
 
-Arquivos adicionados:
-- para-imobiliarias.html: página de venda para imobiliárias.
-- commercial.js: configura os links comerciais do WhatsApp.
-- privacidade.html: modelo inicial de política de privacidade.
-- termos.html: modelo inicial de termos de uso.
+NÃO venda como:
+- apenas site;
+- apenas chatbot;
+- apenas página bonita.
 
-Arquivos ajustados:
-- index.html: recebeu faixa de demonstração e textos comerciais melhores.
-- click-fix.js: WhatsApp agora usa o nome configurado em config.js.
-- property.js: título da página individual agora usa o nome configurado em config.js.
-- styles.css: estilos da página comercial e da faixa de demonstração.
+Venda como:
+- atendimento inicial 24h;
+- qualificação automática;
+- lead com contexto para corretor;
+- CRM/handoff;
+- follow-up;
+- agenda e gestão, conforme plano.
 
-Antes de vender para uma imobiliária real, personalize:
-- config.js: nome, telefone, e-mail, cidade, endereço e horário.
-- demo-data.js: imóveis reais, valores, bairros, fotos e códigos.
-- privacidade.html e termos.html: dados legais da imobiliária.
-- Rodapé: CRECI, CNPJ e responsável técnico, se aplicável.
+ARQUIVOS PARA MOSTRAR AO DONO DA IMOBILIÁRIA
 
-Sugestão de abordagem:
-"Olá, tudo bem? Desenvolvi uma demonstração de site profissional para imobiliárias, com catálogo de imóveis, filtros, páginas individuais e botão direto para WhatsApp. Posso te enviar o link para você ver como ficaria para sua imobiliária?"
+1. COMECE-AQUI.html
+Central do pacote para você navegar.
+
+2. para-imobiliarias.html
+Página comercial para enviar ou apresentar.
+
+3. index.html
+Site/vitrine demonstrativa do cliente final.
+
+4. imovel.html?codigo=V10001
+Página de imóvel específico para simular interesse com código.
+
+5. painel-demo.html
+Mostra o que chega para corretor/gestor.
+
+6. roteiro-demo.html
+Roteiro de apresentação de 7 minutos.
+
+DOCUMENTOS INTERNOS
+
+- README-ENTREGA-COMERCIAL.md
+- PROPOSTA-COMERCIAL.md
+- PLAYBOOK-VENDAS-IMOBILIARIAS.md
+- MODELO-BRIEFING-CLIENTE.md
+- CHECKLIST-IMPLANTACAO-CLIENTE.md
+- ESCOPO-SERVICO-E-CONTRATO.md
+- MENSAGENS-PRONTAS.md
+- MAPA-TECNICO-IMPLANTACAO.md
+- ENV-CLIENTE-TEMPLATE.txt
+
+COMO VENDER
+
+1. Comece pela dor:
+“Hoje o corretor recebe muita mensagem solta, sem saber qual imóvel o cliente viu?”
+
+2. Mostre a página comercial.
+
+3. Simule um cliente no site.
+
+4. Mostre o painel da equipe.
+
+5. Feche com:
+“Agora imagine isso conectado aos seus imóveis, seu WhatsApp, seu Instagram e seus corretores.”
+
+MENSAGEM DE ABORDAGEM
+
+Olá, tudo bem? Eu trabalho com automação de atendimento para imobiliárias.
+
+Criei uma demonstração onde o cliente entra pelo site, WhatsApp ou Instagram, a automação entende o interesse, identifica o imóvel, qualifica o lead e entrega tudo organizado para o corretor.
+
+A ideia é reduzir perda de leads e evitar que a equipe receba mensagem sem contexto.
+
+Posso te mandar uma demonstração rápida?
+
+OBSERVAÇÃO
+
+As URLs e credenciais existentes foram mantidas conforme solicitado. Quando vender para um cliente, duplique o projeto e altere os dados do cliente na cópia.
