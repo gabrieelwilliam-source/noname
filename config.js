@@ -19,7 +19,7 @@ window.SITE_CONFIG = {
   n8nSiteWebhookPath: 'lais-imob-site-lead',
   leadDestinationLabel: 'equipe comercial',
   resultTitle: 'Lead estruturado recebido',
-  salesWhatsappMessage: 'Olá, vi a demonstração da automação para imobiliárias. Quero entender como ela pode atender, qualificar e organizar os leads da minha imobiliária.',
+  salesWhatsappMessage: 'Olá, quero entender como essa automação pode atender, qualificar e organizar os leads da minha imobiliária.',
 
   // Campos comerciais usados no payload do lead.
   tenantId: 'horizonte-prime',

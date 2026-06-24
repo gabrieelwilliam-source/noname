@@ -1,27 +1,40 @@
-SITE CLICÁVEL - HORIZONTE PRIME
+CORREÇÃO COMPLETA DA HOME - v61
 
-O pacote foi ajustado para manter o visual profissional e corrigir cliques em botões, cards, filtros, menu, WhatsApp e páginas individuais.
+Este pacote contém todos os arquivos que podem interferir na página inicial.
 
-COMO SUBIR NO GITHUB:
-1. Extraia este ZIP no computador.
-2. No GitHub, entre no repositório do site.
-3. Clique em Add file > Upload files.
-4. Arraste TODOS os arquivos extraídos, não o ZIP fechado.
-5. Confirme a substituição dos arquivos antigos.
-6. Clique em Commit changes.
-7. Aguarde alguns minutos e atualize o site com Ctrl + F5.
+ARQUIVOS PRINCIPAIS:
+- index.html
+- styles.css
+- config.js
+- home.js
+- site.js
+- atendimento.js
+- imoveis-data.js
 
-ARQUIVOS IMPORTANTES:
-- index.html: página inicial e catálogo.
-- imovel.html: página individual do imóvel.
-- demo-data.js: dados dos imóveis.
-- styles.css: visual e correção de cliques.
-- click-fix.js: camada extra de segurança para links, filtros, cards e WhatsApp funcionarem.
-- smart-site.js: recursos inteligentes como favoritos, comparação e recomendações.
+SUBSTITUA estes arquivos exatamente na pasta que o GitHub Pages está publicando.
 
-IMPORTANTE:
-Não envie o ZIP fechado para o GitHub Pages. Suba os arquivos extraídos.
+Se depois disso a frase antiga ainda aparecer:
+"Demonstração comercial: este site mostra como uma imobiliária pode captar leads com contexto"
 
+então o problema NÃO é falta de arquivo. É um destes pontos:
 
-ATUALIZAÇÃO DE CONTATO:
-O WhatsApp comercial correto configurado neste pacote é (47) 99976-2742, formato internacional 5547999762742.
+1) Você está substituindo os arquivos em uma pasta diferente da publicada.
+   Exemplo: enviou dentro de /noname-base, mas o GitHub Pages publica a raiz.
+
+2) Existe outro index.html no repositório.
+   No GitHub, use a busca e pesquise:
+   Demonstração comercial
+
+3) O GitHub Pages está publicando outra branch ou pasta.
+   Vá em:
+   Settings > Pages > Branch
+
+4) Cache.
+   Depois do commit, espere alguns minutos e abra em aba anônima ou use Ctrl + F5.
+
+COMO CONFIRMAR SE SUBIU CERTO:
+Abra o site > botão direito > Exibir código-fonte da página > Ctrl+F > pesquise:
+VERSAO_PUBLICADA
+
+Se não aparecer:
+o index.html deste pacote não está sendo publicado.
