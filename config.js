@@ -14,8 +14,10 @@ window.SITE_CONFIG = {
   // Integração de atendimento.
   // false = formulário prepara atendimento real no WhatsApp.
   // true  = formulário envia o lead por POST para o webhook e só usa WhatsApp como contingência.
-  useWebhook: false,
-  webhookUrl: '',
+  // Para demo ponta a ponta: preencha a URL pública do webhook POST do n8n (/webhook/lais-imob-site-lead).
+  // Também aceita window.IMOB_N8N_SITE_WEBHOOK_URL ou localStorage.IMOB_N8N_SITE_WEBHOOK_URL.
+  useWebhook: true,
+  webhookUrl: (window.IMOB_N8N_SITE_WEBHOOK_URL || (window.localStorage && localStorage.getItem('IMOB_N8N_SITE_WEBHOOK_URL')) || ''),
   n8nSiteWebhookPath: 'lais-imob-site-lead',
   leadDestinationLabel: 'equipe comercial',
   resultTitle: 'Lead estruturado recebido',

@@ -1,0 +1,16 @@
+COMO SUBIR NO GITHUB PAGES
+
+1. Extraia este ZIP no seu computador.
+2. Entre no repositório do GitHub.
+3. Clique em Add file > Upload files.
+4. Envie os arquivos EXTRAÍDOS, não envie o ZIP fechado.
+5. Esta versão tem menos de 100 arquivos para evitar o erro:
+   "Yowza, that’s a lot of files. Try uploading fewer than 100 at a time."
+
+IMPORTANTE:
+- Este pacote é somente o SITE/DEMO para GitHub Pages.
+- O workflow n8n fica separado e deve ser importado dentro do n8n.
+- Para conectar o site ao n8n, edite config.js ou use no navegador:
+
+localStorage.setItem('IMOB_N8N_SITE_WEBHOOK_URL', 'https://SEU-N8N/webhook/lais-imob-site-lead')
+location.reload()
