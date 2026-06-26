@@ -1,4 +1,4 @@
-// Configurações principais do site — pacote v72/vFinal.
+// Configurações principais do site — pacote v73 Comercial.
 // As credenciais, telefones e URLs existentes foram mantidos. Para ativar POST direto no n8n,
 // informe a URL pública completa do webhook em webhookUrl e altere useWebhook para true.
 window.SITE_CONFIG = {
@@ -25,7 +25,7 @@ window.SITE_CONFIG = {
 
   // Campos comerciais usados no payload do lead.
   tenantId: 'horizonte-prime',
-  leadSchemaVersion: 'site_lead_v72',
+  leadSchemaVersion: 'site_lead_v73',
   privacyUrl: 'privacidade.html',
   termsUrl: 'termos.html'
 };

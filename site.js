@@ -3,7 +3,7 @@
   var cfg = window.SITE_CONFIG || {};
   var businessName = cfg.businessName || 'Horizonte Prime Imóveis';
   var phone = String(cfg.whatsappNumber || '5547999762742').replace(/\D/g, '');
-  var leadSchemaVersion = cfg.leadSchemaVersion || 'site_lead_v72';
+  var leadSchemaVersion = cfg.leadSchemaVersion || 'site_lead_v73';
 
   function $(selector, root) { return (root || document).querySelector(selector); }
   function $$(selector, root) { return Array.prototype.slice.call((root || document).querySelectorAll(selector)); }

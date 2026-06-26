@@ -347,5 +347,56 @@
         }
       }
     }
+  ],
+  "v73_tests": [
+    {
+      "name": "v73_lead_quente_visita",
+      "channel": "whatsapp",
+      "text": "Quero visitar amanhã à tarde",
+      "expected": [
+        "commercial_score >= 70",
+        "broker_acceptance_required true",
+        "funnel_stage visita_solicitada"
+      ]
+    },
+    {
+      "name": "v73_proposta_negociacao",
+      "channel": "whatsapp",
+      "text": "Quero fazer uma proposta nesse imóvel",
+      "expected": [
+        "action HANDOFF",
+        "headline proposta/negociação",
+        "lead_temperature quente"
+      ]
+    },
+    {
+      "name": "v73_captacao_proprietario",
+      "channel": "whatsapp",
+      "text": "Quero vender meu imóvel no América",
+      "expected": [
+        "owner_capture_flow true",
+        "funnel_stage captacao_proprietario",
+        "handoff captador/corretor"
+      ]
+    },
+    {
+      "name": "v73_comando_corretor_aceitar",
+      "channel": "whatsapp_internal",
+      "text": "ACEITAR lead 5547999999999",
+      "expected": [
+        "admin_command_kind seller_command",
+        "seller_command_kind aceitar",
+        "resposta de confirmação"
+      ]
+    },
+    {
+      "name": "v73_comando_corretor_fechado",
+      "channel": "whatsapp_internal",
+      "text": "FECHADO V10001",
+      "expected": [
+        "seller_command_kind fechado",
+        "orientação para registrar valor/origem"
+      ]
+    }
   ]
 }
