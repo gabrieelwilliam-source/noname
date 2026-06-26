@@ -1,0 +1,351 @@
+{
+  "schema": "imobagent_acceptance_tests_v72",
+  "webhook_path_preserved": "lais-imob-site-lead",
+  "tests": [
+    {
+      "name": "Lead site imóvel V10001",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v72_v10001",
+        "nome": "João Teste",
+        "telefone": "(47) 99999-0001",
+        "email": "joao.teste@example.com",
+        "mensagem": "Quero visitar amanhã à tarde.",
+        "codigo_imovel": "V10001",
+        "titulo_imovel": "Apartamento 3 quartos em Atiradores",
+        "url_imovel": "https://gabrieelwilliam-source.github.io/noname/imovel.html?codigo=V10001",
+        "origem": "site",
+        "tipo_interesse": "compra",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    },
+    {
+      "name": "Lead site imóvel L92502",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v72_l92502",
+        "nome": "Maria Locação",
+        "telefone": "(47) 99999-0002",
+        "mensagem": "Está disponível?",
+        "codigo_imovel": "L92502",
+        "titulo_imovel": "Apartamento 2 quartos no Saguaçu",
+        "url_imovel": "https://gabrieelwilliam-source.github.io/noname/imovel.html?codigo=L92502",
+        "origem": "site",
+        "tipo_interesse": "locacao",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    },
+    {
+      "name": "Lead sem código buscando aluguel",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v72_aluguel_generico",
+        "nome": "Carla Busca",
+        "telefone": "(47) 99999-0003",
+        "mensagem": "Procuro apartamento para alugar até R$ 2.500.",
+        "origem": "site",
+        "tipo_interesse": "locacao",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    },
+    {
+      "name": "Lead compra com faixa de valor",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v72_compra_valor",
+        "nome": "Rafael Compra",
+        "telefone": "(47) 99999-0004",
+        "mensagem": "Quero comprar casa até 600 mil, posso financiar.",
+        "origem": "site",
+        "tipo_interesse": "compra",
+        "valor": "600000",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    },
+    {
+      "name": "Proprietário captação",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v72_proprietario",
+        "nome": "Patrícia Proprietária",
+        "telefone": "(47) 99999-0005",
+        "mensagem": "Tenho um apartamento e quero vender ou alugar.",
+        "origem": "site",
+        "tipo_interesse": "captacao_proprietario",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    },
+    {
+      "name": "WhatsApp saudação após imóvel selecionado",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_bomdia",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Bom dia"
+          }
+        }
+      }
+    },
+    {
+      "name": "WhatsApp visita",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_visita",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Visita"
+          }
+        }
+      }
+    },
+    {
+      "name": "WhatsApp amanhã à tarde",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_amanha_tarde",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Quero visitar amanhã à tarde"
+          }
+        }
+      }
+    },
+    {
+      "name": "WhatsApp disponível",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_disponivel",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Está disponível?"
+          }
+        }
+      }
+    },
+    {
+      "name": "WhatsApp corretor",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_corretor",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Quero falar com corretor"
+          }
+        }
+      }
+    },
+    {
+      "name": "WhatsApp proposta",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_proposta",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Quero fazer uma proposta"
+          }
+        }
+      }
+    },
+    {
+      "name": "WhatsApp documentos",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_docs",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Documentos"
+          }
+        }
+      }
+    },
+    {
+      "name": "WhatsApp sim pós-handoff",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_sim",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Sim"
+          }
+        }
+      }
+    },
+    {
+      "name": "WhatsApp fico no aguardo",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_aguardo",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Ok, fico no aguardo"
+          }
+        }
+      }
+    },
+    {
+      "name": "WhatsApp áudio com base64 fake",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_audio",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "audioMessage": {
+              "mimetype": "audio/ogg",
+              "base64": "UklGRgAAAAAA"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "WhatsApp imagem com legenda",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_image",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "imageMessage": {
+              "mimetype": "image/jpeg",
+              "caption": "Essa planta tem suíte?",
+              "url": "https://example.com/image.jpg"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Reagendamento",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_reagendar",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Preciso reagendar a visita"
+          }
+        }
+      }
+    },
+    {
+      "name": "Cancelamento",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_cancelar",
+            "remoteJid": "5547999990001@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "João Teste",
+          "message": {
+            "conversation": "Quero cancelar minha visita"
+          }
+        }
+      }
+    },
+    {
+      "name": "Admin resumo diário",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_admin_dia",
+            "remoteJid": "5547988927391@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "Admin",
+          "message": {
+            "conversation": "/resumo diario"
+          }
+        }
+      }
+    },
+    {
+      "name": "Admin resumo semanal",
+      "body": {
+        "event": "messages.upsert",
+        "data": {
+          "key": {
+            "id": "test_msg_admin_semana",
+            "remoteJid": "5547988927391@s.whatsapp.net",
+            "fromMe": false
+          },
+          "pushName": "Admin",
+          "message": {
+            "conversation": "/resumo semanal"
+          }
+        }
+      }
+    }
+  ]
+}
