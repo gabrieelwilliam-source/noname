@@ -1,0 +1,30 @@
+LAIS IMOB — PACOTE INCREMENTAL v101
+
+Este ZIP contém somente os arquivos novos ou alterados para ampliar o site de demonstração.
+Não é o pacote completo v100.
+
+O que foi adicionado:
+- 12 novos imóveis no catálogo, totalizando 22 imóveis no site.
+- 48 novas imagens .jpg de demonstração, 4 por imóvel.
+- Novos tipos nos filtros: Cobertura, Galpão e Terreno.
+- Novas faixas de valor no filtro.
+- Ajuste visual nos cards/detalhes para imóveis comerciais, galpões e terrenos não aparecerem como “0 quartos”.
+- Arquivo JSON com somente os novos imóveis: NOVOS-IMOVEIS-v101.json.
+- Payloads extras para testar o fluxo: TESTES-PAYLOADS-NOVOS-v101.json.
+
+Como subir no GitHub:
+1. Extraia este ZIP.
+2. Envie todos os arquivos para a mesma pasta onde estão index.html, imoveis-data.js e as imagens atuais.
+3. Quando o GitHub perguntar, substitua os arquivos existentes abaixo:
+   - index.html
+   - imoveis-data.js
+   - demo-data.js
+   - home.js
+   - property.js
+4. As imagens V10110 até I10121 são novas; apenas adicione.
+
+Quantidade de arquivos neste pacote: 55
+Fica abaixo do limite de 100 arquivos por upload do GitHub.
+
+Observação importante:
+As imagens são assets realistas de demonstração para deixar o fluxo e o site mais completos durante testes. Para produção real, substitua pelas fotos verdadeiras dos imóveis antes de anunciar publicamente.

@@ -1,0 +1,114 @@
+{
+  "schema": "lais-imob-v101-novos-imoveis-tests",
+  "webhook_path_preserved": "lais-imob-site-lead",
+  "tests": [
+    {
+      "name": "Lead site imóvel V10110",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v101_v10110",
+        "nome": "Cliente Teste v101",
+        "telefone": "(47) 99999-0101",
+        "mensagem": "Tenho interesse no imóvel V10110 e gostaria de mais informações.",
+        "codigo_imovel": "V10110",
+        "titulo_imovel": "Cobertura duplex no América",
+        "url_imovel": "https://gabrieelwilliam-source.github.io/noname/imovel.html?codigo=V10110",
+        "origem": "site",
+        "tipo_interesse": "compra",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    },
+    {
+      "name": "Lead site imóvel L10112",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v101_l10112",
+        "nome": "Cliente Teste v101",
+        "telefone": "(47) 99999-0101",
+        "mensagem": "Tenho interesse no imóvel L10112 e gostaria de mais informações.",
+        "codigo_imovel": "L10112",
+        "titulo_imovel": "Apartamento 2 quartos no Costa e Silva",
+        "url_imovel": "https://gabrieelwilliam-source.github.io/noname/imovel.html?codigo=L10112",
+        "origem": "site",
+        "tipo_interesse": "locacao",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    },
+    {
+      "name": "Lead site imóvel C10115",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v101_c10115",
+        "nome": "Cliente Teste v101",
+        "telefone": "(47) 99999-0101",
+        "mensagem": "Tenho interesse no imóvel C10115 e gostaria de mais informações.",
+        "codigo_imovel": "C10115",
+        "titulo_imovel": "Galpão no Distrito Industrial",
+        "url_imovel": "https://gabrieelwilliam-source.github.io/noname/imovel.html?codigo=C10115",
+        "origem": "site",
+        "tipo_interesse": "locacao",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    },
+    {
+      "name": "Lead site imóvel V10117",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v101_v10117",
+        "nome": "Cliente Teste v101",
+        "telefone": "(47) 99999-0101",
+        "mensagem": "Tenho interesse no imóvel V10117 e gostaria de mais informações.",
+        "codigo_imovel": "V10117",
+        "titulo_imovel": "Terreno residencial no Vila Nova",
+        "url_imovel": "https://gabrieelwilliam-source.github.io/noname/imovel.html?codigo=V10117",
+        "origem": "site",
+        "tipo_interesse": "compra",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    },
+    {
+      "name": "Lead site imóvel C10120",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v101_c10120",
+        "nome": "Cliente Teste v101",
+        "telefone": "(47) 99999-0101",
+        "mensagem": "Tenho interesse no imóvel C10120 e gostaria de mais informações.",
+        "codigo_imovel": "C10120",
+        "titulo_imovel": "Sala comercial no América",
+        "url_imovel": "https://gabrieelwilliam-source.github.io/noname/imovel.html?codigo=C10120",
+        "origem": "site",
+        "tipo_interesse": "compra",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    },
+    {
+      "name": "Lead site imóvel I10121",
+      "method": "POST",
+      "path": "/webhook/lais-imob-site-lead",
+      "body": {
+        "lead_id": "test_v101_i10121",
+        "nome": "Cliente Teste v101",
+        "telefone": "(47) 99999-0101",
+        "mensagem": "Tenho interesse no imóvel I10121 e gostaria de mais informações.",
+        "codigo_imovel": "I10121",
+        "titulo_imovel": "Duplex compacto no Saguaçu",
+        "url_imovel": "https://gabrieelwilliam-source.github.io/noname/imovel.html?codigo=I10121",
+        "origem": "site",
+        "tipo_interesse": "investimento",
+        "__entry_source": "site_form",
+        "__source_webhook": "lais-imob-site-lead"
+      }
+    }
+  ]
+}

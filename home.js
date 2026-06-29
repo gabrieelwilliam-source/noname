@@ -14,7 +14,7 @@
       '<article class="property-card" data-code="' + U.esc(p.listingCode) + '">' +
         '<a class="property-image" href="' + U.esc(url) + '"><img src="' + U.esc(img) + '" alt="' + U.esc(p.title) + '" loading="lazy" onerror="this.src=\'property-fallback.jpg\'"><div class="badge-stack"><span class="badge badge-dark">' + U.esc(U.purposeLabel(p.purpose)) + '</span>' + (p.isFeatured ? '<span class="badge badge-soft">Destaque</span>' : '') + '</div></a>' +
         '<div class="card-content"><h3><a href="' + U.esc(url) + '">' + U.esc(p.title) + '</a></h3><div class="card-location">' + U.esc(p.neighborhood + ', ' + p.city + ' - ' + p.stateCode) + '</div><div class="card-price">' + price + monthly + '</div>' +
-        '<div class="card-stats"><span><strong>' + (p.bedrooms || 0) + '</strong> quartos</span><span><strong>' + (p.bathrooms || 0) + '</strong> banh.</span><span><strong>' + (p.parkingSpots || 0) + '</strong> vagas</span><span><strong>' + (p.areaM2 || 0) + 'm²</strong> área</span></div>' +
+        '<div class="card-stats">' + cardStats(p) + '</div>' +
         '<div class="card-actions"><a class="button button-secondary" href="' + U.esc(url) + '">Ver detalhes</a><button class="button button-primary interest-btn" type="button" data-code="' + U.esc(p.listingCode) + '">Tenho interesse</button></div></div>' +
       '</article>';
   }
