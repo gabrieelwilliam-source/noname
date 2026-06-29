@@ -1,16 +1,22 @@
-# README de Implantação — Automação Imobiliária v72
+# Nota v100
+
+Esta pasta foi consolidada como pacote final comercial v100. O workflow final é `Lais-Imob-Produto-Comercial-Final-v100.json` e foi exportado como novo workflow (`active:false`) preservando credenciais, URLs e paths.
+
+---
+
+# README de Implantação — Automação Imobiliária v100
 
 ## O que é este pacote
 Esta entrega transforma a demonstração em uma central comercial de pré-atendimento imobiliário. O fluxo recebe leads do site, WhatsApp e Instagram, normaliza o contato, identifica imóvel ou intenção, qualifica com IA, registra histórico, aciona corretor, agenda visitas, faz follow-up e entrega visão operacional para gestor.
 
-## Importante sobre a v72
-- A v71 original não deve ser sobrescrita.
-- O JSON da v72 foi exportado sem `id` de workflow para importar como novo workflow no n8n.
+## Importante sobre a v100
+- A versão anterior original não deve ser sobrescrita.
+- O JSON da v100 foi exportado sem `id` de workflow para importar como novo workflow no n8n.
 - IDs de nós, `webhookId`, caminhos, endpoints, URLs, telefones, tokens e credenciais internas foram preservados.
-- A versão v72 inicia desativada (`active: false`) para teste controlado.
+- A versão v100 inicia desativada (`active: false`) para teste controlado.
 
 ## Ordem recomendada
-1. Importe o workflow `Automação Imobiliária Produto Comercial v72 - Cópia Segura Final.json` como novo workflow.
+1. Importe o workflow `Automação Imobiliária Produto Comercial v100 - Cópia Segura Final.json` como novo workflow.
 2. Confira se o caminho `/webhook/lais-imob-site-lead` permanece ativo no n8n.
 3. Publique o site/pacote estático desta pasta.
 4. Configure `window.IMOB_N8N_SITE_WEBHOOK_URL` ou `localStorage.IMOB_N8N_SITE_WEBHOOK_URL` com a URL pública do webhook do n8n, quando quiser POST direto pelo site.

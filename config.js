@@ -1,6 +1,7 @@
-// Configurações principais do site — pacote v73 Comercial.
+// Configurações principais do site — pacote v100 Comercial Final.
 // As credenciais, telefones e URLs existentes foram mantidos. Para ativar POST direto no n8n,
 // informe a URL pública completa do webhook em webhookUrl e altere useWebhook para true.
+// Versão final para demo/venda/implantação. URLs existentes preservadas.
 window.SITE_CONFIG = {
   businessName: 'Horizonte Prime Imóveis',
   businessShortName: 'Horizonte Prime',
@@ -25,7 +26,7 @@ window.SITE_CONFIG = {
 
   // Campos comerciais usados no payload do lead.
   tenantId: 'horizonte-prime',
-  leadSchemaVersion: 'site_lead_v73',
+  leadSchemaVersion: 'site_lead_v100',
   privacyUrl: 'privacidade.html',
   termsUrl: 'termos.html'
 };
