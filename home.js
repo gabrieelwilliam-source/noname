@@ -5,6 +5,38 @@
   var state = { query: '', purpose: '', category: '', neighborhood: '', bedrooms: '', parking: '', price: '', pet: false, sort: 'featured' };
   var properties = U.catalog();
 
+
+  function categoryLabel(c) {
+    c = String(c || '').toLowerCase();
+    var labels = {
+      apartamento: 'Apartamento',
+      casa: 'Casa',
+      sobrado: 'Sobrado',
+      studio: 'Studio',
+      cobertura: 'Cobertura',
+      comercial: 'Comercial',
+      galpao: 'Galpão',
+      terreno: 'Terreno'
+    };
+    return labels[c] || c || 'Imóvel';
+  }
+
+  function statIcon(value, label) {
+    if (value === undefined || value === null || value === '') return '';
+    return '<span><strong>' + U.esc(value) + '</strong> ' + U.esc(label) + '</span>';
+  }
+
+  function cardStats(p) {
+    var c = String((p && p.category) || '').toLowerCase();
+    if (c === 'terreno') {
+      return statIcon(categoryLabel(c), 'tipo') + statIcon((p.areaM2 || 0) + ' m²', 'área');
+    }
+    if (c === 'comercial' || c === 'galpao') {
+      return statIcon(categoryLabel(c), 'tipo') + statIcon(p.bathrooms || 0, 'banheiros') + statIcon(p.parkingSpots || 0, 'vagas') + statIcon((p.areaM2 || 0) + ' m²', 'área');
+    }
+    return statIcon(p.bedrooms || 0, 'quartos') + statIcon(p.suites || 0, 'suítes') + statIcon(p.parkingSpots || 0, 'vagas') + statIcon((p.areaM2 || 0) + ' m²', 'área');
+  }
+
   function card(p) {
     var url = p.listingUrl || ('imovel.html?codigo=' + encodeURIComponent(p.listingCode));
     var img = U.imgPath(p.imageUrl || (p.images && p.images[0] && p.images[0].url) || 'property-fallback.jpg');
