@@ -1,0 +1,38 @@
+CORREÇÃO FLUXO v104 — PET/DÚVIDA OBJETIVA NÃO VIRA CRM
+
+Problema visto no teste:
+Cliente perguntou: “Sabe me dizer se aceita pet?”
+O fluxo entendeu como pedido de atendimento humano e enviou CRM urgente ao corretor.
+
+Causa real:
+O node 07.096 Motor Comercial v74 ainda transformava lead com imóvel + telefone + score alto em HANDOFF, mesmo quando a mensagem era apenas dúvida objetiva.
+Depois disso, o 08.01 Roteador mandava para 09.01 Registrar Handoff para Corretor, antes do bloqueio do 09.025. Por isso a correção anterior não segurou.
+
+O que substituir no n8n:
+1. 07.095 Governança de Conversa e CRM v52
+2. 07.096 Motor Comercial v74 - Score Funil e Lead Quente  ← PRINCIPAL CORREÇÃO
+3. 09.025 CRM Sempre que Houver Handoff
+4. 10.01 Montar Resposta Final ao Lead
+
+Também deixei o workflow JSON completo já com esses nodes corrigidos:
+- Lais-Imob-Fluxo-v104-CORRIGIDO-PET-SEM-CRM.json
+
+Resposta esperada para o teste V10002:
+“Sim. No cadastro, o V10002 — Casa 3 quartos no Glória aparece como aceita pet.
+Antes de visita ou proposta, ainda vale confirmar regras do condomínio/proprietário, como porte, quantidade e restrições.”
+
+Não deve aparecer:
+🚨 CRM HORIZONTE PRIME — PEDIU ATENDIMENTO HUMANO
+
+Regras corrigidas:
+- aceita pet? = FAQ objetiva, sem CRM
+- documentação/financiamento? = FAQ objetiva, sem CRM
+- mais detalhes? = resposta automática, sem CRM
+- disponibilidade simples? = resposta automática, sem CRM
+- opções parecidas? = resposta automática, sem CRM
+
+CRM/Handoff agora só deve acontecer quando houver:
+- pedido explícito por corretor/humano/equipe
+- pedido de visita/agendamento
+- proposta/negociação/fechamento
+- captação de proprietário

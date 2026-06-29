@@ -48,7 +48,8 @@ const intent = normalize(item.last_intent || item.inferred_intent || item.intent
 const stage = normalize(item.stage || '');
 const reason = normalize(item.handoff_reason || item.message_contract?.broker?.reason || '');
 const inbound = normalize(item.canonical_text || item.inbound_text || item.original_text || '');
-const selected = String(item.favorite_listing || item.service_key || item.selected_listing || item.site_property_code || '').trim();
+const t = inbound;
+const selected = String(item.favorite_listing || item.service_key || item.selected_listing || item.site_property_code || item.codigo_imovel || item.property_code || item.listing_code || '').trim();
 const contactKey = String(item.contact_key || item.phone_e164 || item.customer_phone || item.contact_id || '').trim() || 'unknown';
 const score = num(item.lead_score, 0);
 const brokerNotifyHotScore = num(item.broker_notify_score_threshold || cfg.BrokerNotifyHotScore || cfg.SLAConfig?.broker_notify_hot_score || $env.BROKER_NOTIFY_HOT_SCORE, 90);
@@ -60,7 +61,12 @@ const explicitHuman =
 const proposalSignal =
   item.proposal_intent === true ||
   intent === 'negotiation_proposal' ||
-  hasAny(inbound + ' ' + reason, ['proposta','fechar','sinal','reservar','contrato','quero esse','quero fechar','documentacao','documentação','valor que faria sentido']);
+  hasAny(inbound + ' ' + reason, ['proposta','fechar','sinal','reservar','contrato','quero esse','quero fechar','valor que faria sentido','quanto aceita','dou de entrada']);
+const docFinanceSignal =
+  item.documentation_intent === true ||
+  item.financing_intent === true ||
+  ['faq_documentos','faq_documentation','faq_financing','faq_financiamento'].includes(intent) ||
+  hasAny(inbound, ['documentacao','documentação','documentos','garantia','garantias','financiamento','financiar','simulacao','simulação','entrada minima','entrada mínima']);
 const appointmentSignal =
   item.visit_interest === true ||
   ['visit_booking','visit_reschedule','visit_confirm','visit_cancel'].includes(intent) ||
@@ -72,7 +78,8 @@ const ownerSignal =
   hasAny(inbound + ' ' + reason, ['captacao','captação','avaliacao','avaliação','proprietario','proprietário','vender meu','meu imovel','meu imóvel','anunciar']);
 const passiveAck = /^(?:ok|okay|certo|beleza|blz|obrigad[oa]?|valeu|show|perfeito|combinado|aguardo|vou aguardar|fico aguardando)[\s!.]*$/.test(inbound);
 const availabilitySignal = item.availability_intent === true || intent === 'faq_availability' || hasAny(inbound, ['disponivel','disponível','disponibilidade','ainda tem','ainda esta disponivel','ainda está disponível','esta livre','está livre','confirmar se esta','confirmar se está','pode confirmar','ja alugou','já alugou','ja vendeu','já vendeu']);
-const asksOnlyInfo = item.asks_only_info === true || availabilitySignal || hasAny(inbound, ['mais detalhes','mais informacoes','mais informações','detalhes','saber mais','me passa detalhes']);
+const petSignal = item.pet_policy_intent === true || intent === 'faq_pet_policy' || hasAny(inbound, ['aceita pet','aceitam pet','permite pet','permitem pet','aceita animais','aceitam animais','permite animais','pet friendly','cachorro','gato','animal de estimacao','animal de estimação','animais']);
+const asksOnlyInfo = item.asks_only_info === true || availabilitySignal || petSignal || docFinanceSignal || hasAny(inbound, ['mais detalhes','mais informacoes','mais informações','detalhes','saber mais','me passa detalhes']);
 const superHot = (item.super_hot_lead === true || score >= brokerNotifyHotScore) && !asksOnlyInfo && Boolean(selected || item.budget_max || item.monthly_income || item.down_payment || item.payment_mode);
 
 let policyReason = null;
@@ -86,13 +93,15 @@ else if (action === 'handoff' && !asksOnlyInfo && !passiveAck) { policyReason = 
 
 let shouldSend = priority > 0;
 if (passiveAck) { shouldSend = false; policyReason = 'bloqueado_por_resposta_passiva'; priority = 0; }
-if (availabilitySignal && !explicitHuman && !proposalSignal && !ownerSignal) {
+if ((availabilitySignal || petSignal || docFinanceSignal) && !explicitHuman && !proposalSignal && !ownerSignal) {
   shouldSend = false;
-  policyReason = 'bloqueado_por_consulta_de_disponibilidade';
+  policyReason = petSignal ? 'bloqueado_por_duvida_sobre_pet' : (docFinanceSignal ? 'bloqueado_por_faq_documentacao_financiamento' : 'bloqueado_por_consulta_de_disponibilidade');
   priority = 0;
 }
 
 const availabilityOnlyV50 = /\b(disponibilidade|disponivel|disponível|ainda tem|esta livre|está livre|confirmar se|confirmar disponibilidade)\b/.test(t) && !explicitHuman && !proposalSignal && !appointmentSignal && !ownerSignal;
+const petOnlyV102 = /\b(aceita pet|aceitam pet|permite pet|permitem pet|aceita animais|aceitam animais|permite animais|pet friendly|cachorro|gato|animal de estimacao|animal de estimação|animais)\b/.test(t) && !explicitHuman && !proposalSignal && !appointmentSignal && !ownerSignal;
+const docFinanceOnlyV103 = /\b(documentacao|documentação|documentos|garantia|garantias|financiamento|financiar|simulacao|simulação|entrada minima|entrada mínima)\b/.test(t) && !explicitHuman && !proposalSignal && !appointmentSignal && !ownerSignal;
 const similarOnlyV50 = /\b(parecid|semelhant|outras opcoes|outras opções|mais opcoes|mais opções|ampliar busca)\b/.test(t) && !explicitHuman && !proposalSignal && !appointmentSignal && !ownerSignal;
 if (availabilityOnlyV50) {
   shouldSend = false;
@@ -102,6 +111,16 @@ if (availabilityOnlyV50) {
 if (similarOnlyV50) {
   shouldSend = false;
   policyReason = 'bloqueado_por_busca_similar_v50';
+  priority = 0;
+}
+if (petOnlyV102) {
+  shouldSend = false;
+  policyReason = 'bloqueado_por_duvida_sobre_pet_v104';
+  priority = 0;
+}
+if (docFinanceOnlyV103) {
+  shouldSend = false;
+  policyReason = 'bloqueado_por_faq_documentacao_financiamento_v104';
   priority = 0;
 }
 
@@ -155,7 +174,7 @@ return [{
     broker_notify_dedup_key: dedupKey,
     broker_notify_scope: scope,
     broker_notify_throttle_hours: ttlHours,
-    broker_notify_mode: 'crm_marcos_comerciais_v50',
+    broker_notify_mode: 'crm_marcos_comerciais_v104_bloqueia_pet_docs_info',
     broker_notify_headline: headline,
     seller_summary: item.seller_summary || fromOrchestrator.seller_summary || fromRules.seller_summary || 'Lead atingiu marco comercial para atendimento humano.'
   }

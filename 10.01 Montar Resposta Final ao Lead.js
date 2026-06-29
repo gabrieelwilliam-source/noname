@@ -44,9 +44,50 @@ function compactObject(obj) {
   }
   return out;
 }
-function resolveServiceLabel(cfg, serviceKey, fallbackLabel) {
+function normalizeText(value) {
+  return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+}
+function pickListingCode(...values) {
+  for (const value of values) {
+    const s = String(value || '').toUpperCase();
+    if (!s.trim()) continue;
+    const urlMatch = s.match(/[?&]CODIGO=([A-Z]{1,3}\d{3,8})\b/);
+    if (urlMatch) return urlMatch[1];
+    const codeMatch = s.match(/\b([A-Z]{1,3}\d{3,8})\b/);
+    if (codeMatch) return codeMatch[1];
+  }
+  return null;
+}
+function resolveServiceLabel(cfg, serviceKey, fallbackLabel, serviceObj) {
   if (serviceKey && cfg.Services?.[serviceKey]?.label) return cfg.Services[serviceKey].label;
-  return fallbackLabel || null;
+  if (serviceKey && cfg.Services?.[serviceKey]?.title) return cfg.Services[serviceKey].title;
+  return fallbackLabel || serviceObj?.label || serviceObj?.title || serviceKey || null;
+}
+function parseListingLabelFromText(code, ...texts) {
+  const k = String(code || '').toUpperCase();
+  if (!k) return null;
+  for (const value of texts) {
+    const raw = String(value || '');
+    if (!raw) continue;
+    const re = new RegExp('\\b' + k.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&') + '\\b\\s*(?:[-–—:]|\\|)\\s*([^\\n\\r.]+)', 'i');
+    const m = raw.match(re);
+    if (m && m[1]) {
+      const title = m[1]
+        .replace(/^(?:imovel|imóvel)\\s*/i, '')
+        .replace(/^(?:pagina|página|mensagem)\\s*:?/i, '')
+        .replace(/\\s*(?:pagina|página|mensagem|e-mail|email|whatsapp|meu whatsapp).*$/i, '')
+        .trim();
+      if (title && !/^https?:/i.test(title)) return title;
+    }
+  }
+  return null;
+}
+function objectCodeMatchesKey(obj, key) {
+  if (!obj || typeof obj !== 'object') return false;
+  const k = String(key || '').toUpperCase();
+  if (!k) return true;
+  const objCode = pickListingCode(obj.listingCode, obj.listing_code, obj.code, obj.codigo, obj.internalCode, obj.listingId, obj.listingUrl, obj.url);
+  return !objCode || objCode === k;
 }
 function formatProtocol(value) {
   return String(value || '').trim();
@@ -117,15 +158,25 @@ let finalAction = baseAction === 'HANDOFF'
   : (currentAction || baseAction || slotsAction || 'ASK');
 const basePending = base.pending_context && typeof base.pending_context === 'object' ? base.pending_context : {};
 const currentPending = current.pending_context && typeof current.pending_context === 'object' ? current.pending_context : {};
+const inboundForPolicy = normalizeText(base.canonical_text || base.original_text || current.inbound_text || current.canonical_text || '');
+const infoQuestionNow = /(aceita pet|aceitam pet|permite pet|permitem pet|aceita animais|aceitam animais|permite animais|pet friendly|cachorro|gato|animal de estimacao|animal de estimação|animais|mais detalhes|mais informacoes|mais informações|detalhes|saber mais|disponibilidade|disponivel|disponível|opcoes parecidas|opções parecidas|parecid|semelhant|documentacao|documentação|documentos|garantia|garantias|financiamento|financiar|entrada|simulacao|simulação)/.test(inboundForPolicy);
 const persistentHandoff = Boolean(
-  baseAction === 'HANDOFF' ||
-  base.status === 'awaiting_seller' ||
-  basePending.handoff_requested === true ||
-  basePending.handoff_sent === true ||
-  basePending.handoff_status === 'queued' ||
-  basePending.automation_paused_reason === 'aguardando_corretor' ||
-  basePending.catalog_suppressed_after_handoff === true
+  !infoQuestionNow && (
+    baseAction === 'HANDOFF' ||
+    base.status === 'awaiting_seller' ||
+    basePending.handoff_requested === true ||
+    basePending.handoff_sent === true ||
+    basePending.handoff_status === 'queued' ||
+    basePending.automation_paused_reason === 'aguardando_corretor' ||
+    basePending.catalog_suppressed_after_handoff === true
+  )
 );
+
+// v104: pergunta objetiva do cliente não pode herdar HANDOFF antigo do orquestrador.
+// Ex.: cliente pergunta “aceita pet?” após um contexto quente; o fluxo deve responder a dúvida, não disparar CRM.
+if (infoQuestionNow && finalAction === 'HANDOFF') {
+  finalAction = 'ASK';
+}
 
 let finalStage = persistentHandoff ? 'handoff' : (base.stage || current.stage || 'abertura');
 let finalStatus = persistentHandoff ? 'awaiting_seller' : (base.status || current.status || 'ok');
@@ -143,19 +194,48 @@ let pendingContext = {
 };
 let outbound = '';
 
+const explicitServiceKey = pickListingCode(
+  current.codigo_imovel, current.property_code, current.listing_code, current.site_property_code, current.site_listing_key, current.url_imovel, current.property_url, current.listing_url,
+  base.codigo_imovel, base.property_code, base.listing_code, base.site_property_code, base.site_listing_key, base.url_imovel, base.property_url, base.listing_url,
+  pendingContext.favorite_listing, pendingContext.selected_listing, pendingContext.service_key, inboundForPolicy
+);
 let serviceKey = firstValue([
+  explicitServiceKey,
   current.service_key,
   base.service_key,
-  slots.service_key
+  slots.service_key,
+  pendingContext.favorite_listing,
+  pendingContext.selected_listing,
+  pendingContext.service_key
 ], null);
+const selectedServiceObj = [
+  current.selected_listing_object,
+  base.selected_listing_object,
+  current.favorite_listing_object,
+  base.favorite_listing_object,
+  serviceKey && cfg.Services?.[serviceKey]
+].find((obj) => objectCodeMatchesKey(obj, serviceKey)) || null;
+const parsedListingLabel = parseListingLabelFromText(
+  serviceKey,
+  base.original_text, base.canonical_text, base.inbound_text,
+  current.original_text, current.canonical_text, current.inbound_text, current.ai_input_text
+);
 let serviceName = resolveServiceLabel(cfg, serviceKey, firstValue([
+  parsedListingLabel,
+  current.titulo_imovel,
+  current.listing_title,
+  current.property_title,
+  base.titulo_imovel,
+  base.listing_title,
+  base.property_title,
+  // Labels de contexto antigo ficam por último para evitar trocar L10112 por V10001.
   current.service_name,
   current.service_label,
   base.service_name,
   base.service_label,
   slots.service_name,
   slots.service_label
-], null));
+], null), selectedServiceObj);
 let serviceDurationMin = Number(firstValue([
   current.service_duration_min,
   base.service_duration_min,
@@ -234,12 +314,14 @@ else if (finalAction === 'ASK') {
     'Como posso te ajudar por aqui?'
   );
   const preserveAwaitingSeller = Boolean(
-    ['awaiting_seller', 'handoff', 'human_active'].includes(String(base.status || current.status || '').toLowerCase()) ||
-    pendingContext.handoff_requested === true ||
-    pendingContext.handoff_sent === true ||
-    pendingContext.handoff_status === 'queued' ||
-    pendingContext.automation_paused_reason === 'aguardando_corretor' ||
-    pendingContext.catalog_suppressed_after_handoff === true
+    !infoQuestionNow && (
+      ['awaiting_seller', 'handoff', 'human_active'].includes(String(base.status || current.status || '').toLowerCase()) ||
+      pendingContext.handoff_requested === true ||
+      pendingContext.handoff_sent === true ||
+      pendingContext.handoff_status === 'queued' ||
+      pendingContext.automation_paused_reason === 'aguardando_corretor' ||
+      pendingContext.catalog_suppressed_after_handoff === true
+    )
   );
   if (preserveAwaitingSeller) {
     finalStage = 'handoff';
