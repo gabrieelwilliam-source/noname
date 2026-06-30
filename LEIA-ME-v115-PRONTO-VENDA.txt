@@ -1,0 +1,32 @@
+# Lais Imob v115 — Pronto para vender: Site + WhatsApp
+
+Esta entrega contém o workflow n8n atualizado para atender leads de duas entradas:
+
+1. Lead vindo do site/formulário pelo webhook `/webhook/lais-imob-site-lead`.
+2. Lead chegando direto pelo WhatsApp no webhook já existente.
+
+O que foi ajustado nesta versão:
+
+- URLs, paths de webhook, credenciais e tokens existentes foram preservados.
+- BrokerNotificationTestMode foi desligado para não travar a operação em modo teste.
+- O fluxo passa a operar em modo produção por padrão quando `DEMO_MODE` não estiver ativo.
+- O TenantId padrão foi ajustado para o tenant comercial do pacote.
+- O catálogo padrão foi alinhado ao site estático já enviado.
+- O envio interno para corretor foi corrigido para priorizar o corretor responsável/assigned seller e usar fallback administrativo apenas quando não houver corretor válido.
+- Lead quente só é enviado para vendedor quando houver marco comercial real: pedido de corretor/humano, visita com contexto, proposta/negociação ou captação de proprietário.
+- Dúvidas objetivas, como pet, documentação, financiamento, disponibilidade, detalhes e opções parecidas, continuam sendo respondidas pela automação sem espamar o corretor.
+- A resposta ao cliente mantém mensagem limpa; resumo interno/CRM não vaza para o lead.
+
+Arquivo principal para importar no n8n:
+
+`Lais-Imob-Produto-Comercial-v115-pronto-venda-site-whatsapp.json`
+
+Webhook do site:
+
+`/webhook/lais-imob-site-lead`
+
+Webhook do WhatsApp preservado:
+
+`/webhook/9A9ABFCDF064-4666-AB44-A238C2BA93FB`
+
+Antes de vender para uma imobiliária real, duplique o workflow e personalize somente os dados comerciais do cliente, corretores, calendário e catálogo, mantendo esta versão como matriz.
