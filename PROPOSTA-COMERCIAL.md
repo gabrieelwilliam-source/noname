@@ -28,7 +28,7 @@ Donos de imobiliárias geralmente sofrem com:
 
 ## A solução
 
-A automação atende o primeiro contato, entende o interesse, coleta informações essenciais, registra o lead, faz follow-up e entrega para o corretor quando existe contexto real.
+A automação atende o primeiro contato como uma consultora: entende o interesse, faz uma pergunta por vez, coleta informações essenciais, sugere imóveis compatíveis quando houver base no catálogo, registra o lead, faz follow-up e entrega para o corretor quando existe contexto real.
 
 Ela pode receber leads de:
 
@@ -52,6 +52,14 @@ Ela pode receber leads de:
 - lembrete de visita;
 - possibilidade de agenda;
 - relatório diário ou semanal.
+
+## Padrão de atendimento
+
+- conversa natural e contextual, sem menu repetitivo;
+- uma pergunta por vez;
+- sugestões de até três imóveis reais do catálogo;
+- transparência em dúvidas sobre contrato, documentação, financiamento e disponibilidade;
+- encaminhamento para corretor somente com intenção ou autorização clara do cliente.
 
 ## Planos sugeridos
 

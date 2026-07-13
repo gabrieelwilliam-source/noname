@@ -10,10 +10,10 @@
 Abra um imóvel, envie interesse e mostre que o payload leva código, título, URL, nome, telefone, mensagem, origem e tipo de interesse.
 
 ## 3:00–4:00 — Conversa consultiva
-Mostre respostas curtas, uma pergunta por vez, sem menu repetitivo e sem prometer disponibilidade absoluta.
+Mostre respostas curtas, naturais e uma pergunta por vez. Simule bairro, tipo de imóvel e faixa de valor; então mostre até três opções compatíveis. A automação não promete disponibilidade absoluta nem inventa condições de contrato.
 
 ## 4:00–5:00 — Handoff para corretor
-Simule “quero visitar” ou “quero proposta”. Mostre o resumo interno com contexto, SLA e próxima ação.
+Simule uma dúvida específica sobre documentação/contrato, “quero visitar” ou “quero falar com corretor”. Mostre que a Lais oferece o encaminhamento, espera a confirmação do cliente e só então envia o resumo interno com contexto e próxima ação.
 
 ## 5:00–6:00 — Gestão
 Abra painel/roteiro e explique follow-up, agenda, lembrete, resumo diário e resumo semanal.
