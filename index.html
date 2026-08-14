@@ -15,8 +15,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body data-versao-site="v102-iana-integrada">
+<body data-versao-site="v100-produto-comercial-final">
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  </div>
 
   <div class="topbar">
     <div class="container topbar-inner">
@@ -67,13 +68,13 @@
         <div class="hero-copy">
           <span class="eyebrow">Curadoria imobiliária em Joinville</span>
           <h1>Imóveis selecionados para compra, locação e investimento em Joinville.</h1>
-          <p>Navegue pelo catálogo, veja fotos, valores e detalhes de cada opção. Quando encontrar um imóvel interessante, continue com a Iana pelo WhatsApp. Ela leva o contexto da sua busca e chama a equipe quando necessário.</p>
+          <p>Navegue pelo catálogo, veja fotos, valores e detalhes de cada opção. Quando encontrar um imóvel interessante, fale com a equipe e avance com mais agilidade para visita, proposta ou avaliação.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="#catalogo">Ver imóveis disponíveis</a>
             <button class="button button-light open-generic-lead" type="button">Receber indicação</button>
           </div>
           <div class="hero-badges" aria-label="Diferenciais">
-            <span>✓ Atendimento pelo WhatsApp com contexto da sua busca</span>
+            <span>✓ Atendimento consultivo pelo WhatsApp</span>
             <span>✓ Catálogo com página individual para cada imóvel</span>
             <span>✓ Compra, locação, investimento e avaliação</span>
           </div>
@@ -102,7 +103,8 @@
               <select id="hero-category">
                 <option value="">Todos os tipos</option>
                 <option value="apartamento">Apartamento</option>
-                <option value="casa_sobrado">Casa / Sobrado</option>
+                <option value="casa">Casa</option>
+                <option value="sobrado">Sobrado</option>
                 <option value="studio">Studio</option>
                 <option value="cobertura">Cobertura</option>
                 <option value="comercial">Comercial</option>
@@ -141,11 +143,11 @@
         <div class="scenario-grid">
           <button class="scenario-card" type="button" data-journey="comprador"><span>01</span><h3>Buscar para comprar</h3><p>Encontre apartamentos, casas e oportunidades alinhadas ao seu momento de compra.</p></button>
           <button class="scenario-card" type="button" data-journey="aluguel"><span>02</span><h3>Buscar para alugar</h3><p>Veja opções para locação com informações claras sobre valores, condomínio e perfil do imóvel.</p></button>
-          <button class="scenario-card" type="button" data-journey="visita"><span>03</span><h3>Agendar visita</h3><p>Escolha um imóvel no catálogo ou informe o código para a Iana continuar com disponibilidade e próximos passos.</p></button>
+          <button class="scenario-card" type="button" data-journey="visita"><span>03</span><h3>Agendar visita</h3><p>Quando um imóvel chamar atenção, a equipe ajuda com disponibilidade e próximos passos.</p></button>
           <button class="scenario-card" type="button" data-journey="proprietario"><span>04</span><h3>Anunciar imóvel</h3><p>Receba atendimento para venda, locação ou avaliação comercial do seu imóvel.</p></button>
         </div>
         <div class="automation-explain-card">
-          <div><strong>Atendimento mais objetivo desde o primeiro contato</strong><p>Ao informar seu interesse, a Iana recebe os filtros e o imóvel que você já escolheu, evitando perguntas repetidas e mantendo a conversa no mesmo contexto.</p></div>
+          <div><strong>Atendimento mais objetivo desde o primeiro contato</strong><p>Ao informar seu interesse, a equipe consegue seguir o atendimento com mais contexto, reduzindo etapas e acelerando o próximo passo.</p></div>
           <div class="mini-flow"><span>Catálogo</span><i>→</i><span>Atendimento</span><i>→</i><span>Visita</span><i>→</i><span>Proposta</span></div>
         </div>
       </div>
@@ -179,7 +181,7 @@
         </div>
         <div class="services-grid">
           <article class="service-card"><span>01</span><h3>Compra com orientação</h3><p>Apoio para quem busca comprar com mais clareza sobre região, perfil e faixa de valor.</p></article>
-          <article class="service-card"><span>02</span><h3>Locação com objetividade</h3><p>Imóveis para alugar com valores, taxas, fotos e informações essenciais para decidir com segurança.</p></article>
+          <article class="service-card"><span>02</span><h3>Locação com objetividade</h3><p>Imóveis para alugar com valores, taxas, fotos e informações essenciais para decisãoar com segurança.</p></article>
           <article class="service-card"><span>03</span><h3>Investimento</h3><p>Imóveis com potencial de renda, liquidez, localização estratégica e perfil de valorização.</p></article>
           <article class="service-card"><span>04</span><h3>Captação de proprietários</h3><p>Canal profissional para proprietários que desejam vender, alugar ou avaliar um imóvel com acompanhamento comercial.</p></article>
         </div>
@@ -202,7 +204,7 @@
             <div class="filter-header"><h3>Filtrar imóveis</h3><button type="button" class="clear-filters">Limpar</button></div>
             <label class="filter-field"><span>Buscar</span><input id="filter-query" type="search" placeholder="Bairro, título ou código"></label>
             <label class="filter-field"><span>Finalidade</span><select id="filter-purpose"><option value="">Todas</option><option value="compra">Compra</option><option value="locacao">Locação</option><option value="investimento">Investimento</option></select></label>
-            <label class="filter-field"><span>Tipo</span><select id="filter-category"><option value="">Todos</option><option value="apartamento">Apartamento</option><option value="casa_sobrado">Casa / Sobrado</option><option value="studio">Studio</option><option value="cobertura">Cobertura</option><option value="comercial">Comercial</option><option value="galpao">Galpão</option><option value="terreno">Terreno</option></select></label>
+            <label class="filter-field"><span>Tipo</span><select id="filter-category"><option value="">Todos</option><option value="apartamento">Apartamento</option><option value="casa">Casa</option><option value="sobrado">Sobrado</option><option value="studio">Studio</option><option value="cobertura">Cobertura</option><option value="comercial">Comercial</option><option value="galpao">Galpão</option><option value="terreno">Terreno</option></select></label>
             <label class="filter-field"><span>Bairro</span><select id="filter-neighborhood"><option value="">Todos os bairros</option></select></label>
             <div class="filter-row">
               <label class="filter-field"><span>Quartos</span><select id="filter-bedrooms"><option value="">Qualquer</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
@@ -254,8 +256,8 @@
         <div class="steps-grid">
           <article class="step-card"><span class="step-number">01</span><h3>Escolha o perfil</h3><p>Use filtros ou conte exatamente o que procura.</p></article>
           <article class="step-card"><span class="step-number">02</span><h3>Compare opções</h3><p>Veja fotos, cômodos, valores, localização e diferenciais.</p></article>
-          <article class="step-card"><span class="step-number">03</span><h3>Envie seu interesse</h3><p>A Iana recebe seus filtros e o imóvel de interesse para continuar do ponto em que você parou.</p></article>
-          <article class="step-card"><span class="step-number">04</span><h3>Agende a visita</h3><p>A Iana organiza o pedido e envolve a equipe quando a etapa exigir atendimento humano.</p></article>
+          <article class="step-card"><span class="step-number">03</span><h3>Envie seu interesse</h3><p>A equipe recebe a solicitação completa com dados, perfil e imóvel de interesse.</p></article>
+          <article class="step-card"><span class="step-number">04</span><h3>Agende a visita</h3><p>Confirme horários, documentação e próximos passos.</p></article>
         </div>
       </div>
     </section>
@@ -280,6 +282,17 @@
       </div>
     </section>
 
+    <section class="section testimonials-section">
+      <div class="container">
+        <div class="section-heading centered"><div><span class="eyebrow dark">Confiança</span><h2>Atendimento claro do primeiro contato à visita</h2><p>Uma experiência mais organizada, com apresentação profissional dos imóveis e comunicação objetiva.</p></div></div>
+        <div class="testimonial-grid">
+          <article class="testimonial-card"><p>“Gostei porque consegui entender os detalhes do imóvel e avançar no atendimento com rapidez.”</p><strong>Comprador</strong></article>
+          <article class="testimonial-card"><p>“A navegação ficou simples e os imóveis estavam apresentados de forma muito mais clara.”</p><strong>Locatário</strong></article>
+          <article class="testimonial-card"><p>“A apresentação dos imóveis transmite mais credibilidade e facilita o contato com a imobiliária.”</p><strong>Proprietário</strong></article>
+        </div>
+      </div>
+    </section>
+
     <section class="section faq-section">
       <div class="container faq-grid">
         <div><span class="eyebrow dark">Perguntas frequentes</span><h2>Dúvidas comuns antes do contato</h2><p>Informações importantes antes de solicitar atendimento.</p></div>
@@ -294,7 +307,7 @@
 
     <section class="section cta-section" id="contato">
       <div class="container cta-card">
-        <div><span class="eyebrow light">Não encontrou o que procura?</span><h2>Receba atendimento para encontrar o imóvel ideal.</h2><p>Conte o que você procura e a Iana continua pelo WhatsApp com os filtros que você já escolheu no site.</p></div>
+        <div><span class="eyebrow light">Não encontrou o que procura?</span><h2>Receba atendimento para encontrar o imóvel ideal.</h2><p>Conte o que você procura e a equipe continua o atendimento pelo WhatsApp.</p></div>
         <button class="button button-light open-generic-lead" type="button">Quero ajuda para encontrar</button>
       </div>
     </section>
@@ -305,7 +318,7 @@
       <div><a class="brand footer-brand" href="index.html"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 24 24 9l16 15v15H28V29h-8v10H8V24Z"/><path d="M16 22h16"/></svg></span><span><strong data-business-name>Horizonte Prime</strong><small>Imóveis</small></span></a><p>Compra, locação, investimento e avaliação de imóveis em Joinville e região.</p></div>
       <div><h3>Navegação</h3><a href="#imoveis">Imóveis</a><a href="#servicos">Serviços</a><a href="#bairros">Bairros</a><a href="#sobre">Sobre</a></div>
       <div><h3>Finalidades</h3><a href="#catalogo" data-footer-purpose="compra">Comprar</a><a href="#catalogo" data-footer-purpose="locacao">Alugar</a><a href="#catalogo" data-footer-purpose="investimento">Investir</a></div>
-      <div><h3>Atendimento</h3><button class="footer-button open-generic-lead" type="button">Iniciar atendimento</button><a data-whatsapp-link href="#">WhatsApp: (47) 99976-2742</a><span data-site-address>Joinville - SC</span><span data-site-hours>Segunda a sábado</span></div>
+      <div><h3>Atendimento</h3><button class="footer-button open-generic-lead" type="button">Falar com consultor</button><a data-whatsapp-link href="#">WhatsApp: (47) 99976-2742</a><span data-site-address>Joinville - SC</span><span data-site-hours>Segunda a sábado</span></div>
     </div>
     <div class="container footer-bottom"><span>© <span id="current-year"></span> <span data-business-name>Horizonte Prime</span>. Todos os direitos reservados.</span><span>Disponibilidade, valores, taxas e condições estão sujeitos à confirmação com a equipe comercial.</span><span class="footer-legal"><a href="privacidade.html">Privacidade</a> · <a href="termos.html">Termos</a></span></div>
   </footer>
@@ -316,22 +329,21 @@
 
   <dialog class="lead-modal" id="lead-modal">
     <button class="modal-close" type="button" aria-label="Fechar">×</button>
-    <div class="modal-heading"><span class="eyebrow dark">Atendimento personalizado</span><h2 id="lead-modal-title">Conte o que você procura</h2><p id="lead-modal-description">Informe seu nome e WhatsApp. A Iana recebe também o contexto da sua busca no site.</p></div>
+    <div class="modal-heading"><span class="eyebrow dark">Atendimento personalizado</span><h2 id="lead-modal-title">Conte o que você procura</h2><p id="lead-modal-description">Preencha seus dados para iniciar o atendimento pelo WhatsApp comercial.</p></div>
     <form id="lead-form" novalidate>
       <input type="hidden" id="lead-listing-code" name="listing_code"><input type="hidden" id="lead-listing-title" name="listing_title"><input type="hidden" id="lead-listing-url" name="listing_url"><input type="hidden" id="lead-form-type" name="form_type" value="buyer"><input type="hidden" id="lead-scenario" name="lead_scenario" value="site">
-      <div class="form-grid"><label class="form-field full"><span>Nome</span><input id="lead-name" name="name" type="text" autocomplete="name" required placeholder="Como podemos chamar você?"><small class="field-error"></small></label><label class="form-field full"><span>WhatsApp</span><input id="lead-phone" name="phone" type="tel" autocomplete="tel" required placeholder="(47) 99999-9999"><small class="field-error"></small></label><label class="form-field full"><span>Observação <em>opcional</em></span><textarea id="lead-message" name="message" rows="3" placeholder="Se quiser, acrescente algum detalhe importante."></textarea><small class="field-error"></small></label></div>
+      <div class="form-grid"><label class="form-field full"><span>Nome</span><input id="lead-name" name="name" type="text" autocomplete="name" required placeholder="Como podemos chamar você?"><small class="field-error"></small></label><label class="form-field"><span>WhatsApp</span><input id="lead-phone" name="phone" type="tel" autocomplete="tel" required placeholder="(47) 99999-9999"><small class="field-error"></small></label><label class="form-field"><span>E-mail <em>opcional</em></span><input id="lead-email" name="email" type="email" autocomplete="email" placeholder="voce@email.com"><small class="field-error"></small></label><label class="form-field full"><span>Mensagem</span><textarea id="lead-message" name="message" rows="4" required placeholder="Ex.: casa com 3 quartos até R$ 700 mil"></textarea><small class="field-error"></small></label></div>
       <label class="consent-field"><input id="lead-consent" type="checkbox" required><span>Concordo em receber atendimento relacionado à minha solicitação pelo WhatsApp.</span></label>
       <button class="button button-primary button-full" id="lead-submit" type="submit"><span class="button-label">Iniciar atendimento</span><span class="button-loading hidden">Enviando...</span></button>
       <div class="form-feedback hidden" id="lead-feedback" role="status"></div>
     </form>
   </dialog>
 
-  <script src="config.js"></script>
-  <script src="imoveis-data.js"></script>
-  <script src="site.js"></script>
-  <script src="atendimento.js"></script>
-  <script src="home.js?v=182"></script>
-  <script src="smart-site.js?v=183"></script>
-<script>console.log("VERSAO_PUBLICADA: v183-hotfix-travamento-comparador");</script>
+  <script src="config.js?v=184"></script>
+  <script src="imoveis-data.js?v=184"></script>
+  <script src="site.js?v=184"></script>
+  <script src="atendimento.js?v=184"></script>
+  <script src="home.js?v=184"></script>
+<script>console.log("VERSAO_PUBLICADA: v184-reparo-seguro-sem-smart-site");</script>
 </body>
 </html>

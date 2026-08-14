@@ -3,28 +3,28 @@
   var scenarios = {
     comprador: {
       type: 'buyer', scenario: 'comprador_qualificado', title: 'Quero comprar um imóvel',
-      description: 'Informe seu perfil de compra. A Iana continua a busca a partir do que você contar aqui.',
+      description: 'Informe seu perfil de compra para a equipe separar opções compatíveis.',
       message: 'Olá, quero comprar um apartamento em Joinville. Procuro 2 ou 3 quartos, até R$ 900 mil, com vaga e boa localização.'
     },
     aluguel: {
       type: 'rent', scenario: 'cliente_locacao', title: 'Quero alugar um imóvel',
-      description: 'Informe sua necessidade de locação. A Iana usa esse contexto para continuar a busca sem repetir perguntas.',
+      description: 'Informe sua necessidade de locação para receber orientação sobre opções, valores e garantias.',
       message: 'Olá, procuro imóvel para alugar em Joinville, preferência por 2 quartos, aceita pet e até R$ 3.500 por mês.'
     },
     proprietario: {
       type: 'owner', scenario: 'captacao_proprietario', title: 'Tenho um imóvel para avaliar',
-      description: 'Informe os dados iniciais. A Iana organiza o contexto e encaminha para a equipe responsável quando necessário.',
+      description: 'Informe os dados iniciais para avaliação de venda ou locação.',
       message: 'Olá, tenho um imóvel em Joinville e gostaria de avaliar para venda ou locação com a imobiliária.'
     },
     visita: {
-      type: 'visit', scenario: 'agendamento_visita',
-      title: 'Quero agendar uma visita', description: 'Se você já escolheu um imóvel, informe o código ou o nome na mensagem. Se ainda não escolheu, a Iana ajuda a encontrar uma opção primeiro.',
-      message: 'Quero agendar uma visita. O imóvel que me interessou é: '
+      type: 'property', scenario: 'agendamento_visita', code: 'V10001', propertyTitle: 'Apartamento 3 quartos em Atiradores', url: new URL('imovel.html?codigo=V10001', location.href).href,
+      title: 'Tenho interesse em visitar', description: 'Envie seus dados para confirmar disponibilidade e combinar próximos passos sobre este imóvel.',
+      message: 'Olá, tenho interesse no imóvel V10001 - Apartamento 3 quartos em Atiradores. Quero verificar disponibilidade e agendar uma visita.'
     },
     investimento: {
       type: 'investment', scenario: 'investidor', code: 'I10005', propertyTitle: 'Studio mobiliado no Centro', url: new URL('imovel.html?codigo=I10005', location.href).href,
       title: 'Quero investir em imóvel', description: 'Informe seu objetivo para analisar opções com potencial de renda e liquidez.',
-      message: 'Quero entender o potencial de renda, condomínio e condições de negociação deste imóvel.'
+      message: 'Olá, tenho interesse no imóvel I10005 - Studio mobiliado no Centro. Quero entender potencial de renda, condomínio e condições de negociação.'
     }
   };
 

@@ -12,7 +12,6 @@
       apartamento: 'Apartamento',
       casa: 'Casa',
       sobrado: 'Sobrado',
-      casa_sobrado: 'Casa / Sobrado',
       studio: 'Studio',
       cobertura: 'Cobertura',
       comercial: 'Comercial',
@@ -56,11 +55,7 @@
     var hay = U.normalize([p.title, p.neighborhood, p.city, p.listingCode, p.category, (p.amenities || []).join(' ')].join(' '));
     if (state.query && hay.indexOf(U.normalize(state.query)) < 0) return false;
     if (state.purpose && p.purpose !== state.purpose) return false;
-    if (state.category) {
-      if (state.category === 'casa_sobrado') {
-        if (p.category !== 'casa' && p.category !== 'sobrado') return false;
-      } else if (p.category !== state.category) return false;
-    }
+    if (state.category && p.category !== state.category) return false;
     if (state.neighborhood && p.neighborhood !== state.neighborhood) return false;
     if (state.bedrooms && Number(p.bedrooms || 0) < Number(state.bedrooms)) return false;
     if (state.parking && Number(p.parkingSpots || 0) < Number(state.parking)) return false;
@@ -96,7 +91,7 @@
     if (!grid) return;
     var list = sorted(properties.filter(matches));
     grid.innerHTML = list.map(card).join('');
-    if (summary) summary.textContent = list.length + ' imóveis encontrados em Joinville. A Iana confirma disponibilidade e condições durante o atendimento.';
+    if (summary) summary.textContent = list.length + ' imóveis encontrados em Joinville.';
     if (empty) empty.classList.toggle('hidden', list.length > 0);
     renderActiveFilters();
     bindInterestButtons();
@@ -107,7 +102,7 @@
     var chips = [];
     if (state.query) chips.push('Busca: ' + state.query);
     if (state.purpose) chips.push(U.purposeLabel(state.purpose));
-    if (state.category) chips.push(categoryLabel(state.category));
+    if (state.category) chips.push(state.category);
     if (state.neighborhood) chips.push(state.neighborhood);
     if (state.bedrooms) chips.push(state.bedrooms + '+ quartos');
     if (state.parking) chips.push(state.parking + '+ vagas');
@@ -149,9 +144,6 @@
     state.price = (document.getElementById('filter-price') || {}).value || '';
     state.pet = !!((document.getElementById('filter-pet') || {}).checked);
     state.sort = (document.getElementById('sort-properties') || {}).value || 'featured';
-    if (window.HorizonteSite && typeof window.HorizonteSite.refreshWhatsappLinks === 'function') {
-      window.HorizonteSite.refreshWhatsappLinks();
-    }
   }
 
   function setupFilters() {
@@ -220,7 +212,7 @@
       btn.addEventListener('click', function () {
         var p = properties.find(function (x) { return String(x.listingCode) === String(btn.dataset.code); });
         if (!p || !window.openLeadModal) return;
-        window.openLeadModal({ type: 'property', code: p.listingCode, propertyTitle: p.title, url: new URL(p.listingUrl || ('imovel.html?codigo=' + p.listingCode), location.href).href, title: 'Tenho interesse neste imóvel', description: p.title + ' • Código ' + p.listingCode, message: 'Gostaria de mais informações sobre este imóvel.' });
+        window.openLeadModal({ type: 'property', code: p.listingCode, propertyTitle: p.title, url: new URL(p.listingUrl || ('imovel.html?codigo=' + p.listingCode), location.href).href, title: 'Tenho interesse neste imóvel', description: p.title + ' • Código ' + p.listingCode, message: 'Olá, tenho interesse no imóvel ' + p.listingCode + ' - ' + p.title + '. Gostaria de mais informações.' });
       });
     });
   }
