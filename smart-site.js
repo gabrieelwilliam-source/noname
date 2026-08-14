@@ -343,13 +343,33 @@
   }
 
   function observeCards() {
+    // HOTFIX v183: observa apenas mudanças diretas na grade.
+    // Antes, subtree:true fazia as próprias alterações visuais de decorateCards()
+    // dispararem o observer novamente, criando um loop de MutationObserver e
+    // bloqueando a interface depois que o smart-site.js foi ativado no index.
     var targets = ['#catalog-grid', '#featured-grid', '.related-grid'].map(function (s) { return $(s); }).filter(Boolean);
-    targets.forEach(function (target) {
-      var obs = new MutationObserver(function () {
+    var refreshScheduled = false;
+
+    function scheduleRefresh() {
+      if (refreshScheduled) return;
+      refreshScheduled = true;
+      var run = function () {
+        refreshScheduled = false;
         decorateCards();
         renderSmartPanel();
+      };
+      if (typeof window.requestAnimationFrame === 'function') window.requestAnimationFrame(run);
+      else setTimeout(run, 16);
+    }
+
+    targets.forEach(function (target) {
+      var obs = new MutationObserver(function (mutations) {
+        var changed = mutations.some(function (mutation) {
+          return mutation.type === 'childList' && mutation.target === target;
+        });
+        if (changed) scheduleRefresh();
       });
-      obs.observe(target, { childList: true, subtree: true });
+      obs.observe(target, { childList: true, subtree: false });
     });
   }
 
