@@ -2,6 +2,7 @@
   'use strict';
 
   var U = window.ImobUtils;
+  var cfg = window.SITE_CONFIG || {};
   if (!U) return;
 
   var STORAGE_FAV = 'hp_favoritos_v2';
@@ -150,7 +151,7 @@
       card.dataset.smartDecorated = '1';
 
       var imageBox = $('.property-image', card);
-      if (imageBox && !$('.favorite-card', imageBox)) {
+      if (cfg.enableFavorites !== false && imageBox && !$('.favorite-card', imageBox)) {
         var fav = document.createElement('button');
         fav.type = 'button';
         fav.className = 'favorite-card';
@@ -161,25 +162,25 @@
       }
 
       var favBtn = $('.favorite-card', card);
-      if (favBtn) {
+      if (cfg.enableFavorites !== false && favBtn) {
         favBtn.classList.toggle('active', favorites.indexOf(code) >= 0);
         favBtn.innerHTML = favorites.indexOf(code) >= 0 ? '<span>♥</span>' : '<span>♡</span>';
       }
 
       var content = $('.card-content', card);
-      if (content && !$('.match-meter', content)) {
+      if (cfg.enableMatchScore === true && content && !$('.match-meter', content)) {
         var meter = document.createElement('div');
         meter.className = 'match-meter';
         content.insertBefore(meter, content.children[2] || null);
       }
       var meterEl = $('.match-meter', content || card);
-      if (meterEl) {
+      if (cfg.enableMatchScore === true && meterEl) {
         var score = scoreProperty(p);
         meterEl.innerHTML = '<div><strong>' + score + '% match</strong><span>' + U.esc(insight(p)) + '</span></div><i style="width:' + score + '%"></i>';
       }
 
       var actions = $('.card-actions', card);
-      if (actions && !$('.compare-card', actions)) {
+      if (cfg.enableCompare !== false && actions && !$('.compare-card', actions)) {
         var cmp = document.createElement('button');
         cmp.type = 'button';
         cmp.className = 'button button-secondary compare-card';
@@ -189,7 +190,7 @@
         actions.appendChild(cmp);
       }
       var cmpBtn = $('.compare-card', actions || card);
-      if (cmpBtn) {
+      if (cfg.enableCompare !== false && cmpBtn) {
         cmpBtn.classList.toggle('active', compare.indexOf(code) >= 0);
         cmpBtn.textContent = compare.indexOf(code) >= 0 ? 'Selecionado' : 'Comparar';
       }
@@ -197,6 +198,7 @@
   }
 
   function renderSmartPanel() {
+    if (cfg.enableMatchScore !== true) return;
     var root = $('#smart-recommendations');
     if (!root) return;
     var favCount = favorites.length;
@@ -212,6 +214,7 @@
   }
 
   function renderCompareTray() {
+    if (cfg.enableCompare === false) return;
     var tray = $('#compare-tray');
     if (!tray) {
       tray = document.createElement('div');
@@ -240,7 +243,7 @@
       document.body.appendChild(modal);
     }
     if (!selected.length) return;
-    modal.innerHTML = '<button class="modal-close compare-close" type="button" aria-label="Fechar">×</button><div class="modal-heading"><span class="eyebrow dark">Comparador inteligente</span><h2>Compare os imóveis selecionados</h2><p>Veja preço, área, quartos e pontos fortes lado a lado.</p></div>' +
+    modal.innerHTML = '<button class="modal-close compare-close" type="button" aria-label="Fechar">×</button><div class="modal-heading"><span class="eyebrow dark">Comparação</span><h2>Compare os imóveis selecionados</h2><p>Veja preço, área, quartos e diferenças lado a lado.</p></div>' +
       '<div class="compare-table-wrap"><table class="compare-table"><thead><tr><th>Critério</th>' + selected.map(function (p) { return '<th>' + U.esc(p.listingCode) + '</th>'; }).join('') + '</tr></thead><tbody>' +
       row('Imóvel', selected.map(function (p) { return '<a href="' + U.esc(propUrl(p)) + '">' + U.esc(p.title) + '</a>'; })) +
       row('Finalidade', selected.map(function (p) { return U.esc(U.purposeLabel(p.purpose)); })) +
@@ -250,8 +253,20 @@
       row('Vagas', selected.map(function (p) { return U.esc(p.parkingSpots || 0); })) +
       row('Área', selected.map(function (p) { return U.esc((p.areaM2 || 0) + ' m²'); })) +
       row('Diferencial', selected.map(function (p) { return U.esc(insight(p)); })) +
-      '</tbody></table></div>';
+      '</tbody></table></div>' +
+      '<div style="display:flex;justify-content:flex-end;margin-top:18px"><button class="button button-primary" type="button" id="compare-with-iana">Perguntar à Iana sobre estes imóveis</button></div>';
     $('.compare-close', modal).addEventListener('click', function () { modal.close(); });
+    var askIana = $('#compare-with-iana', modal);
+    if (askIana) askIana.addEventListener('click', function () {
+      var codes = selected.map(function (p) { return p.listingCode; });
+      var titles = selected.map(function (p) { return p.listingCode + ' — ' + p.title; });
+      var ctxText = U.searchSummary ? U.searchSummary(U.currentSearchContext ? U.currentSearchContext() : {}) : '';
+      var message = 'Estou comparando estes imóveis: ' + titles.join(' | ') + '. ' + (ctxText ? 'Minha busca no site está assim: ' + ctxText + '. ' : '') + 'Quero entender as principais diferenças e qual faz mais sentido para o que eu procuro.';
+      if (typeof modal.close === 'function') modal.close();
+      if (typeof window.openLeadModal === 'function') {
+        window.openLeadModal({ type: selected[0] && selected[0].purpose === 'locacao' ? 'rent' : (selected[0] && selected[0].purpose === 'investimento' ? 'investment' : 'buyer'), scenario: 'comparacao_imoveis', title: 'Comparar com a Iana', description: 'Os imóveis selecionados e os filtros da sua busca serão enviados junto.', message: message, comparisonCodes: codes });
+      }
+    });
     if (typeof modal.showModal === 'function') modal.showModal(); else modal.setAttribute('open', 'open');
   }
 
@@ -301,6 +316,7 @@
   }
 
   function enhancePropertyPage() {
+    if (cfg.enableMatchScore !== true) return;
     if (!document.body.classList.contains('property-page')) return;
     var params = new URLSearchParams(location.search);
     var code = String(params.get('codigo') || '').toUpperCase();

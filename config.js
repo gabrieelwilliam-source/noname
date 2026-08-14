@@ -1,6 +1,5 @@
-// Configurações principais do site — demo de atendimento consultivo.
-// O visitante inicia pelo WhatsApp com o imóvel escolhido já identificado.
-// O webhook direto permanece opcional para uma implantação futura.
+// Configurações principais do site — integração com a Iana V8.2.
+// O formulário envia o contexto diretamente ao webhook da Iana e usa o WhatsApp como fallback em falha de rede.
 window.SITE_CONFIG = {
   businessName: 'Horizonte Prime Imóveis',
   businessShortName: 'Horizonte Prime',
@@ -11,19 +10,25 @@ window.SITE_CONFIG = {
   address: 'Joinville - SC',
   openingHours: 'Segunda a sábado, das 8h às 19h',
 
-  // Integração de atendimento.
-  // A demo inicia pelo WhatsApp: o site preenche a mensagem com o imóvel escolhido
-  // e o workflow atende quando o visitante a envia. Não depende de webhook do site.
-  useWebhook: false,
-  webhookUrl: (window.IMOB_N8N_SITE_WEBHOOK_URL || (window.localStorage && localStorage.getItem('IMOB_N8N_SITE_WEBHOOK_URL')) || ''),
-  n8nSiteWebhookPath: 'lais-imob-site-lead',
-  leadDestinationLabel: 'equipe comercial',
-  resultTitle: 'Lead estruturado recebido',
-  salesWhatsappMessage: 'Olá, quero entender como essa automação pode atender, qualificar e organizar os leads da minha imobiliária.',
+  // Integração com a entrada Site/Formulário da Iana.
+  // A URL pode ser sobrescrita por window.IMOB_N8N_SITE_WEBHOOK_URL ou localStorage.
+  useWebhook: true,
+  webhookUrl: (window.IMOB_N8N_SITE_WEBHOOK_URL || (window.localStorage && localStorage.getItem('IMOB_N8N_SITE_WEBHOOK_URL')) || 'https://app.vps7376.panel.icontainer.cloud/webhook/iana-imob-site-lead'),
+  n8nSiteWebhookPath: 'iana-imob-site-lead',
+  webhookTransport: 'json',
+  fallbackToWhatsapp: true,
+  leadDestinationLabel: 'Iana',
+  resultTitle: 'Atendimento iniciado',
+  salesWhatsappMessage: 'Olá, quero atendimento imobiliário.',
 
   // Campos comerciais usados no payload do lead.
   tenantId: 'horizonte-prime',
-  leadSchemaVersion: 'site_lead_v100',
+  leadSchemaVersion: 'site_lead_v82',
   privacyUrl: 'privacidade.html',
-  termsUrl: 'termos.html'
+  termsUrl: 'termos.html',
+
+  // Recursos visuais. O comparador é real; percentuais heurísticos de “match” ficam desligados.
+  enableCompare: true,
+  enableFavorites: true,
+  enableMatchScore: false
 };
